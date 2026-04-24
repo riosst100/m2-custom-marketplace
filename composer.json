@@ -1,0 +1,39 @@
+{
+    "name": "riosst100/m2-custom-marketplace",
+    "description": "Custom Platform For Magento 2 + PWA Studio",
+    "type": "magento2-module",
+    "authors": [
+      {
+        "name": "Rio Susanto",
+        "email": "riosst100@gmail.com"
+      }
+    ],
+    "homepage": "https://github.com/riosst100/m2-custom-marketplace",
+    "keywords": [
+      "magento",
+      "magento2"
+    ],
+    "minimum-stability": "dev",
+    "license": [
+      "OSL-3.0",
+      "AFL-3.0"
+    ],
+    "version": "1.0.0",
+    "require": {
+      "geoip2/geoip2": "^2.9.0",
+      "google/apiclient": "^2.10",
+      "hybridauth/hybridauth": "*",
+      "abraham/twitteroauth": "*",
+      "janu-software/facebook-php-sdk": "^0.1",
+      "dompdf/dompdf": "^1.2",
+      "mpdf/mpdf": "^8.0"
+    },
+    "autoload": {
+      "files": [
+        "src/module-platform-database/registration.php"
+      ],
+      "psr-4": {
+        "TCGCollective\\PlatformDatabase\\": "src/module-platform-database"
+      }
+    }
+}

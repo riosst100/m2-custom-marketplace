@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+  * Landofcoder
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Landofcoder.com license that is
+  * available through the world-wide-web at this URL:
+  * https://landofcoder.com/terms
+  *
+  * DISCLAIMER
+  *
+  * Do not edit or add to this file if you wish to upgrade this extension to newer
+  * version in the future.
+  *
+  * @category   Landofcoder
+  * @package    Lof_MarketPlace
+  * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+  * @license    https://landofcoder.com/terms
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+	xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+
+    <referenceContainer name="header.panel" remove="true" />
+    <referenceBlock name="minicart" remove="true"/>
+    <referenceBlock name="top.search" remove="true" />
+    <referenceBlock name="page.main.title" remove="true"/>
+    <referenceBlock name="seller.new" remove="true"/>
+
+    <referenceContainer name="seller.login.container">
+      <container name="cms_left_content_seller_login_container" label="cms left content seller login"
+				htmlTag="div" htmlClass="cms-left-content-container">
+				<block name="cms_left_content_seller_login" class="Magento\Framework\View\Element\Template" before="-" template="Lof_MarketPlace::seller/cms-left-content-seller-login.phtml"/>
+			</container>
+    </referenceContainer>
+    
+
+    <referenceContainer name="form.additional.info">
+      <block class="Lof\SocialLogin\Block\Popup\Authentication" name="seller.addtional.infor.socials" template="Lof_SocialLogin::seller/form.phtml" before="-"/>
+    </referenceContainer>
+
+	</body>
+</page>

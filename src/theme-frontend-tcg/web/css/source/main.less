@@ -1,0 +1,46 @@
+@import 'vars.less';
+
+body {
+    font-family: 'Poppins', sans-serif !important;
+    color: @text-primary;
+}
+
+body {
+
+    input[type="text"],
+    input[type="password"],
+    input[type="url"],
+    input[type="tel"],
+    input[type="search"],
+    input[type="number"],
+    input[type*="date"],
+    input[type="email"] {
+        border-color: @neutral-100;
+        border-radius: 4px;
+        height: auto;
+        line-height: 24px;
+        padding: 8px !important;
+
+        &:focus {
+            box-shadow: @shadow-md;
+        }
+    }
+
+    button.action.primary {
+        margin: 0;
+        padding: 10px 16px;
+        line-height: 20px;
+        background-color: @primary;
+
+        &:hover {
+            background-color: @primary-hovered;
+        }
+    }
+}
+
+.breadcrumbs a,
+.breadcrumbs a:visited,
+.breadcrumbs a:hover {
+    color: #f76b1c; // ganti sesuai warna lo
+    text-decoration: none;
+}

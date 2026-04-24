@@ -30,7 +30,8 @@
     },
     "autoload": {
       "files": [
-        "src/module-platform-database/registration.php"
+        "src/module-platform-database/registration.php",
+        "src/theme-frontend-tcg/registration.php"
       ],
       "psr-4": {
         "TCGCollective\\PlatformDatabase\\": "src/module-platform-database"

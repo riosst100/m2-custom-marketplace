@@ -14,7 +14,7 @@ use Magento\RelatedProductGraphQl\Model\DataProvider\RelatedProductDataProvider;
 use Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\Product as ProductDataProvider;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
-class CrossSeller extends BatchResolverInterface
+class CrossSeller implements BatchResolverInterface
 {
     /**
      * @var ProductFieldsSelector

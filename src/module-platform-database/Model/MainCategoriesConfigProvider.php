@@ -133,7 +133,7 @@ class MainCategoriesConfigProvider
 
         $paths = [
             // vendor riosst100 modules
-            BP . '/vendor/riosst100/m2-core-marketplace/src/module-product-attributes-link/Model/ResourceModel/**/*.php',
+            BP . '/vendor/riosst100/m2-custom-marketplace/src/module-product-attributes-link/Model/ResourceModel/**/*.php',
         ];
 
         foreach ($paths as $pattern) {

@@ -53,8 +53,7 @@
         "src/module-marketplace-seller-chat/registration.php",
         "src/module-marketplace-payment-paypal/registration.php",
         "src/module-marketplace-payment-airwallex/registration.php",
-        "src/module-marketplace-theme/registration.php",
-        "src/module-admin-theme/registration.php"
+        "src/module-marketplace-theme/registration.php"
       ],
       "psr-4": {
         "TCGCollective\\MarketPlace\\": "src/module-marketplace",

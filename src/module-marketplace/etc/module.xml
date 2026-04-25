@@ -3,6 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="TCGCollective_MarketPlace" setup_version="1.7.8">
         <sequence>
+            <module name="Lof_All"/>
             <module name="Lof_MarketPlace"/>
             <module name="Lof_Faq"/>
             <module name="Magento_MediaGalleryUi"/>

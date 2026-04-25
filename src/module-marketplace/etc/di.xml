@@ -173,4 +173,7 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- Lof_All -->
+    <preference for="Lof\All\Block\Adminhtml\System\ListLicense" type="TCGCollective\MarketPlace\Block\Adminhtml\System\ListLicense" />
 </config>

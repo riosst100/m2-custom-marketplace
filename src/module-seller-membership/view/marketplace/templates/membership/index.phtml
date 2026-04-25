@@ -1,0 +1,596 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lofmp_SellerMembership
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+use Magento\Framework\App\Action\Action;
+
+$this->processMembership();
+$membership = $this->getMembership();
+$defaultWebsite = $this->getSellerDefaultWebsite();
+$availableWebsites = $this->getAvailableWebsites();
+$helper = $this->helper("Lof\MarketPlace\Helper\Data");
+
+$_productCollection = $this->getLoadedProductCollection();
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$formKey = $block->getFormKey();
+
+$currentSellerListingWebsiteIds = $block->getSellerListingWebsiteIds();
+$listingCountryMembershipArr = $this->getListingCountryMembership();
+$_listingMembershipProductCollection = $this->getListingMembershipPlanProducts();
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <?php
+            echo $this->getLayout()
+                ->createBlock('TCGCollective\MarketPlace\Block\Steps')
+                ->setTemplate('TCGCollective_MarketPlace::registration-step/step-guide.phtml')
+                ->toHtml();
+            ?>
+            <div class="x_title">
+                <h2><?= __('Current Subscription Plan'); ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="custom-grid" style="display: block;">
+                    <table class="data-grid">
+                        <thead>
+                            <tr>
+                                <th class="data-grid-th"><?= __('Plan') ?></th>
+                                <th class="data-grid-th"><?= __('Status') ?></th>
+                                <th class="data-grid-th"><?= __('Expired Date') ?></th>
+                                <!-- <th class="data-grid-th">Default Selling Country</th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="upload_history_content">
+                            <?php if ($membership): ?>
+                                <?php
+                                $isActive = strtotime((new \DateTime())->format('Y-m-d')) <= strtotime($membership->getExpirationDate()) ? true : false;
+                                $expiredTime = $membership->getExpirationDate() ?: '';
+                                ?>
+                                <?php
+                                $countryName = $block->getWebsiteNameById($defaultWebsite->getId());
+                                // dd($defaultWebsite);
+                                ?>
+                                <tr>
+                                    <td><?= $membership->getName() ?></td>
+                                    <td><?= $isActive ? 'Active' : 'Expired' ?></td>
+                                    <td><?= $block->formatDateTime($membership->getExpirationDate()); ?><span style="margin-left:8px;color:grey;font-size:12px"><?= $block->getExpiredDaysLeft($membership->getExpirationDate()) ?></span></td>
+                                    <!-- <td><?= $countryName ?> (Currency: <?= $defaultWebsite->getDefaultStore()->getDefaultCurrencyCode() ?>)</td> -->
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8">
+                                        <div class="empty-state">
+                                            <p><?= __('You don\'t have active membership plan. Please buy the membership plan to access seller features.') ?></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <div class="btn-container" style="padding-top: 30px;padding-bottom: 15px;">
+                        <a class="tcg-btn-primary" style="text-decoration:underline;max-width:200px;" href="<?= $this->getUrl('sellermembership/membership/buy'); ?>" class=""><?= __('Renew / Upgrade Plan') ?></a>
+                    </div>
+                    <!-- <div style="margin-top: 20px;margin-left: 3px;margin-bottom:10px;">
+                        <a style="text-decoration:underline;max-width:200px;" href="<?= $this->getUrl('sellermembership/membership/history'); ?>" class=""><?= __('View Transaction History') ?></a>
+                    </div> -->
+                </div>
+                
+            </div>
+        </div>
+        <?php if ($membership): ?>
+            <div class="x_panel">
+                <?php
+                echo $this->getLayout()
+                    ->createBlock('TCGCollective\MarketPlace\Block\Steps')
+                    ->setTemplate('TCGCollective_MarketPlace::registration-step/step-guide.phtml')
+                    ->toHtml();
+                ?>
+                <div class="x_title">
+                    <h2><?= __('Current Global - Countries Plans'); ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    
+                    <!-- Current global countries plan -->
+                    <div class="custom-grid" style="display: block;">
+                        <table class="data-grid">
+                            <thead>
+                                <tr>
+                                    <th class="data-grid-th"><?= __('Plan') ?></th>
+                                    <th class="data-grid-th"><?= __('Currency') ?></th>
+                                    <th class="data-grid-th"><?= __('Status') ?></th>
+                                    <th class="data-grid-th"><?= __('Expired Date') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody id="upload_history_content">
+                                <?php
+                                $currentPage = $this->getRequest()->getParam('page') ?? 1;
+                                $pageSize = $this->getRequest()->getParam('size') ?? 5;
+                                $totalCount = count($listingCountryMembershipArr);
+                                $totalPages = ceil($totalCount / $pageSize);
+                                // $importHistory = $block->getImportHistory($currentPage, $pageSize);
+                                ?>
+                                <?php if ($listingCountryMembershipArr): ?>
+                                    <?php foreach ($listingCountryMembershipArr as $listingCountryMembership): ?>
+                                        <?php if ($listingCountryMembership->getExpirationDate() && strtotime((new \DateTime())->format('Y-m-d')) <= strtotime($listingCountryMembership->getExpirationDate())) : ?>
+                                            <?php
+                                            $expiredTime = $listingCountryMembership->getExpirationDate() ?: '';
+                                            $countryName = $block->getWebsiteNameById($listingCountryMembership->getData('website_id'));
+                                            $currency = $block->getWebsiteCurrency($listingCountryMembership->getData('website_id'));
+                                            $isActive = strtotime((new \DateTime())->format('Y-m-d')) <= strtotime($listingCountryMembership->getExpirationDate()) ? true : false;
+                                            ?>
+                                            <tr>
+                                                <td><?= $countryName ?><?= $listingCountryMembership->getData('website_id') == $defaultWebsite->getId() ? ' (Default Country)' : '' ?></td>
+                                                <td><?= $currency ?></td>
+                                                <td><?= $isActive ? 'Active' : 'Expired' ?></td>
+                                                <td><?= $block->formatDateTime($listingCountryMembership->getExpirationDate()); ?><span style="margin-left:8px;color:grey;font-size:12px"><?= $block->getExpiredDaysLeft($listingCountryMembership->getExpirationDate()) ?></span></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="empty-state">
+                                                <p><?= __('You currently do not have any active additional membership plans.') ?></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                        <?php if (!str_contains('Premium', $membership->getName())) : ?>
+                            <div class="btn-container" style="padding-top: 30px;padding-bottom: 15px;">
+                                <button class="tcg-btn-primary" style="text-decoration:underline;" disabled><?= __('Renew / Buy Global - Countries Plan') ?></button>
+                            </div>
+                            <div class="message info empty">
+                                <div><?php /* @escapeNotVerified */
+                                    echo __('Upgrade to Premium plan to unlock Global - Countries Plans and sell in more countries.') ?></div>
+                            </div>
+                        <?php else: ?>
+                            <div class="btn-container" style="padding-top: 30px;padding-bottom: 15px;">
+                                <a class="tcg-btn-primary" style="text-decoration:underline;" href="<?= $this->getUrl('sellermembership/additional/buy'); ?>" class=""><?= __('Renew / Buy Global - Countries Plan') ?></a>
+                            </div>
+                        <?php endif; ?>
+                        <!-- <div style="margin-top: 20px;margin-left: 3px;margin-bottom:10px;">
+                            <a style="text-decoration:underline;max-width:200px;" href="<?= $this->getUrl('sellermembership/additional/history'); ?>" class=""><?= __('View Transaction History') ?></a>
+                        </div> -->
+                        <!-- <div class="paginator">
+                            <span class="total"><?= __('Total %1', count($listingCountryMembershipArr)) ?></span>
+                            <select class="page-size" onchange="MST.changePageSize(this.value)">
+                                <option value="5" <?= $pageSize == 5 ? 'selected' : '' ?>>5</option>
+                                <option value="10" <?= $pageSize == 10 ? 'selected' : '' ?>>10</option>
+                                <option value="20" <?= $pageSize == 20 ? 'selected' : '' ?>>20</option>
+                                <option value="50" <?= $pageSize == 50 ? 'selected' : '' ?>>50</option>
+                            </select>
+                            <div class="pagination">
+                                <button class="prev-page" type="button" onclick="MST.changePage(<?= $currentPage - 1 ?>)" <?= $currentPage == 1 ? 'disabled' : '' ?>><span class="fa fa-chevron-left" style="margin-right: 5px;"></span><?= __('Previous') ?></button>
+                                <span class="current-page"><?= $currentPage ?></span>
+                                <button class="next-page" type="button" onclick="MST.changePage(<?= $currentPage + 1 ?>)" <?= $currentPage == $totalPages ? 'disabled' : '' ?>><?= __('Next') ?><span class="fa fa-chevron-right" style="margin-left: 5px;"></span></button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        $('#default_country_selection').change(function() {
+            $('input[name="default_country"]').val($(this).val());
+        });
+
+        $('#show_features').click(function() {
+            $('#show_features').hide();
+            $('#hide_features').show();
+            $('#features_list').slideDown();
+        });
+
+        $('#hide_features').click(function() {
+            $('#show_features').show();
+            $('#hide_features').hide();
+            $('#features_list').slideUp();
+        });
+
+        $('#show_platform_membership').click(function(){
+            $('#buy_platform_membership').slideToggle();
+        });
+
+        $('#show_listing_membership').click(function(){
+            $('#buy_listing_membership').slideToggle();
+        });
+    });
+
+    require(['jquery', 'mage/translate'], function ($) {
+        $(document).ready(function () {
+            // Bind submit event to all membership forms
+            $('form[data-role="tocart-form"]').on('submit', function (e) {
+                var $defaultCountry = $('#default_country_selection');
+                var countryVal = $defaultCountry.val();
+
+                // Only validate if this select exists on the page (i.e., first-time buyers)
+                if ($defaultCountry.length && (!countryVal || countryVal === '')) {
+                    e.preventDefault();
+
+                    // Remove any previous message
+                    $('.default-country-error').remove();
+
+                    // Insert error message below the select
+                    $('<div class="message message-error default-country-error" style="margin-top:8px;color:#d32f2f;font-weight:500;">'
+                        + $.mage.__('Please select a country before proceeding.')
+                        + '</div>').insertAfter($defaultCountry);
+
+                    // Scroll to the select for better UX
+                    $('html, body').animate({
+                        scrollTop: $defaultCountry.offset().top - 100
+                    }, 300);
+                    return false;
+                }
+            });
+        });
+    });
+
+    require([
+        'jquery',
+        'mage/translate',
+        'Magento_Ui/js/modal/confirm'
+    ], function ($, $t, confirm) {
+
+        $(document).ready(function () {
+            $('form[data-role="tocart-form"]').on('submit', function (e) {
+                var $form = $(this);
+                var $button = $form.find('button[type="submit"]');
+                var buttonText = $button.text().trim().toLowerCase();
+
+                // Detect upgrade scenario
+                if ($button.data('plan-action') === 'upgrade plan' || $button.data('plan-action') === 'renew plan') {
+                    e.preventDefault(); // Stop form temporarily
+
+                    confirm({
+                        title: $t('Re-verification Required'),
+                        content: $t('Upgrading your plan will require re-verification. Do you want to continue?'),
+                        actions: {
+                            confirm: function () {
+                                // Continue submit
+                                $form.off('submit').submit();
+                            },
+                            cancel: function () {
+                                // Stay on page
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .listing_membership_pricing_features {
+        background: #fafafa;
+        padding: 20px 15px;
+        min-height: 110px;
+        font-size: 13.5px;
+    }
+    select {
+        background: #ffffff url(../images/select-bg.svg) no-repeat 100% 45%;
+        background-clip: padding-box;
+        border: 1px solid #cccccc;
+        border-radius: 1px;
+        padding: 4px 25px 5px 10px;
+        vertical-align: baseline;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .super-attribute-select {
+        margin-bottom: 10px;
+    }
+
+    .pricing .title span {
+        background: none;
+        color: white;
+    }
+
+    /* .basic_plan .title {
+        background: rgb(131 131 131) !important;
+    }
+
+    .standard_plan .title {
+        background: rgb(0 137 255) !important;
+    }
+
+    .premium_plan .title {
+        background: rgba(247, 107, 28) !important;
+    } */
+
+    .pricing .title {
+        background: rgba(247, 107, 28, 1);
+    }
+
+    .main_color_bg {
+        color: white;
+        background: rgba(247, 107, 28, 1);
+    }
+
+    .main_color_bg:hover {
+        color: white;
+        background: rgb(215, 98, 30);
+    }
+    .pricing .title span {
+        font-size: 28px;
+    }
+    .pricing .title h2 {
+        font-size: 18px;
+    }
+    .pricing .title {
+        padding: 25px 0 0;
+    }
+</style>
+<style>
+
+  .mplan-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 55px;
+    color: #0f172a;
+  }
+
+  .mplan-country {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-direction: column;
+  }
+
+  .mplan-country select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    width: 450px;
+  }
+
+  .mplan-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 50px 0px;
+  }
+
+  .mplan-card {
+    background: white;
+    border-radius: 16px;
+    width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+  }
+
+  .mplan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  .mplan-header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: white;
+    text-align: center;
+    padding: 20px 10px 15px;
+  }
+
+  .mplan-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .mplan-price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  .mplan-body {
+    padding: 15px 30px 10px;
+  }
+
+  .mplan-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mplan-body li {
+    padding: 2px 0;
+    display: flex;
+    align-items: center;
+    /* font-size: 0.95rem; */
+  }
+
+  .mplan-body li::before {
+    content: "✔";
+    color: #16a34a;
+    margin-right: 8px;
+    font-weight: bold;
+  }
+
+  .mplan-footer {
+    border-top: 1px solid #f1f5f9;
+    padding: 10px 25px 20px;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .mplan-footer select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .mplan-btn {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .mplan-btn:hover {
+    color: white;
+    border: none;
+    background: linear-gradient(135deg, #ea580c, #f59e0b);
+  }
+
+  /* Highlighted (featured) plan */
+  .mplan-card.featured {
+    border: 2px solid #f97316;
+    transform: scale(1.03);
+  }
+
+  .mplan-card.featured .mplan-header {
+    background: linear-gradient(135deg, #ea580c, #facc15);
+  }
+
+  @media (max-width: 900px) {
+    .mplan-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .mplan-card {
+      width: 90%;
+    }
+  }
+</style>
+<style>
+/* Prefixed styles (msub-) to avoid global collisions */
+.msub-card {
+  --bg: #ffffff;
+  --border: #e6e9ee;
+  --accent: #2563eb;
+  --muted: #6b7280;
+  max-width: 520px;
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(16,24,40,0.04);
+  color: #111827;
+  box-sizing: border-box;
+}
+
+/* Title */
+.msub-title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Rows */
+.msub-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 2px 0;
+  border-top: 1px dashed transparent; /* harmless spacing rule */
+}
+
+.msub-row:first-of-type { padding-top: 4px; }
+
+.msub-label {
+  min-width: 150px; /* aligns values nicely */
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  
+}
+
+.msub-value {
+    
+  font-size: 14px;
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* muted inline text (currency) */
+.msub-muted {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Actions */
+.msub-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Button-like link */
+.msub-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(37,99,235,0.12);
+  background: linear-gradient(180deg, rgba(37,99,235,0.06), transparent);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+.msub-btn:hover,
+.msub-btn:focus {
+  background: rgba(37,99,235,0.08);
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.06);
+}
+
+/* Small responsive tweak */
+@media (max-width: 420px) {
+  .msub-card { padding: 14px; }
+  .msub-label { min-width: 120px; font-size: 12px; }
+  .msub-value { font-size: 13px; }
+  .msub-title { font-size: 16px; }
+}
+</style>

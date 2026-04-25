@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <listingToolbar name="listing_top">
+        <filters name="listing_filters">
+            <filterSelect name="page_id">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="block_id">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="is_licensed">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="product_id">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="category_id">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="entity_type">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="source">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="content_status">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterSelect name="store_id">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterSelect>
+            <filterInput name="duplicated">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterInput>
+            <filterRange name="created_at">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterRange>
+            <filterRange name="updated_at">
+                <settings>
+                    <visible>false</visible>
+                </settings>
+            </filterRange>
+        </filters>
+    </listingToolbar>
+
+</listing>

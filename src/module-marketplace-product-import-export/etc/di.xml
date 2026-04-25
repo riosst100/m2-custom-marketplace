@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="ImportExportTemplateGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ImportExportTemplateGridDataProvider" type="TCGCollective\MarketplaceProductImportExport\Ui\DataProvider\ImportExportTemplateGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ImportExportTemplateGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\ImportExport\Model\Import" type="TCGCollective\MarketplaceProductImportExport\Model\Import"/>
+    <preference for="Magento\ImportExport\Model\ResourceModel\Import\Data" type="TCGCollective\MarketplaceProductImportExport\Model\ResourceModel\Import\Data"/>
+    <!-- <type name="Magento\ImportExport\Model\Import">
+        <plugin name="modify-csv-import" type="TCGCollective\MarketplaceProductImportExport\Plugin\Marketplace\ImportExport\Model\Import"/>
+    </type> -->
+    <!-- <type name="Magento\CatalogImportExport\Model\Import\Product">
+        <plugin name="coremarketplace-importexport-valid-row-import" type="TCGCollective\MarketplaceProductImportExport\Plugin\Marketplace\CatalogImportExport\Model\Import\Product"/>
+    </type> -->
+    <preference for="Magento\CatalogImportExport\Model\Import\Product\Validator" type="TCGCollective\MarketplaceProductImportExport\Model\Import\Product\Validator" />
+    <preference for="Magento\CatalogImportExport\Model\Import\Product"
+            type="TCGCollective\MarketplaceProductImportExport\Model\Import\Product"/>
+            <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="seller_media_gallery_listing_data_source" xsi:type="string">TCGCollective\MarketplaceProductImportExport\Ui\Component\Listing\SellerMediaGalleryProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\ContentField">
+        <arguments>
+            <argument name="getAssetIdsByContentStatus" xsi:type="object">Magento\MediaContentApi\Api\GetAssetIdsByContentFieldInterface</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\FilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="customFilters" xsi:type="array">
+                <item name="path" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\Directory</item>
+                <item name="fulltext" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\Keyword</item>
+                <item name="entity_type" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\EntityType</item>
+                <item name="duplicated" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\Duplicated</item>
+                <item name="content_status" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\ContentField</item>
+                <item name="store_id" xsi:type="object">Magento\MediaGalleryUi\Model\SearchCriteria\CollectionProcessor\FilterProcessor\ContentField</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\SortingProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor" />
+    <virtualType name="Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\PaginationProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor" />
+    <virtualType name="Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\JoinProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\JoinProcessor" />
+    <virtualType name="Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+                <item name="joins" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor\JoinProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="TCGCollective\MarketplaceProductImportExport\Ui\Component\Listing\SellerMediaGalleryProvider">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\MediaGalleryUi\Model\Directories\GetDirectoryTree" type="TCGCollective\MarketplaceProductImportExport\Model\Directories\GetDirectoryTreeAdmin"/>
+    <preference for="Magento\MediaGalleryUi\Model\Listing\DataProvider" type="TCGCollective\MarketplaceProductImportExport\Model\Listing\DataProvider"/>
+    <type name="TCGCollective\MarketplaceProductImportExport\Model\Listing\DataProvider">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Magento\MediaGalleryUi\Model\Api\SearchCriteria\CollectionProcessor</argument>
+        </arguments>
+    </type>
+</config>

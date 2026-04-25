@@ -1,0 +1,13 @@
+<?php
+$columnName = $block->getColumnName();
+$inputName = $block->getInputName();
+$inputId = $block->getInputId();
+?>
+<textarea id="<?= $inputId ?>" name="<?= $inputName ?>" rows="30" cols="25" value=""><?= $block->getValue($columnName) ?></textarea>
+<style>
+    .accordion .config .value {
+        padding-right: 40px;
+        vertical-align: middle;
+        width: 60%;
+    }
+</style>

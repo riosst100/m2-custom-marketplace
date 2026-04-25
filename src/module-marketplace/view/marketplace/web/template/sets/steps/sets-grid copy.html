@@ -1,0 +1,103 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="fieldset-wrapper admin__collapsible-block-wrapper opened" data-bind="mageInit: {'collapsible':{'active':true,'openedState':'opened'}}">
+    <div class="fieldset-wrapper-content in collapse" data-role="content" data-collapsed="true" data-bind="attr: {id: id}">
+        <div class="admin__data-grid-header-row">
+            <div class="admin__data-grid-actions-wrap" data-bind="foreach: getRegion('dataGridActions')"></div>
+            <!-- ko foreach: getRegion('dataGridFilters') --><!-- ko template: getTemplate() -->
+            <div class="data-grid-filters-actions-wrap" data-bind="collapsible: {openClass: false, closeOnOuter: false}">
+                <div class="data-grid-filters-action-wrap">
+                    <button class="action-default _active" data-action="grid-filter-expand" data-bind="css: {_active: hasVisible() &amp;&amp; $collapsible.opened()}, disable: !hasVisible(), i18n: 'Filters', toggleCollapsible">Filters</button>
+                </div>
+            </div>
+            
+            <!-- ko scope: chips --><!-- ko template: getTemplate() -->
+            <div class="admin__data-grid-filters-current" data-bind="css: {_show: hasPreviews()}">
+                <div class="admin__current-filters-title-wrap">
+                    <span class="admin__current-filters-title" data-bind="i18n: 'Active filters\:'">Active filters:</span>
+                </div>
+                <div class="admin__current-filters-list-wrap">
+                    <ul class="admin__current-filters-list" data-role="filter-list">
+                        <!-- ko foreach: elems -->
+                            <!-- ko foreach: previews --><!-- /ko -->
+                        <!-- /ko -->
+                    </ul>
+                </div>
+                <div class="admin__current-filters-actions-wrap">
+                    <button class="action-tertiary action-clear" type="button" data-bind="attr: {'data-action': hasPreviews() ? 'grid-filter-reset' : ''}, click: clear, i18n: 'Clear all'" data-action="">Clear all</button>
+                </div>
+            </div>
+            <!-- /ko --><!-- /ko -->
+            
+            <div class="admin__data-grid-filters-wrap _show" data-part="filter-form" data-bind="css: {_show: hasVisible() &amp;&amp; $collapsible.opened()}, keyboard: { 13: apply }">
+                <fieldset class="admin__fieldset admin__data-grid-filters">
+                    <!-- ko foreach: getPlain() --><div class="admin__form-field" data-bind="visible: $parent.isFilterVisible($data)"><!-- ko template: getTemplate() -->
+            <label class="admin__form-field-label" data-bind="attr: {for: uid}" for="QL0OL6F">
+                <span data-bind="i18n: label">Attribute Code</span>
+            </label>
+            <div class="admin__form-field-control"><!-- ko template: elementTmpl -->
+            <input class="admin__control-text" type="text" data-bind="
+                    event: {change: userChanges},
+                    value: value,
+                    hasFocus: focused,
+                    valueUpdate: valueUpdate,
+                    attr: {
+                        name: inputName,
+                        placeholder: placeholder,
+                        'aria-describedby': noticeId,
+                        id: uid,
+                        disabled: disabled,
+                        maxlength: 255
+                }" name="attribute_code" aria-describedby="notice-QL0OL6F" id="QL0OL6F" maxlength="255">
+            <!-- /ko --></div>
+            <!-- /ko --></div><!-- /ko -->
+                </fieldset>
+            
+                <div class="admin__data-grid-filters-footer">
+                    <div class="admin__footer-main-actions">
+                        
+                        <button class="action-secondary" type="button" data-action="grid-filter-apply" data-bind="click: apply, closeCollapsible">
+                            <span data-bind="i18n: 'Apply Filters'">Apply Filters</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko --><!-- /ko -->
+        </div>
+        <br />
+        <!-- ko template: {
+            name: "ui/grid/paging/paging", data: paging
+            } -->
+        <!-- /ko -->
+        <br />
+        <br />
+        <br />
+        <table class="data-grid data-grid-configurable">
+            <thead>
+            <tr>
+                <th repeat="foreach: grid.columns, item: '$column'" class="data-grid-th" data-bind="text: $column"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr repeat="foreach: grid, item: '$product'">
+                <!-- ko foreach: { data: $product(), as: 'property' } -->
+                <td if="property && property.preview" class="data-grid-thumbnail-cell">
+                    <div class="images-uploaded">
+                        <img data-bind="attr: {src: property.preview}"/>
+                    </div>
+                </td>
+                <td ifnot="property && property.preview">
+                    <span data-bind='text: property'></span>
+                </td>
+                <!-- /ko -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

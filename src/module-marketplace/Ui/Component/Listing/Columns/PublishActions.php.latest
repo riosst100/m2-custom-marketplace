@@ -1,0 +1,73 @@
+<?php
+
+namespace TCGCollective\MarketPlace\Ui\Component\Listing\Columns;
+
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\Data\Form\FormKey;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\ResourceModel\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Catalog\Model\ProductRepository;
+
+class PublishActions extends Column
+{
+    private $urlBuilder;
+    private $formKey;
+    protected $priceCurrency;
+    protected $storeManager;
+    protected $websiteCollectionFactory;
+    protected $productRepository;
+
+    public function __construct(
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        UrlInterface $urlBuilder,
+        FormKey $formKey,
+        PriceCurrencyInterface $priceCurrency,
+        StoreManagerInterface $storeManager,
+        WebsiteCollectionFactory $websiteCollectionFactory,
+        ProductRepository $productRepository,
+        array $components = [],
+        array $data = []
+    ) {
+        $this->urlBuilder = $urlBuilder;
+        $this->formKey = $formKey;
+        $this->priceCurrency = $priceCurrency;
+        $this->storeManager = $storeManager;
+        $this->websiteCollectionFactory = $websiteCollectionFactory;
+        $this->productRepository = $productRepository;
+        parent::__construct($context, $uiComponentFactory, $components, $data);
+    }
+
+    public function prepareDataSource(array $dataSource)
+    {
+        if (isset($dataSource['data']['items'])) {
+            foreach ($dataSource['data']['items'] as & $item) {
+                $name = $this->getData('name');
+                if (isset($item['entity_id'])) {
+                    // $item[$name . '_html'] = "<button class='button custom-button'><span>".__("Edit Listing Country")."</span></button>";
+                    $editUrl = $this->urlBuilder->getUrl(
+                        'catalog/product/edit',
+                        [
+                            'id' => $item['entity_id'],
+                            'store' => $this->storeManager->getStore()->getId(),
+                            'action' => 'publish'
+                        ]
+                    );
+                    
+                    // $html = '';
+                    // $html = '<button class="button custom-button" onclick="location.href=\''. $editUrl .'\';"><span>Duplicate</span></button>';
+
+                    // $item[$this->getData('name')] = $html;
+                    $item[$name . '_html'] = "<button class='listing-button button-primary' style='width: 141px;'><span>".__("Edit Listing Country")."</span></button>";
+                    $item[$name . '_action_link'] = $editUrl;
+                }
+            }
+        }
+
+        return $dataSource;
+    }
+}

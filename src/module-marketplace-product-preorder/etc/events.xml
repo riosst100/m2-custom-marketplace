@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework/Event/etc/events.xsd">
+
+    <event name="sales_convert_quote_item_to_order_item">
+        <observer name="coremarketplace_preorder_convert"
+                instance="TCGCollective\MarketplaceProductPreorder\Observer\ConvertPreorderObserver"/>
+    </event>
+    <event name="sales_quote_item_save_before">
+        <observer name="coremarketplace_preorder_set" instance="TCGCollective\MarketplaceProductPreorder\Observer\SetPreorderData" />
+    </event>
+    <event name="sales_quote_item_save_after">
+        <observer name="coremarketplace_preorder_afteraddproducttocart" instance="TCGCollective\MarketplaceProductPreorder\Observer\AfterAddProductToCart" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="coremarketplace_preorder_afterplaceorder" instance="TCGCollective\MarketplaceProductPreorder\Observer\AfterPlaceOrder" />
+    </event>
+</config>

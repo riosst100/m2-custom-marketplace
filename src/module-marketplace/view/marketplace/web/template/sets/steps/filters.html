@@ -1,0 +1,68 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="data-grid-filters-actions-wrap" collapsible="openClass: false, closeOnOuter: false">
+    <div class="data-grid-filters-action-wrap">
+        <button class="action-default" data-action="grid-filter-expand" disable="!hasVisible()" translate="'Filters'"
+            css="_active: hasVisible() && $collapsible.opened()"
+            toggleCollapsible></button>
+    </div>
+</div>
+
+<scope args="chips" render=""></scope>
+
+<div class="admin__data-grid-filters-wrap _show" data-part="filter-form" keyboard="{ 13: apply }">
+    <fieldset class="admin__fieldset admin__data-grid-filters">
+        <tr repeat="foreach: grid, item: '$product'">
+            <!-- ko foreach: { data: $product(), as: 'property' } -->
+            <td if="property && property.preview" class="data-grid-thumbnail-cell">
+                <div class="images-uploaded">
+                    <img data-bind="attr: {src: property.preview}"/>
+                </div>
+            </td>
+            <td ifnot="property && property.preview">
+                <span data-bind='text: property'></span>
+            </td>
+            <!-- /ko -->
+        </tr>
+        <!-- ko foreach: { data: filters, as: 'filter' } -->
+        <div class="admin__form-field">
+                <label class="admin__form-field-label" data-bind="attr: {for: uid}" for="QL0OL6F">
+                    <span data-bind="i18n: label">Attribute Code</span>
+                </label>
+                <div class="admin__form-field-control">
+                    <!-- ko template: elementTmpl -->
+                        <input class="admin__control-text" type="text" data-bind="
+                                event: {change: userChanges},
+                                value: value,
+                                hasFocus: focused,
+                                valueUpdate: valueUpdate,
+                                attr: {
+                                    name: inputName,
+                                    placeholder: placeholder,
+                                    'aria-describedby': noticeId,
+                                    id: uid,
+                                    disabled: disabled,
+                                    maxlength: 255
+                            }" name="attribute_code" aria-describedby="notice-QL0OL6F" id="QL0OL6F" maxlength="255">
+                    <!-- /ko -->
+                </div>
+            <!-- /ko -->
+        </div>
+        <div class="admin__form-field" outereach="getPlain()" visible="$parent.isFilterVisible($data)" render=""></div>
+    </fieldset>
+
+    <div class="admin__data-grid-filters-footer">
+        <div class="admin__footer-main-actions">
+            <button class="action-tertiary" type="button" data-action="grid-filter-cancel" click="cancel" closeCollapsible>
+                <span translate="'Cancel'"></span>
+            </button>
+            <button class="action-secondary" type="button" data-action="grid-filter-apply" click="apply" closeCollapsible>
+                <span translate="'Apply Filters'"></span>
+            </button>
+        </div>
+    </div>
+</div>

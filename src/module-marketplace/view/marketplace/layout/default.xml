@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="TCGCollective_MarketPlace::css/select2/select2.min.css" />
+        <css src="TCGCollective_MarketPlace::css/styles.css" />
+    </head>
+    <update handle="seller_store_switcher"/>
+    <body>
+        <referenceBlock name="require.js" template="TCGCollective_MarketPlace::page/js/require_js.phtml" />
+        <referenceBlock name="page.footer" template="TCGCollective_MarketPlace::page/footer.phtml" />
+        <referenceBlock name="content">
+            <block class="TCGCollective\MarketPlace\Block\Marketplace\StepPaymentNotifications" name="notifications_payment" template="payment/notifications.phtml" />
+        </referenceBlock>
+    </body>
+</page>

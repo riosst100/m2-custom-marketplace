@@ -1,0 +1,103 @@
+@font-face {
+  font-family: "Admin Icons";
+  src: url("../fonts/admin-icons/admin-icons.woff2") format("woff2"),
+    url("../fonts/admin-icons/admin-icons.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: auto;
+}
+
+.submenu > .action-close:after {
+  content: "\e62f";
+  transition: color 0.1s linear;
+  font-size: 1.7rem;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Admin Icons";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  speak: none;
+}
+
+.action-close {
+  cursor: pointer;
+  text-decoration: none;
+}
+.catalog-dashboard-index .top_nav .navbar-right .user-profile {
+  color: black !important;
+}
+.catalog-dashboard-index .top_nav .navbar-right .dropdown-toggle {
+  color: black !important;
+}
+.catalog-dashboard-index .tile-stats {
+  padding: 15px;
+  border-radius: 7px;
+}
+.catalog-dashboard-index .tile-stats h4 {
+  color: black;
+}
+.catalog-dashboard-index .tile-stats .count {
+  color: black;
+  font-weight: 500;
+  margin: 0px;
+}
+.catalog-dashboard-index .x_panel .x_title {
+  border-bottom: none;
+  padding: 0px;
+}
+.catalog-dashboard-index .x_panel {
+  border-radius: 7px;
+}
+.catalog-dashboard-index .x_panel .x_title h4 {
+  color: black;
+}
+.catalog-dashboard-index .x_panel .x_content p {
+  color: black;
+  font-size: 38px;
+  font-weight: 500;
+}
+
+.catalog-dashboard-index .x_panel .last-order,
+.catalog-dashboard-index .x_panel .best-seller,
+.catalog-dashboard-index .x_panel .most-viewed {
+  color: black;
+  font-weight: 500;
+}
+.catalog-dashboard-index .card-report {
+  display: flex;
+  gap: 10px;
+}
+.catalog-dashboard-index .x_panel #section-first .table th,
+.catalog-dashboard-index .x_panel #section-second .table th,
+.catalog-dashboard-index .x_panel #section-third .table th {
+  color: grey;
+  font-size: 16px;
+  font-weight: 500;
+}
+.catalog-dashboard-index .x_panel #section-first .table tbody tr td,
+.catalog-dashboard-index .x_panel #section-second .table tbody tr td,
+.catalog-dashboard-index .x_panel #section-third .table tbody tr td {
+  font-size: 15px;
+}
+.catalog-dashboard-index
+  .x_panel
+  #section-second
+  .table
+  tbody
+  tr
+  td:first-child {
+  width: 35%;
+}
+.catalog-dashboard-index #custom-date-container input {
+  font-size: 14px;
+  padding: 8px 30px;
+  border: 1px solid #e4e4e4;
+  border-radius: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #fff
+    url("data:image/svg+xml;utf8,<svg fill='%23666' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 12px center;
+  background-size: 16px;
+}

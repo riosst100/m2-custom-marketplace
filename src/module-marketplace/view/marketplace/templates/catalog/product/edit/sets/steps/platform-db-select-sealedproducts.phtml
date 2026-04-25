@@ -1,0 +1,48 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes */
+?>
+<div class="select-<?= /* @noEscape */ $block->getData('config/scope') ?>-sealedproducts-block <?= /* @noEscape */ $block->getData('config/dataScope') ?>" data-role="select-<?= /* @noEscape */ $block->getData('config/scope') ?>-sealedproducts-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        <?= /* @noEscape */  $block->getAddNewSealedProductsButton() ?>
+    </div>
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Select Sealed Products')
+        ); ?></h2>
+    <div class="selected-sealedproducts" data-bind="scope: '<?= /* @noEscape */  $block->getComponentName()?>'">
+        <?php echo $block->escapeHtml(
+            __('Selected Sealed Products:')
+        ); ?>
+        <span data-bind="text: selectedSealedProducts() || '--'"></span>
+    </div>
+</div>
+<div class="productFormSealedProducts">
+    <?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "<?= /* @noEscape */  $block->getComponentName()?>": {
+                        "component": "TCGCollective_MarketPlace/js/sets/steps/platform-db-select-sealedproducts",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "setsAndSinglesComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.setsAndSingles",
+                        "modalComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.<?= /* @noEscape */ $block->getData('config/scope') ?>.setsModal",
+                        "appendTo": "<?= /* @noEscape */  $block->getParentComponentName()?>",
+                        "matrixGridComponent": "<?= /* @noEscape */ $block->getData('config/form')
+                        ?>.sets.sets-matrix"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function ($) {
+        $('.<?= /* @noEscape */ $block->getData('config/dataScope') ?>[data-role=select-<?= /* @noEscape */ $block->getData('config/scope') ?>-sealedproducts-step]').applyBindings();
+        $('body').trigger('contentUpdated');
+    })
+</script>

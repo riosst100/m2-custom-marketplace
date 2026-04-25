@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">productattributeslink_cardgames_sealedproducts_form.productattributeslink_cardgames_sealedproducts_form_data_source</item>
+            <item name="deps" xsi:type="string">productattributeslink_cardgames_sealedproducts_form.productattributeslink_cardgames_sealedproducts_form_data_source</item>
+        </item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">productattributeslink_cardgames_sealedproducts_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\Back</item>
+            <item name="delete" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\DeleteButton</item>
+            <item name="save" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\Save</item>
+        </item>
+    </argument>
+    <dataSource name="productattributeslink_cardgames_sealedproducts_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">TCGCollective\ProductAttributesLink\Ui\DataProvider\Form\CardGamesSealedProductsDataProvider</argument>
+            <argument name="name" xsi:type="string">productattributeslink_cardgames_sealedproducts_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/platformDatabase/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="gallery">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">
+                    Images
+                </item>
+                <item name="sortOrder" xsi:type="number">15</item>
+            </item>    
+        </argument>
+        <container name="gallery" >
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="gallery">
+                <argument name="block" xsi:type="object">TCGCollective\ProductAttributesLink\Block\Adminhtml\Listing\Helper\Form\SealedProductsGallery
+                </argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="sealedproducts_section">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Sealed Products</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">30</item>
+            </item>
+        </argument>
+        <field name="card_release">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Release</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_release</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_release_jp">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Release Jp</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_release_jp</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_series">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Series</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_series</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_set">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Set</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_set</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_set_abbreviation">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Set Abbreviation</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_set_abbreviation</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_set_jp">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Card Set Jp</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">card_set_jp</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="release_type">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Release Type</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">release_type</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="sealed_products">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Sealed Products</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">sealed_products</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="format">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Format</item>
+                <item name="visible" xsi:type="boolean">true</item>
+                <item name="dataType" xsi:type="string">text</item>
+                <item name="formElement" xsi:type="string">input</item>
+                <item name="source" xsi:type="string">format</item>
+                <item name="required" xsi:type="boolean">false</item>
+                <item name="validation" xsi:type="array">
+                    <item name="required-entry" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+    </field>
+    <field name="card_product_type">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Card Product Type</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">card_product_type</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="card_manufacturer">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Card Manufacturer</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">card_manufacturer</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="card_print_version">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Card Print Version</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">card_print_version</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="card_condtion">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Card Condtion</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">card_condtion</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="language">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Language</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">language</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="release_date">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Release Date</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">release_date</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="release_year">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Release Year</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">release_year</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="age_level">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Age Level</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">age_level</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="sku">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Sku</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">sku</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="supplier_sku">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Supplier Sku</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">supplier_sku</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="number_of_cards">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Number Of Cards</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">number_of_cards</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="validate-number" xsi:type="boolean">true</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="name">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Name</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">name</item>
+            <item name="required" xsi:type="boolean">false</item>
+        </item>
+    </argument>
+</field>
+
+<field name="bar_code">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Bar Code</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bar_code</item>
+        </item>
+    </argument>
+</field>
+
+<field name="bar_code_no">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Bar Code No</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bar_code_no</item>
+        </item>
+    </argument>
+</field>
+
+    </fieldset>
+</form>

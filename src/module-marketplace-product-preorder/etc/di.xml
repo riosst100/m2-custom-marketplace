@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework/ObjectManager/etc/config.xsd">
+
+    <!-- GraphQL Cart Item data provider override (optional, if you use this) -->
+    <type name="Magento\QuoteGraphQl\Model\CartItem\DataProvider">
+        <plugin name="marketplace_preorder_cart_item"
+                type="TCGCollective\MarketplaceProductPreorder\Plugin\GraphQl\CartItemPlugin" />
+    </type>
+
+    <!-- Interface => Model -->
+    <preference for="TCGCollective\MarketplaceProductPreorder\Api\Data\PreorderInterface"
+                type="TCGCollective\MarketplaceProductPreorder\Model\Preorder" />
+
+    <!-- Plugin: Extend addProductsToCart -->
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="coremarketplace_preorder_addtocart_plugin"
+                type="TCGCollective\MarketplaceProductPreorder\Plugin\AddProductsToCartPlugin"/>
+    </type>
+
+    <!-- <type name="Magento\Quote\Model\Cart\AddProductsToCart">
+        <plugin name="coremarketplace_preorder_additems_plugin"
+                type="TCGCollective\MarketplaceProductPreorder\Plugin\AddItemsToCartPlugin"/>
+    </type> -->
+
+    <!-- Plugin: Convert quote item -> order item -->
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="marketplace_preorder_item_to_order_item"
+                type="TCGCollective\MarketplaceProductPreorder\Plugin\Sales\ItemToOrderItemPlugin"
+                sortOrder="10" />
+    </type>
+
+    <type name="Magento\QuoteGraphQl\Model\CartItem\PrecursorComposite">
+        <arguments>
+            <argument name="dataProcessors" xsi:type="array">
+                <item name="preorder_processor" xsi:type="object">
+                    TCGCollective\MarketplaceProductPreorder\Model\Cart\Processor\PreorderItemProcessor
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Quote\Model\Cart\Data\CartItemFactory"
+            type="TCGCollective\MarketplaceProductPreorder\Model\Cart\Data\PreorderCartItemFactory" />
+    <preference for="Magento\Quote\Model\Cart\Data\CartItem"
+            type="TCGCollective\MarketplaceProductPreorder\Model\Cart\Data\PreorderCartItem" />
+</config>

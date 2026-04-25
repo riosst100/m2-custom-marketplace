@@ -1,0 +1,46 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes */
+?>
+<div class="select-livingcardgame-sets-block <?= /* @noEscape */ $block->getData('config/dataScope') ?>" data-role="select-livingcardgame-sets-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        <?= /* @noEscape */  $block->getAddNewSetsButton() ?>
+    </div>
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Select Sets')
+        ); ?></h2>
+    <div class="selected-sets" data-bind="scope: '<?= /* @noEscape */  $block->getComponentName()?>'">
+        <?php echo $block->escapeHtml(
+            __('Selected Sets:')
+        ); ?>
+        <span data-bind="text: selectedSets() || '--'"></span>
+    </div>
+</div>
+<div class="productFormLivingCardGameSets">
+    <?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "<?= /* @noEscape */  $block->getComponentName()?>": {
+                        "component": "TCGCollective_MarketPlace/js/sets/steps/select_livingcardgame_sets",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "setsAndSinglesComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.livingCardGameSetsAndSingles",
+                        "modalComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.livingcardgame.setsModal",
+                        "appendTo": "<?= /* @noEscape */  $block->getParentComponentName()?>"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function ($) {
+        $('.<?= /* @noEscape */ $block->getData('config/dataScope') ?>[data-role=select-livingcardgame-sets-step]').applyBindings();
+        $('body').trigger('contentUpdated');
+    })
+</script>

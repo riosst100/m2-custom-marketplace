@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">sidebarfilters_attributes_form.sidebarfilters_attributes_form_data_source</item>
+            <item name="namespace" xsi:type="string">sidebarfilters_attributes_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="TCGCollective\MarketPlace\Block\Adminhtml\SidebarFilters\Form\Button\Save"/>
+        </buttons>
+        <ajaxSaveType>simple</ajaxSaveType>
+        <deps>
+            <dep>sidebarfilters_attributes_form.sidebarfilters_attributes_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="sidebarfilters_attributes_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider class="TCGCollective\MarketPlace\Ui\DataProvider\SidebarFilters\Form\NewSidebarFiltersAttributesDataProvider" name="sidebarfilters_attributes_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>attribute_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data">
+        <settings>
+            <collapsible>false</collapsible>
+            <label/>
+        </settings>
+        <!-- <container name="messages" component="Magento_Catalog/js/components/messages">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string"/>
+                </item>
+            </argument>
+        </container> -->
+        <field name="attribute_ids" component="Magento_Catalog/js/components/new-category" sortOrder="20" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <label translate="true">Select Attributes</label>
+                <dataScope>data.attribute_ids</dataScope>
+                <componentType>field</componentType>
+                <listens>
+                    <link name="${ $.namespace }.${ $.namespace }:responseData">setParsed</link>
+                </listens>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="TCGCollective\MarketPlace\Ui\Component\Form\SidebarFilters\AttributeCodes"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

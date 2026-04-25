@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Remove original Braintree menu -->
+        <remove id="PayPal_Braintree::virtual_terminal"/>
+
+        <!-- Re-add with NEW ID -->
+        <!-- <add
+            id="TCGCollective_ProductAttributesLink::braintree_virtual_terminal"
+            title="Braintree Virtual Terminal"
+            module="PayPal_Braintree"
+            sortOrder="100"
+            parent="Magento_Sales::sales_operation"
+            action="braintree/virtual"
+            resource="TCGCollective_ProductAttributesLink::braintree_virtual_terminal"/> -->
+
+        <!-- ATTRIBUTES MAPPING -->
+        <add id="TCGCollective_ProductAttributesLink::product_attributes_link" title="Attributes Mapping" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="11" resource="TCGCollective_ProductAttributesLink::product_attributes_link"/>
+
+        <!-- Attribute Set Mapping -->
+        <add id="TCGCollective_ProductAttributesLink::attribute_set_mapping"
+        title="Attribute Set Mapping"
+        module="TCGCollective_ProductAttributesLink"
+        sortOrder="10"
+        parent="TCGCollective_ProductAttributesLink::product_attributes_link"
+        resource="TCGCollective_ProductAttributesLink::attribute_set_mapping"/>
+
+        <add id="TCGCollective_ProductAttributesLink::import_attribute_set_mapping" title="Upload Mapping" module="TCGCollective_ProductAttributesLink" sortOrder="11" action="productattributeslink/attributeset/import" resource="TCGCollective_ProductAttributesLink::product_attributes_link_mapping" parent="TCGCollective_ProductAttributesLink::attribute_set_mapping"/>
+        <add id="TCGCollective_ProductAttributesLink::categories_attribute_set_mapping" title="Manage By Category" module="TCGCollective_ProductAttributesLink" sortOrder="11" action="productattributeslink/attributeset/categories" resource="TCGCollective_ProductAttributesLink::product_attributes_link_category" parent="TCGCollective_ProductAttributesLink::attribute_set_mapping"/>
+        <add id="TCGCollective_ProductAttributesLink::attributes_attribute_set_mapping" title="Manage By Attribute Option" module="TCGCollective_ProductAttributesLink" sortOrder="13" action="productattributeslink/attributeset/attributes" resource="TCGCollective_ProductAttributesLink::product_attributes_link_attribute" parent="TCGCollective_ProductAttributesLink::attribute_set_mapping"/>
+        
+
+        <!-- Variations Attributes Mapping -->
+        <add id="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"
+        title="Variations Attributes Mapping"
+        module="TCGCollective_ProductAttributesLink"
+        sortOrder="10"
+        parent="TCGCollective_ProductAttributesLink::product_attributes_link"
+        resource="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"/>
+
+        <!-- <add id="TCGCollective_ProductAttributesLink::upload_variation_attributes_mapping" title="Upload Variations Attributes Mapping" module="TCGCollective_ProductAttributesLink" sortOrder="11" action="productattributeslink/configurableattributes/import" resource="TCGCollective_ProductAttributesLink::product_attributes_link_variations_attributes" parent="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"/> -->
+        <add id="TCGCollective_ProductAttributesLink::categories_configurable_attributes_mapping" title="Manage Variations Attributes Mapping" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/configurableattributes/index" resource="TCGCollective_ProductAttributesLink::product_attributes_link_variations_mapping" parent="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"/>
+        <!-- <add id="TCGCollective_ProductAttributesLink::import_configurable_attributes_mapping" title="Import Mapping Data" module="TCGCollective_ProductAttributesLink" sortOrder="14" action="productattributeslink/configurableattributes/import" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"/> -->
+
+        <!-- Attributes Options Mapping -->
+        <add id="TCGCollective_ProductAttributesLink::attribute_options_mapping"
+        title="Attribute Options Depend"
+        module="Magento_Catalog"
+        sortOrder="20"
+        parent="TCGCollective_ProductAttributesLink::product_attributes_link"
+        resource="TCGCollective_ProductAttributesLink::attribute_options_mapping"/>
+
+        <!-- <add id="TCGCollective_ProductAttributesLink::categories_attribute_option_mapping" title="Filter By Selected Category" module="TCGCollective_ProductAttributesLink" sortOrder="14" action="productattributeslink/attributeoption/categories" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::attribute_options_mapping"/> -->
+        <!-- <add id="TCGCollective_ProductAttributesLink::attributes_attributes_option_mapping" title="Filter By Depend Option" module="TCGCollective_ProductAttributesLink" sortOrder="16" action="productattributeslink/attributeoption/attributes" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::attribute_options_mapping"/> -->
+        <!-- <add id="TCGCollective_ProductAttributesLink::import_attribute_option_mapping" title="Import Mapping" module="TCGCollective_ProductAttributesLink" sortOrder="17" action="productattributeslink/attributeoption/import" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::attribute_options_mapping"/> -->
+
+        <!-- SETS & CARDS -->
+        <add id="TCGCollective_ProductAttributesLink::sets_cards" title="Platform Database" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="16" resource="TCGCollective_ProductAttributesLink::sets_cards"/>
+
+        <!-- IMPORT -->
+        <add id="TCGCollective_ProductAttributesLink::import"
+        title="Upload Data"
+        module="TCGCollective_ProductAttributesLink"
+        sortOrder="2"
+        parent="TCGCollective_ProductAttributesLink::sets_cards"
+        resource="TCGCollective_ProductAttributesLink::import"/>
+
+        <add id="TCGCollective_ProductAttributesLink::upload_images" title="Upload Images" module="TCGCollective_ProductAttributesLink" sortOrder="2" action="media_gallery/media/index" resource="TCGCollective_ProductAttributesLink::upload_images" parent="TCGCollective_ProductAttributesLink::import"/>
+        <!-- <add id="TCGCollective_ProductAttributesLink::import_drop" title="Upload Drop" module="TCGCollective_ProductAttributesLink" sortOrder="3" action="productattributeslink/import/drop" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::import"/> -->
+        <!-- <add id="TCGCollective_ProductAttributesLink::import_release" title="Upload Release" module="TCGCollective_ProductAttributesLink" sortOrder="3" action="productattributeslink/import/release" resource="TCGCollective_ProductAttributesLi`nk::product_attributes_link" parent="TCGCollective_ProductAttributesLink::import"/> -->
+        <add id="TCGCollective_ProductAttributesLink::import_sets" title="Upload Sets&#47;Release" module="TCGCollective_ProductAttributesLink" sortOrder="4" action="productattributeslink/import/sets" resource="TCGCollective_ProductAttributesLink::import_sets" parent="TCGCollective_ProductAttributesLink::import"/>
+
+        <add id="TCGCollective_ProductAttributesLink::import_sealed_products" title="Upload Sealed Products" module="TCGCollective_ProductAttributesLink" sortOrder="5" action="productattributeslink/import/sealedproducts" resource="TCGCollective_ProductAttributesLink::import_sealed_products" parent="TCGCollective_ProductAttributesLink::import"/>
+
+        <add id="TCGCollective_ProductAttributesLink::import_singles" title="Upload Singles" module="TCGCollective_ProductAttributesLink" sortOrder="6" action="productattributeslink/import/singles" resource="TCGCollective_ProductAttributesLink::import_singles" parent="TCGCollective_ProductAttributesLink::import"/>
+        
+        <!-- <add id="TCGCollective_ProductAttributesLink::import_secretlair" title="Upload Secret Lair" module="TCGCollective_ProductAttributesLink" sortOrder="6" action="productattributeslink/import/secretlair" resource="TCGCollective_ProductAttributesLink::product_attributes_link" parent="TCGCollective_ProductAttributesLink::import"/> -->
+        
+        <add id="TCGCollective_ProductAttributesLink::import_attributes" title="Upload Attributes" module="TCGCollective_ProductAttributesLink" sortOrder="8" action="productattributeslink/import/attributes" resource="TCGCollective_ProductAttributesLink::import_attributes" parent="TCGCollective_ProductAttributesLink::import"/>
+
+        <!-- ACTION TOYS -->
+        <add id="TCGCollective_ProductAttributesLink::action_toys" title="Action Toys" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="10" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_actiontoys" title="Action Toys" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/actiontoys/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::action_toys"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_blindboxes" title="Blindboxes" module="TCGCollective_ProductAttributesLink" sortOrder="15" action="productattributeslink/blindboxes/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::action_toys"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_designertoys" title="Designer Toys" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/designertoys/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::action_toys"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_actiontoysmodelkits" title="Action Toys Model Kits" module="TCGCollective_ProductAttributesLink" sortOrder="25" action="productattributeslink/actiontoysmodelkits/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::action_toys"/>
+
+        <!-- ANIME -->
+        <add id="TCGCollective_ProductAttributesLink::anime" title="Anime" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="10" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+
+        <add id="TCGCollective_ProductAttributesLink::manage_anime_toys" title="Anime Toys" module="TCGCollective_ProductAttributesLink" sortOrder="1" action="productattributeslink/anime/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::anime"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_anime_modelkits" title="Anime Model Kits" module="TCGCollective_ProductAttributesLink" sortOrder="2" action="productattributeslink/animemodelkits/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::anime"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_fungoods" title="Fun Goods" module="TCGCollective_ProductAttributesLink" sortOrder="3" action="productattributeslink/fungoods/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::anime"/>
+        
+        
+        <!-- DOLLS -->
+        <add id="TCGCollective_ProductAttributesLink::dolls" title="Dolls" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="30" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+
+        <add id="TCGCollective_ProductAttributesLink::manage_dolls" title="Dolls" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/dolls/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::dolls"/>
+
+        <add id="TCGCollective_ProductAttributesLink::games" title="Games" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="40" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::card_game" title="Collectible Card Games" module="TCGCollective_ProductAttributesLink" sortOrder="40" action="productattributeslink/cardgame/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::games"/>
+
+
+        <add id="TCGCollective_ProductAttributesLink::living_card_game" title="Living Card Games" module="TCGCollective_ProductAttributesLink" sortOrder="50" action="productattributeslink/livingcardgame/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::games"/>
+        
+        <add id="TCGCollective_ProductAttributesLink::miniature" title="Miniature Games" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="45" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+
+        <add id="TCGCollective_ProductAttributesLink::miniature_game" title="Miniature Games" module="TCGCollective_ProductAttributesLink" sortOrder="1" action="productattributeslink/miniaturegame/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::miniature"/>
+
+        <!-- MINIATURE GAMES | GAMES WORKSHOP -->
+        <add id="TCGCollective_ProductAttributesLink::games_workshop" title="Games Workshop" module="TCGCollective_ProductAttributesLink" sortOrder="3" action="productattributeslink/gamesworkshop/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::miniature"/>
+
+        <add id="TCGCollective_ProductAttributesLink::cards" title="Cards" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="50" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::sport_card" title="Sport Cards" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/sportcard/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::cards"/>
+        <add id="TCGCollective_ProductAttributesLink::non_sport_card" title="Non Sport Cards" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/nonsportcard/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::cards"/>
+        <!-- <add id="TCGCollective_ProductAttributesLink::sport_cards_player" title="Players" module="TCGCollective_ProductAttributesLink" sortOrder="30" action="productattributeslink/nonsportcard/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::cards"/> -->
+        <!-- <add id="TCGCollective_ProductAttributesLink::sport_cards_teams" title="Teams" module="TCGCollective_ProductAttributesLink" sortOrder="40" action="productattributeslink/nonsportcard/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::cards"/> -->
+
+        <add id="TCGCollective_ProductAttributesLink::lego" title="Bricks" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="60" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::lego_sets" title="Bricks" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/bricks/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::lego"/>
+
+        <!-- VEHICLES -->
+        <add id="TCGCollective_ProductAttributesLink::diecast" title="Diecast" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="80" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_diecast_vehicles" title="Diecast Vehicles" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/diecastvehicles/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::diecast"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_diecast_aircrafts" title="Diecast Aircrafts" module="TCGCollective_ProductAttributesLink" sortOrder="15" action="productattributeslink/diecastaircrafts/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::diecast"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_diecast_military" title="Diecast Military" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/diecastmilitary/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::diecast"/>
+
+        <add id="TCGCollective_ProductAttributesLink::model_kits" title="Model Kits" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="80" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_model_kits_vehicles" title="Model Kits Vehicles" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/modelkitsvehicles/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::model_kits"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_model_kits_aircrafts" title="Model Kits Aircrafts" module="TCGCollective_ProductAttributesLink" sortOrder="15" action="productattributeslink/modelkitsaircrafts/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::model_kits"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_model_kits_military" title="Model Kits Military" module="TCGCollective_ProductAttributesLink" sortOrder="20" action="productattributeslink/modelkitsmilitary/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::model_kits"/>
+
+        <!-- TRAINS -->
+        <add id="TCGCollective_ProductAttributesLink::trains" title="Model Trains" translate="title" module="TCGCollective_ProductAttributesLink" sortOrder="100" parent="TCGCollective_ProductAttributesLink::sets_cards" resource="TCGCollective_ProductAttributesLink::manage_products"/>
+        <add id="TCGCollective_ProductAttributesLink::manage_trains" title="Model Trains" module="TCGCollective_ProductAttributesLink" sortOrder="10" action="productattributeslink/trains/index" resource="TCGCollective_ProductAttributesLink::manage_products" parent="TCGCollective_ProductAttributesLink::trains"/>
+    </menu>
+</config>

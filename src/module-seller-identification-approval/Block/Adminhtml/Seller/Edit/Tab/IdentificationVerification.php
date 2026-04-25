@@ -1,0 +1,280 @@
+<?php
+
+namespace TCGCollective\SellerIdentificationApproval\Block\Adminhtml\Seller\Edit\Tab;
+
+use Lofmp\SellerIdentificationApproval\Block\Seller\Register;
+use Lofmp\SellerIdentificationApproval\Helper\Data;
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Framework\Data\FormFactory;
+use Magento\Framework\Phrase;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Design\Theme\LabelFactory;
+use Magento\Framework\View\Model\PageLayout\Config\BuilderInterface;
+use Magento\Theme\Model\Layout\Source\Layout;
+
+/**
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
+ */
+class IdentificationVerification extends \Lofmp\SellerIdentificationApproval\Block\Adminhtml\Seller\Edit\Tab\IdentificationVerification
+{
+    /**
+     * @var LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
+     * @var Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @var BuilderInterface
+     */
+    protected $pageLayoutBuilder;
+
+    /**
+     * @var Data
+     */
+    private $helper;
+
+    /**
+     * @var \Lof\MarketPlace\Model\MessageAdmin
+     */
+    protected $message;
+
+    /**
+     * @var \Lof\MarketPlace\Model\MessageDetail
+     */
+    protected $message_detail;
+
+    protected $documentsVerifyStatus;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param Layout $pageLayout
+     * @param LabelFactory $labelFactory
+     * @param BuilderInterface $pageLayoutBuilder
+     * @param Data $helper
+     * @param \Lof\MarketPlace\Model\MessageDetail $message_detail
+     * @param \Lof\MarketPlace\Model\MessageAdmin $message
+     * @param array $data
+     */
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        FormFactory $formFactory,
+        Layout $pageLayout,
+        LabelFactory $labelFactory,
+        BuilderInterface $pageLayoutBuilder,
+        Data $helper,
+        \Lof\MarketPlace\Model\MessageDetail $message_detail,
+        \Lof\MarketPlace\Model\MessageAdmin $message,
+        \TCGCollective\MarketPlace\Model\Source\DocumentsVerifyStatus $documentsVerifyStatus,
+        array $data = []
+    ) {
+        $this->pageLayoutBuilder = $pageLayoutBuilder;
+        $this->_labelFactory = $labelFactory;
+        $this->_pageLayout = $pageLayout;
+        $this->helper = $helper;
+        $this->message = $message;
+        $this->message_detail = $message_detail;
+        $this->documentsVerifyStatus = $documentsVerifyStatus;
+        parent::__construct(
+            $context, 
+            $registry, 
+            $formFactory, 
+            $pageLayout,
+            $labelFactory,
+            $pageLayoutBuilder,
+            $helper,
+            $data
+        );
+    }
+
+    /**
+     * Prepare form tab configuration
+     * @return void
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     */
+    //phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
+    protected function _construct()
+    {
+        parent::_construct();
+    }
+
+    /**
+     * Initialise form fields
+     * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     */
+    protected function _prepareForm()
+    {
+        $model = $this->_coreRegistry->registry('lof_marketplace_seller');
+
+        $form = $this->_formFactory->create();
+
+        $form->setHtmlIdPrefix('seller_');
+
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Verification Documents')]);
+
+        $fieldset->addField(
+            'documents_verify_status',
+            'select',
+            [
+                'label' => __('Verification Status'),
+                'name' => 'documents_verify_status',
+                'options' => $this->documentsVerifyStatus->getOptions()
+            ]
+        );
+
+        $fieldset->addField(
+            'disapproved_reason',
+            'textarea',
+            [
+                'label' => __('Rejected Reason'),
+                'title' => __('Rejected Reason'),
+                'name' => 'disapproved_reason',
+                'container_id' => 'disapproved_reason_container'
+            ]
+        );
+        
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock(Register::class)
+                ->setTemplate('TCGCollective_SellerIdentificationApproval::seller/verification.phtml')
+                ->setNameInLayout('additional_fields')
+        );
+        
+        $this->getChildHtml('additional_fields');
+
+        $form->setValues($model->getData());
+
+        $this->setForm($form);
+
+        return $this;
+    }
+
+    /**
+     * @param $message_id
+     * @param $seller_id
+     * @return string
+     */
+    protected function _getMessageContentAfterHtml($message_id, $seller_id)
+    {
+        if ($message_id) {
+            $_messsage = $this->message->getCollection()
+                ->addFieldToFilter('seller_id', $seller_id)
+                ->addFieldToFilter('is_read', 0);
+            foreach ($_messsage as $key => $_msg) {
+                $_msg->setData('is_read', 1)->save();
+            }
+            $message = $this->message_detail->getCollection()
+                ->addFieldToFilter('message_id', $message_id)
+                ->addFieldToFilter('message_admin', 1);
+            $data = '';
+            foreach ($message as $key => $_message) {
+                if ($_message->getData('seller_send')) {
+                    $name = $_message->getData('sender_name');
+                    $class = 'user';
+                } else {
+                    $name = $_message->getData('sender_name');
+                    $class = '';
+                }
+                $data .= '<div class="lof-ticket-history">';
+                $data .= '<div class="lof-message">';
+                $data .= '<div class="lof-message-header">';
+                $data .= '<strong>' . $name . '</strong>';
+                $createdAt = $_message->getCreatedAt();
+                $data .= '<span class="minor">'
+                    . __('added %1 (%2)', $this->helper->nicetime($createdAt), $createdAt) . '</span>';
+                $data .= '</div>';
+                $data .= '<div class="lof-message-body ' . $class . '">';
+                $data .= $_message->getContent();
+                $data .= '</div>';
+                $data .= '</div>';
+                $data .= '</div>';
+            }
+
+            return $data;
+        }
+
+        return '';
+    }
+
+    /**
+     * Prepare label for tab
+     *
+     * @return Phrase
+     */
+    public function getTabLabel()
+    {
+        return __('Seller Verification');
+    }
+
+    /**
+     * Prepare title for tab
+     *
+     * @return Phrase
+     */
+    public function getTabTitle()
+    {
+        return __('Seller Verification');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isHidden()
+    {
+        return false;
+    }
+
+    /**
+     * Check permission for passed action
+     *
+     * @param string $resourceId
+     * @return bool
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     */
+    protected function _isAllowedAction($resourceId)
+    {
+        return $this->_authorization->isAllowed($resourceId);
+    }
+
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public function getOptions()
+    {
+        $values = [];
+
+        $options = $this->helper->getIdentificationTypes();
+        foreach ($options as $key => $option) {
+            if (!$this->helper->isEnable($key)) {
+                unset($options[$key]);
+            }
+
+            $values[] = [
+                'label' => $option,
+                'value' => $key
+            ];
+        }
+
+        return $values;
+    }
+}

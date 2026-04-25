@@ -1,0 +1,199 @@
+body.hold-transition {
+  /* background-color: white; */
+}
+
+.modals-wrapper .page-actions .page-actions-buttons > button.action-secondary {
+  background-color: #ffffff;
+  border-color: #514943;
+  color: #626262;
+}
+
+.modals-wrapper
+  .page-actions
+  .page-actions-buttons
+  > button.action-secondary:hover {
+  background-color: #514943;
+  border-color: #514943;
+  color: #fff;
+  text-decoration: none;
+}
+
+.documents-group {
+  background: #fff;
+  border: 1px solid #c7c7c7;
+  border-radius: 1px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.documents_group + .documents_group {
+  margin-top: 12px;
+}
+
+.documents_type {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #2f3b52;
+  margin-bottom: 8px;
+  text-align: left;
+  cursor: default;
+}
+
+.verification-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.verification-table .attachments-list {
+  /* display: grid; */
+  gap: 10px;
+}
+
+.verification-table .attachments-list tr {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #c7c7c7;
+  border-radius: 1px;
+  padding: 10px 12px;
+}
+
+.verification-table .attachments-list tr.profile {
+   display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #c7c7c7;
+  border-radius: 1px;
+  padding: 10px 12px;
+}
+
+.verification-table td {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.verification-table td.file-name {
+  color: #374151;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.verification-table td.file-action {
+  text-align: right;
+  justify-self: end;
+}
+
+.download-link {
+  display: inline-block;
+  background-color: #f76b1c;
+  color: #fff;
+  border: 1px solid #f76b1c;
+  border-radius: 6px;
+  padding: 6px 12px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+.download-link:hover {
+  background-color: #ba4000;
+  color: #ffffff;
+  border-color: #ba4000;
+}
+
+.download-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 59, 82, 0.2);
+}
+.add_time {
+  background-color: #f76b1c;
+  color: #fff;
+  border: 1px solid #f76b1c;
+  text-decoration: none;
+  border-radius: 6px;
+}
+.add_time:hover,
+.add_time:focus,
+.add_time:active {
+  background-color: #ba4000;
+  color: #ffffff;
+  border-color: #ba4000;
+  border-radius: 6px;
+}
+.fa-trash {
+  cursor: pointer;
+}
+.verification-table td.file-name::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24'%3E%3Cpath fill='%236b7280' d='M7 4a3 3 0 0 1 3-3h4l6 6v12a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3V4z'/%3E%3Cpath fill='%23ffffff' d='M14 2v5a1 1 0 0 0 1 1h5'/%3E%3C/svg%3E");
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  vertical-align: -3px;
+}
+
+.no-files {
+  text-align: center;
+  color: #6b7280;
+  padding: 12px 0;
+}
+
+@media (max-width: 640px) {
+  .verification-table .attachments-list tr {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+  .verification-table td.file-action {
+    justify-self: start;
+  }
+}
+
+.product.data.items {
+  margin-top: 0px;
+}
+.product.data.items .item.title {
+  float: left;
+  margin: 0 6px 0 0;
+}
+.product.data.items .item.title .switch {
+  display: inline-block;
+  padding: 10px 14px;
+  font-weight: normal;
+  color: #2f3b52;
+  text-decoration: none;
+  background: #f3f3f3;
+  border: 1px solid #c7c7c7;
+  border-bottom-color: #c7c7c7;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.product.data.items .item.title .switch:hover {
+  background: #e9e9e9;
+}
+.product.data.items .item.title.active .switch {
+  background: #ffffff;
+  border-color: #c7c7c7;
+  border-bottom-color: #ffffff;
+}
+.product.data.items .item.content {
+  display: none;
+  border: 1px solid #c7c7c7;
+  padding: 16px;
+  background: #ffffff;
+  clear: both;
+}
+.product.data.items .item.content.active {
+  display: block;
+}
+
+.product.data.items::after {
+  content: "";
+  display: table;
+  clear: both;
+}

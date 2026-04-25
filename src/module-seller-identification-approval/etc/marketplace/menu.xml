@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="TCGCollective_SellerIdentificationApproval::verification" title="Seller Verification" module="TCGCollective_SellerIdentificationApproval" sortOrder="9999" icon="fas fa-user-check" resource="Lofmp_SellerIdentificationApproval::settings" action="sellerverification/index/index" />
+    </menu>
+</config>

@@ -1,0 +1,40 @@
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Magento2.Security.XssTemplate.FoundNotAllowed
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+<script>
+    // PRODUCT CREATION PAGE ONLY
+    <?php if ($block->isProductCreationPage()) : ?>
+        var GAME_OR_BRANDS_REQUEST_FORM_ATTRIBUTE_CODES = <?= $block->getGameOrBrandsReqestFormAttributeCodes() ?>;
+    <?php endif; ?>
+
+    <?php if ($block->isProductCreationPage() || $block->isProductListingPage()) : ?>
+        var PLATFORM_DB_SELECTION_SCOPES = <?= $block->getPlatformDbSelectionScopes() ?>;
+    <?php else: ?>
+        var PLATFORM_DB_SELECTION_SCOPES = '';
+    <?php endif; ?>
+    <?php if ($block->isProductCreationPage() || $block->isProductListingPage()) : ?>
+        var CUSTOM_TABLE_METADATA = <?= $block->getCustomTableMetadata() ?>;
+        var MAIN_ATTR_CODES = <?= $block->getMainAttrCodes() ?>;
+        var CUSTOM_TABLE_TYPE_ATTR_CODES = <?= $block->getCustomTableTypeAttrCodes() ?>;
+        var MAIN_ATTR_CODES_WITH_URL_KEY_MAPPING = <?= $block->getMainAttrCodesWithUrlKeyMapping() ?>;
+    <?php else: ?>
+        var CUSTOM_TABLE_METADATA = '';
+        var MAIN_ATTR_CODES = '';
+        var CUSTOM_TABLE_TYPE_ATTR_CODES = '';
+        var MAIN_ATTR_CODES_WITH_URL_KEY_MAPPING = '';
+    <?php endif; ?>
+    var ATTRIBUTE_SET_MAPPING_FIELDS = '<?= $block->getAttributeSetMappingFields() ?>';
+    var MAPPING_FIELDS_PRIORITY = '';
+    var CARD_GAMES_MAPPING_FIELDS = '';
+    var LEGO_SETS_FIELDS = '';
+    var BASE_URL = '<?= $block->getUrl('') ?>';
+    var ADMIN_BASE_URL = '<?= $block->getAdminBaseUrl('') ?>';
+    var CURRENT_WEBSITE_ID = '<?= $block->getCurrentWebsiteId('') ?>';
+    var AVAILABLE_WEBSITE_IDS = '<?= $block->getAvailableWebsiteIds('') ?>';
+    var FORM_KEY = '<?= $block->getFormKey() ?>';
+    var require = {
+            "baseUrl": "<?= $block->getViewFileUrl('/') ?>"
+        };
+</script>

@@ -1,0 +1,291 @@
+<?php
+$currentStep = $block->getCurrentStep(); // step aktif sekarang (bisa dari DB/session/form)
+// $steps = ["Document Verification", "Setup Payment", "Subscription"];
+$steps = $block->getSteps();
+$nextStep = $block->getNextStep();
+$currentStepNumber = $currentStep['index'] ?? 1;
+// dd($currentStep);
+?>
+<?php if ($currentStep) : ?>
+  <style>
+    .step-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      /* margin-top: 10px; */
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    /* garis background abu-abu */
+    .step-bar::before {
+      content: "";
+      position: absolute;
+      top: 18px; /* sejajar tengah lingkaran */
+      left: 100px;   /* start setelah margin kiri */
+      right: 100px;  /* end sebelum margin kanan */
+      height: 3px;
+      background: #ccc;
+      z-index: 0;
+    }
+
+    /* garis progress hijau */
+    .step-bar::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 100px;
+      height: 3px;
+      background: #f76b1c;
+      width: calc((<?= $currentStepNumber ?> - 1) / (<?= count($steps) ?> - 1) * (100% - 190px));
+      /* -80px karena ada margin kiri+kanan 40px */
+      z-index: 1;
+    }
+
+    .step-bar-step {
+      text-align: center;
+      flex: 1;
+      position: relative;
+      z-index: 2;
+    }
+    .step-bar-circle {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      margin-top: 5px;
+      font-weight: bold;
+      border: 2px solid #ccc;
+      background: #fff;
+      color: #ccc;
+    }
+    .step-bar-label {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #555;
+    }
+    .step-bar-completed .step-bar-circle {
+      background: #f76b1c;
+      border-color: #f76b1c;
+      color: #fff;
+    }
+    .step-bar-active .step-bar-circle {
+      border-color: #f76b1c;
+      color: #f76b1c;
+    }
+  </style>
+<section class="step">
+    <div class="step-bar">
+    <?php foreach ($steps as $index => $stepData): 
+      $stepNum = $index + 1;
+      $classes = "";
+      if ($stepNum < $currentStepNumber) {
+        $classes = "step-bar-completed";
+      } elseif ($stepNum == $currentStepNumber) {
+        $classes = "step-bar-active";
+      }
+    ?>
+      <div class="step-bar-step <?= $classes ?>">
+        <a class="step-bar-circle" href="<?= $stepData['url'] ?>#step_<?= $stepData['id'] ?>">
+          <?php if ($stepNum < $currentStepNumber): ?>
+            ✓
+          <?php else: ?>
+            <?= $stepNum ?>
+          <?php endif; ?>
+          </a>
+        <div class="step-bar-label"><?= $stepData['label'] ?></div>
+      </div>
+    <?php endforeach; ?>
+  </div>
+    <?php if ($currentStep) : ?>
+      <div>
+        <span class="step-badge"><i class="far fa-credit-card"></i> Step <?= $currentStep['index'] ?>: <?= $currentStep['label'] ?></span>
+        <h2><?= $currentStep['title'] ?></h2>
+
+        <p class="step-lead"><?= $currentStep['description'] ?></p>
+
+        <?php if ($currentStep['steps']) : ?>
+            <ul class="checklist">
+                <?php foreach($currentStep['steps'] as $step) : ?>
+                    <li>
+                        <i class="fas fa-check"></i> <?= $step ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <!-- <div class="note">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Biaya dan ketersediaan metode pembayaran mengikuti kebijakan masing-masing penyedia.</span>
+        </div> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const btn = document.getElementById("show-hash-btn");
+            if (!btn) return; // Guard: button not present
+
+            // Prevent double-initialization if template re-renders
+            if (btn.dataset.inited === "1") return;
+            btn.dataset.inited = "1";
+
+            // Prefer server-generated absolute URL via data attribute
+            const serverTargetUrl = btn.dataset.targetUrl || "";
+
+            function normalizeUrlPath(url) {
+              try {
+                if (!url) return url;
+                // Fix duplicated 'marketplace/marketplace' segments
+                url = url.replace(/\/marketplace\/marketplace\//g, '/marketplace/');
+                // Collapse multiple slashes (but keep protocol part intact)
+                const parts = url.split('://');
+                if (parts.length > 1) {
+                  return parts[0] + '://' + parts.slice(1).join('://').replace(/\/\/+/, '/').replace(/([^:])\/\/+/, '$1/');
+                }
+                return url.replace(/\/\/+/, '/');
+              } catch (e) {
+                return url;
+              }
+            }
+
+            // Fallback: derive base prefix from current path (store code aware)
+            function getBasePrefix() {
+              const pathParts = window.location.pathname.split('/').filter(Boolean);
+              const idx = pathParts.indexOf('marketplace');
+              if (idx > 0) {
+                return '/' + pathParts.slice(0, idx).join('/') + '/';
+              }
+              // If no 'marketplace' segment, keep root or first segment as prefix
+              return pathParts.length ? '/' + pathParts[0] + '/' : '/';
+            }
+
+            const fallbackTargetUrl = window.location.origin + getBasePrefix() + 'marketplace/lofmpsellermembership/membership/index/#step_membership';
+            const targetUrl = normalizeUrlPath(serverTargetUrl || fallbackTargetUrl);
+
+            function showButton() {
+              btn.style.display = "inline-block";
+              btn.textContent = "Continue to Select Plan";
+              btn.setAttribute('aria-hidden', 'false');
+            }
+
+            function hideButton() {
+              btn.style.display = "none";
+              btn.setAttribute('aria-hidden', 'true');
+            }
+
+            // Detect payment methods page regardless of host/locale (e.g., /sg/marketplace/catalog/payment/methods/)
+            function isPaymentMethodsPath() {
+              try {
+                const cleanPath = window.location.pathname.replace(/\/+$/, ''); // trim trailing slashes
+                const parts = cleanPath.split('/').filter(Boolean).map(p => p.toLowerCase());
+                const idx = parts.indexOf('marketplace');
+                if (idx === -1) return false;
+                const after = parts.slice(idx).join('/');
+                return after === 'marketplace/catalog/payment/methods' || after.startsWith('marketplace/catalog/payment/methods/');
+              } catch (_) {
+                return false;
+              }
+            }
+
+            function updateButtonVisibility() {
+              const hashRaw = window.location.hash || "";
+              const hash = hashRaw.toLowerCase();
+              // Show button ONLY on #step_payment (tolerate trailing params)
+              if (hash.startsWith("#step_payment") || isPaymentMethodsPath()) {
+                showButton();
+              } else {
+                hideButton();
+              }
+            }
+
+            // Button click → redirect to membership step
+            btn.addEventListener("click", function() {
+              try {
+                // Avoid navigating if already on the target URL
+                if (window.location.href !== targetUrl) {
+                  window.location.assign(targetUrl);
+                }
+              } catch (e) {
+                // Fallback hard redirect
+                window.location.href = targetUrl;
+              }
+            });
+
+            // Initial check
+            updateButtonVisibility();
+
+            // Re-check when hash changes
+            window.addEventListener("hashchange", updateButtonVisibility);
+          });
+          </script>
+        
+        <?php if ($nextStep): ?>
+          <?php
+          $nextStepLabel = 'Next Step';
+          // dd($steps);
+          $nextStepData = array_filter($steps, function ($item) use ($nextStep) {
+              return $item['id'] === $nextStep;
+          });
+
+          $nextStepData = reset($nextStepData); // Get the first matching item
+          // dd($nextStepData);
+          if ($nextStepData) {
+            $nextStepLabel = $nextStepData['label'];
+          }
+          // dd($block->getCurrentUrl() . ' dan ' . $nextStepData['url'])
+          ?>
+          <?php if ($nextStepData['url'] && $nextStepData['url'] != $block->getCurrentUrl()): ?>
+            <div class="payment-actions" style="margin-bottom:20px">
+              <a href="<?= $nextStepData['url'] ?>" class="btn btn-primary">
+                Continue to <?= $nextStepLabel ?>
+              </a>
+            </div>
+          <?php endif; ?>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+</section>
+<style>
+:root {
+    --primary: #f76b1c;
+    --bg: #f7f9fc;
+    --text: #0f172a;
+    --muted: #475569;
+    --border: #e2e8f0;
+    --success: #16a34a;
+}
+/* body { font-family: system-ui, Arial, sans-serif; background: var(--bg); margin: 0; padding: 24px; color: var(--text); } */
+.disabled-btn {
+    opacity: 0.5 !important;
+    cursor: pointer;
+}
+.step {
+    /* max-width: 620px; */
+    margin: 0 auto; background: #fff; 
+    border-bottom: 1px solid #ebebeb;
+    /* border-radius: 14px;  */
+    padding: 0 10px; box-shadow: 0 1px 1px rgba(15,23,42,.06);
+        /* margin-top: 10px; */
+        /* padding-top: 0px; */
+margin-bottom: 20px;
+}
+.step-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
+    border-radius: 999px; font-weight: 500; background: #ebebeb; }
+.step h2 { margin: 14px 0 8px; font-size: 18px; color:black; }
+.step-lead { color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.checklist { margin: 12px 0 18px; padding-left: 0; list-style: none; }
+.checklist li { display: flex; gap: 10px; align-items: start; margin: 8px 0; color: var(--muted); }
+.checklist i { color: var(--success); margin-top: 2px; }
+.note { display: flex; gap: 10px; padding: 12px; border: 1px dashed var(--border); border-radius: 10px; background: #fafafa; color: var(--muted); }
+.payment-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 7px 20px; border-radius: 5px; text-decoration: none; font-weight: normal; }
+.btn-primary,.btn-primary:visited { border: none; background: var(--primary); color: #fff; }
+.btn-secondary { background: #f1f5f9; color: var(--text); }
+.btn:hover { opacity: .95; }
+.btn-primary:hover {
+  border: none;
+  background: #b94f12;
+}
+</style>
+<?php endif; ?>

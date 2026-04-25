@@ -1,0 +1,71 @@
+<?php
+namespace TCGCollective\MarketplaceProductImportExport\Ui\DataProvider\Form;
+ 
+use TCGCollective\MarketplaceProductImportExport\Model\ResourceModel\ImportExportTemplate\CollectionFactory;
+ 
+class ImportExportTemplateDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+{
+    protected $collection;
+
+
+    /**
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param array $meta
+     * @param array $data
+     */
+    public function __construct(
+        $name,
+        $primaryFieldName,
+        $requestFieldName,
+        CollectionFactory $collectionFactory,
+        array $meta = [],
+        array $data = []
+    ) {
+        $this->collection = $collectionFactory->create();
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+    }
+ 
+    /**
+     * Get data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        if (isset($this->_loadedData)) {
+            return $this->_loadedData;
+        }
+
+        $items = $this->collection->getItems();
+        if ($items) {
+            foreach ($items as $mapping) {
+                // $mapping->setEntityType($mapping->getCategoryId() ? 'category' : 'attribute');
+
+                // $mapping->setGroupId($mapping->getGroupName());
+
+                $data = $mapping->getData();
+                // if ($data) {
+                //     foreach($data as $index => $val) {
+                        // if ($index == "target_attribute_options") {
+                        //     $newVal = $val ? explode(",", $val) : [];
+                        //     if (!is_array($newVal)) {
+                        //         $newVal = [$newVal];
+                        //     }
+
+                        //     $data[$index] = $newVal;
+                        // }
+                    // }
+                // }
+
+                $this->_loadedData[$mapping->getId()] = $data;
+            }
+
+            return $this->_loadedData;
+        }
+
+        return null;
+    }
+}

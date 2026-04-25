@@ -1,0 +1,14 @@
+<?php 
+$dynamicText = 'Hello There'; // you can call any block widget or dynamic text here 
+?>
+<?php 
+// Like in your case for call widget you can use this code
+// $dynamicText = $this->getLayout()->createBlock("Lof\Formbuilder\Block\Widget\Form")->setFormid(1)->setDisplayType("popup")->setPopupWidth(600)->setFrameWorkCss("boostrap")->setShowTextBefore(1)->setShowTextAfter(1)->setTitle("test")->toHtml();
+    
+    //  die($dynamicText);
+    ?>
+<script type="text/javascript">
+    window.requestNewCardGameForm = "<?php echo $dynamicText ?>";
+</script>
+<!-- {{widget type="Lof\Formbuilder\Block\Widget\Form" title="test" formid="1" display_type="popup" popup_width="600" frame_work_css="boostrap" show_text_before="1" show_text_after="1"}} -->
+    <!-- $dynamicText = {{widget type="Lof\Formbuilder\Block\Widget\Form" title="test" formid="1" display_type="popup" popup_width="600" frame_work_css="boostrap" show_text_before="1" show_text_after="1"}} -->

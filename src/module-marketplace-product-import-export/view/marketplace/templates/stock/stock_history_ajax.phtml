@@ -1,0 +1,77 @@
+<table class="data-grid">
+    <thead>
+        <tr>
+            <th class="data-grid-th" style="width: 15%;"><?= $block->escapeHtml(__('Date')) ?></th>
+            <th class="data-grid-th" style="width: 20%;"><?= $block->escapeHtml(__('Categories')) ?></th>
+            <th class="data-grid-th" style="width: 10%;"><?= $block->escapeHtml(__('Total Data')) ?></th>
+            <th class="data-grid-th" style="width: 40%;"><?= $block->escapeHtml(__('Status')) ?></th>
+            <th class="data-grid-th" style="width: 15%;"></th>
+        </tr>
+    </thead>
+    <tbody id="upload_history_content">
+        <?php
+        $currentPage = $this->getRequest()->getParam('page') ?? 1;
+        $pageSize = $this->getRequest()->getParam('size') ?? 5;
+        $entity = $this->getRequest()->getParam('entity');
+        $totalCount = $block->getTotalImportHistoryCount($entity);
+        $totalPages = ceil($totalCount / $pageSize);
+        $importHistory = $block->getImportHistory($entity, $currentPage, $pageSize);
+        ?>
+        <?php if ($importHistory): ?>
+            <?php foreach ($importHistory as $history): ?>
+                <tr>
+                    <td><?= $block->formatDateTime($history->getData('created_at')) ?></td>
+                    <td>
+                        <?= $block->escapeHtml($history->getData('categories')) ?>
+                    </td>
+                    <td>
+                        <?= $block->escapeHtml($history->getData('data_count') ?? 0) ?>
+                    </td>
+                    <td>
+                        <?php
+                        $status = $history->getData('status');
+                        $dataCount = $history->getData('data_count');
+                        ?>
+                        <?php if ($status == "success") : ?>
+                            <div>
+                                <i class="fa fa-check-circle" style="font-size: 16px;color: #29a729;vertical-align: middle;margin-right: 4px;"></i>
+                                <?= $block->escapeHtml(__('Stock updated successfully.')) ?>
+                            </div>
+                        <?php elseif ($status == "failed") : ?>
+                            <div>
+                            <i class="fa fa-times-circle" style="font-size: 16px;color: #f10000;vertical-align: middle;margin-right: 4px;"></i>
+                            <?= $block->escapeHtml(__('Upload Stock Failed. Nothing updated.')) ?>
+                            </div>
+                        <?php else: ?>
+                            <i class="fa fa-check-circle" style="font-size: 16px;color: #aca382;vertical-align: middle;margin-right: 4px;"></i>
+                            <?= $block->escapeHtml(__('No data to upload. Nothing updated.')) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($history->getData('file')): ?>
+                            <div style="text-align: center;"><a style="color:#f76b1c" href="<?= $history->getData('file') ?>"><?= $block->escapeHtml(__('Download File')) ?></a></div>
+                        <?php else: ?>
+                            <div style="text-align: center;">-</div>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr><td colspan="5"><div style="text-align:center">No upload history.</div></td></tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+<div class="paginator">
+    <span class="total"><?= __('Total %1', $totalCount) ?></span>
+    <select class="page-size" onchange="MST.changePageSize(this.value)">
+        <option value="5" <?= $pageSize == 5 ? 'selected' : '' ?>>5</option>
+        <option value="10" <?= $pageSize == 10 ? 'selected' : '' ?>>10</option>
+        <option value="20" <?= $pageSize == 20 ? 'selected' : '' ?>>20</option>
+        <option value="50" <?= $pageSize == 50 ? 'selected' : '' ?>>50</option>
+    </select>
+    <div class="pagination">
+        <button class="prev-page" type="button" onclick="MST.changePage(<?= $currentPage - 1 ?>)" <?= $currentPage == 1 ? 'disabled' : '' ?>><span class="fa fa-chevron-left" style="margin-right: 5px;"></span><?= __('Previous') ?></button>
+        <span class="current-page"><?= $currentPage ?></span>
+        <button class="next-page" type="button" onclick="MST.changePage(<?= $currentPage + 1 ?>)" <?= $currentPage == $totalPages ? 'disabled' : '' ?>><?= __('Next') ?><span class="fa fa-chevron-right" style="margin-left: 5px;"></span></button>
+    </div>
+</div>

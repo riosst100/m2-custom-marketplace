@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="cardgame_sets_form"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="TCGCollective\ProductAttributesLink\Block\Product\Edit\Js" name="sets_edit_js" template="TCGCollective_ProductAttributesLink::catalog/product/sets/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

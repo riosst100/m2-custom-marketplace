@@ -1,0 +1,434 @@
+<?php
+
+use Lofmp\SellerIdentificationApproval\Block\Seller\Register;
+
+/**
+ * @var Register $block
+ */
+if (!$block->isEnable()) {
+    return;
+}
+$seller = $block->getSeller();
+$requestField = $seller->getData('identification_request');
+$listType = $block->getIdentificationTypes();
+$ids = [];
+?>
+<div class="fieldset-wrapper" id="step_verification">
+    <div id="identification" class="admin__fieldset-wrapper-content">
+        <fieldset class="admin__fieldset" name="general">
+            <?php
+            $seller = $block->getSeller();
+            $documentsVerifyStatus = $seller->getDocumentsVerifyStatus();
+            $step = $seller->getRegistrationStep();
+            ?>
+            <?php
+              echo $this->getLayout()
+                  ->createBlock('TCGCollective\MarketPlace\Block\Steps')
+                  ->setTemplate('TCGCollective_MarketPlace::registration-step/step-guide.phtml')
+                  ->toHtml();
+              ?>
+              <?php
+              echo $this->getLayout()
+                  ->createBlock('TCGCollective\MarketPlace\Block\SellerInfo')
+                  ->setInstruction('Learn about verification on')
+                  ->setDocsUrlPath('verification')
+                  ->setDocsLabel('Seller Help Center - Verification')
+                  ->setTemplate('TCGCollective_MarketPlace::seller_info.phtml')
+                  ->toHtml();
+              ?>
+            <div class="messages">
+              <div class="message message-error error-wrap error" data-role="error-wrap" style="display:none"></div>
+                  <?php if ($documentsVerifyStatus == 1 && $step != "finish"): ?>
+                    <div class="alert alert-success notice alert-dismissable">
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px"><i class="far fa-check-circle"></i></span>Your documents is valid. You can continue to Next Step.
+                          </span>
+                      </div>
+                <?php endif; ?>
+                <?php if ($documentsVerifyStatus == 1 && $step == "finish"): ?>
+                    <div class="alert alert-success notice alert-dismissable">
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px"><i class="far fa-check-circle"></i></span>Your documents is valid. You can continue to manage your stores.
+                          </span>
+                      </div>
+                <?php endif; ?>
+                <?php if ($documentsVerifyStatus == 0): ?>
+                    <?php if ($step == "verification_membership") : ?>
+                        <div class="alert alert-warning notice alert-dismissable">                          
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px">
+                              <i class="fa fa-warning"></i>
+                            </span>
+                            You need to upload documents to verify after upgrade/renewal plan.
+                          </span>
+                      </div>
+                    <?php elseif ($step == "verification_address") : ?>
+                        <div class="alert alert-warning notice alert-dismissable">
+                         <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px">
+                              <i class="fa fa-warning"></i>
+                            </span>
+                            You need to upload documents to verify your new address
+                          </span>
+                      </div>
+                    <?php else: ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if ($documentsVerifyStatus == 2): ?>
+                  <div class="alert alert-warning notice alert-dismissable">
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px"><i class="far fa-hourglass"></i></span>Your documents is under review.
+                          </span>
+                      </div>
+                <?php endif; ?>
+                <?php if ($documentsVerifyStatus == 3): ?>
+                  <div class="alert alert-error notice alert-dismissable">
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px"><i class="far fa-times-circle"></i></span>Your documents was rejected<?= $seller->getDisapprovedReason() ? ' with reason <b>"'.$seller->getDisapprovedReason().'"</b>' : '' ?>. Please submit another documents.
+                          </span>
+                      </div>
+                <?php endif; ?>
+            </div>
+            <?php if ($seller->getSellerType() == "individual") : ?>
+                <!-- <div><?= __('You must complete identity verification to become successfully registered as a individual seller') ?></div> -->
+            <?php endif; ?>
+            <?php if ($seller->getSellerType() == "company") : ?>
+                <!-- <div><?= __('You must complete identity verification to become successfully registered as a company') ?></div> -->
+            <?php endif; ?>
+            <form style="padding:5px" data-mage-init='{"validation":{}}' action="<?= $block->escapeUrl($block->getUrl('*/*/save')) ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" value="<?= $seller->getId() ?>" name="seller_id" />
+                <?php
+                if (isset($listType[''])) {
+                    unset($listType['']);
+                }
+
+                if ($seller->getSellerType() == "individual") {
+                    unset($listType['company_registration']);
+                }
+
+                // if ($seller->getSellerType() == "company") {
+                //     unset($listType['identity']);
+                // }
+                ?>
+                <?php foreach ($listType as $key => $label) : ?>
+                    <?php if ($block->isEnable($key)) : ?>
+                        <?php
+                        $files = $block->getFileUpload($key);
+                        $count = $files ? (count($files) + 1) : 1;
+                        $allowUpdate = $block->allowUpdate($key, $count);
+                        if ($allowUpdate) :
+                        ?>
+                        <div class="admin__field">
+                            <label for="identification" class="admin__field-label documents_type"><?= $block->escapeHtml($label); ?></label>
+                                <?php if ($key == "company_registration") : ?>
+                                    <small>
+                                        <div>Proof of Business Name and ID</div>
+                                        <div>Documents must include information such as business name as well as Business ID number. The business name on this document must match the name you've registered as a seller</div>
+                                    </small>
+                                <?php endif; ?>
+                                <?php if ($key == "identity") : ?>
+                                    <div>Documents must include information such as first and last name, date of birth, issuance and expiry date, as well as the document ID number. The name on this document must match the name you've registered as a seller</div>
+                                    <br />
+                                    <small>
+                                        <div>Acceptable Proof of Identify documents:</div>
+                                        <ul style="margin-left: 20px;margin-top: 5px;margin-bottom: 0px;">
+                                            <li>Passport</li>
+                                            <li>Driver’s License (front and back)</li>
+                                            <li>State or Government Issue ID (front and back)</li>
+                                        </ul>
+                                    </small>
+                                <?php endif; ?>
+                                <?php if ($key == "utility_address") : ?>
+                                    <div>A proof of residence document that confirms where you live. This document must show both your full name and residential address. We can only confirm physical addresses, not PO Box addresses</div>
+                                    <br>
+                                    <small>
+                                        <div>Acceptable Proof of Address documents:</div>
+                                        <ul style="margin-left: 20px;margin-top: 5px;margin-bottom: 0px;">
+                                            <li>Utility bill (dated within the last 3 months)</li>
+                                            <li>Phone bill (dated within the last 3 months)</li>
+                                            <li>Bank or credit card statement (dated within the last 3 months)</li>
+                                        </ul>
+                                    </small>
+                                <?php endif; ?>
+                                <br />
+                            <div class="admin__field-control additional_upload" id="field_<?= $key ?>" data-role="attach-wrapper">
+                                <div data-mage-init='{"Lofmp_SellerIdentificationApproval/js/upload/add-files": {
+                                        "maxSizeB" : "<?= $block->escapeJs($block->getMaxFileSize($key)) ?>",
+                                        "maxSizeMb" : "<?= $block->escapeJs($block->getMaxFileSizeMb($key)) ?>",
+                                        "extensions" : "<?= $block->escapeJs($block->getAllowedExtensions($key)) ?>",
+                                        "typeUpload" : "<?= $block->escapeJs($key) ?>",
+                                        "idFiles" : "<?= $count ?>"
+                                        }}' class="field-attachment" id="field-attachment-<?= $key ?>" data-role="send-files">
+                                    <label tabindex="0" data-mage-init='{"Lofmp_SellerIdentificationApproval/js/upload/add-file": {}}' for="<?= $key ?>-add-file-0" style="font-weight:normal;">
+                                        <input name="<?= $key ?>-files[0]" data-role="<?= $key ?>-add-file" id="<?= $key ?>-add-file-0" type="file">
+                                        <?= $block->escapeHtml(__('Attach file')) ?>
+                                    </label>
+                                </div>
+                                <div class="message message-error error-wrap error" data-role="<?= $key ?>-error-wrap" style="display:none"></div>
+                                <div class="verification-container" id="documents_list_<?= $key ?>"<?= !count($files) ? ' style="display:none"' : '' ?>>
+                                    <table class="verification-table">
+                                        <!-- <thead>
+                                            <tr>
+                                            <th>File Name</th>
+                                            <th>Upload Date</th>
+                                            <th>Download</th>
+                                            <th>Delete</th>
+                                            </tr>
+                                        </thead> -->
+                                        <tbody data-role="<?= $key ?>-added-files" data-role="<?= $key ?>-history-added-files" class="attachments-list added-files">
+                                            <?php if (count($files)): ?>
+                                                <?php foreach ($files as $file) :?>
+                                                    <tr data-role="attached-item">
+                                                        <td>
+                                                            <?= $block->escapeHtml($file->getFileName()) ?>
+                                                        </td>
+                                                        <td style="width:20%"><?= $file->getCreatedAt() ?></td>
+                                                        <td style="width:10%">
+                                                            
+                                                            <a href="<?= $block->escapeUrl($block->getAttachmentUrl($file->getEntityId())) ?>"
+                                                            title="<?= $block->escapeHtmlAttr($file->getFileName()) ?>" target="_blank">Download
+                                                            </a>
+                                                </td><td style="width:10%">
+                              <a href="#" class="delete-old" id="<?=$file->getEntityId()?>">
+                                                                <span>Delete</span>
+                                                </a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php $ids[] = $file->getEntityId(); ?>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <!-- <tr id="no_files_uploaded"><td colspan="4" style="text-align:center">No files uploaded.</td></tr> -->
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="attachments-list" ></div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <input type="hidden" name="delete_ids">
+                <!-- <br />
+                <br /> -->
+                <div style="text-align:right"><button class="button primary">Submit For Review</button></div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+<style>
+    /* body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f9fafc;
+      color: #333;
+    } */
+      [data-role="attentional-content"] {
+        margin: 0 !important;
+    }
+      .action-delete {
+        margin-left: 10px;
+        vertical-align: text-top;
+        /* margin-top:8px; */
+      }
+    .documents_type {
+        text-align: left;
+        font-size: 18px !important;
+    }
+
+    .fieldset-wrapper {
+      /* max-width: 800px; */
+      /* margin: 30px auto; */
+      padding-top: 10px;
+      color: #444;
+    }
+
+    .admin__fieldset {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .admin__field {
+      margin-bottom: 30px;
+    }
+
+    .admin__field-label {
+      display: block;
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    small {
+      display: block;
+      background: #f5f7fa;
+      /* border-left: 4px solid #f76b1c; */
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #444;
+    }
+
+    .field-attachment label {
+        font-weight: normal;
+      display: inline-block;
+      padding: 8px 20px;
+      background: #f0f4ff;
+      border: 1px dashed #f76b1c;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #f76b1c;
+      transition: all 0.2s ease;
+    }
+
+    .field-attachment label:hover {
+      background: #e6f0ff;
+    }
+
+    .attachments-list {
+      margin-top: 12px;
+      /* max-width: 400px; */
+    }
+
+    .attachments-item {
+        max-width: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .attachments-item a {
+      /* color: #f76b1c; */
+      text-decoration: none;
+      /* font-weight: 500; */
+    }
+
+    .attachments-item a:hover {
+      text-decoration: underline;
+    }
+
+    .attachments-item button {
+      background: none;
+      border: none;
+      color: #c62828;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .attachments-item button:hover {
+      text-decoration: underline;
+    }
+
+    .button.primary {
+      background: #f76b1c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .button.primary:hover {
+      background: #f76b1c;
+    }
+
+    .messages {
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #d93025;
+    }
+
+    form > div:first-child {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+  </style>
+  <style>
+    .verification-container {
+      /* font-family: Arial, sans-serif; */
+      /* padding: 20px; */
+    }
+
+    .verification-upload-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #f56c42;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border: none;
+    }
+
+    .verification-upload-btn:hover {
+      background: #e15b33;
+    }
+
+    .verification-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .verification-table th, 
+    .verification-table td {
+      border: none;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .verification-table tr {
+      border-top: 1px solid #ddd;
+    }
+
+    .verification-action-btn {
+      color: white;
+      background: #d9534f;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .verification-action-btn:hover {
+      background: #c9302c;
+    }
+    [data-role="delete-button"] {
+        cursor:pointer;
+    }
+  </style>
+<script>
+  require([
+    "jquery"
+  ], function ($) {
+        $(document).ready(function () {
+      var ids = [];
+      $('.delete-old').on('click', function (e) {
+        e.preventDefault();
+        var deleteId = $(this).attr('id');
+        if (ids.indexOf(deleteId) === -1) {
+          ids.push(deleteId);
+        }
+        $('[name="delete_ids"]').val(ids.join(','));
+        $(this).closest('[data-role="attached-item"]').remove();
+      });
+        })
+    });
+</script>

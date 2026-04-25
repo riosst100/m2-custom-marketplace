@@ -1,0 +1,461 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lofmp_SellerMembership
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+use Magento\Framework\App\Action\Action;
+
+$this->processMembership();
+$defaultWebsite = $this->getSellerDefaultWebsite();
+$listingCountryMembershipArr = $this->getListingCountryMembership();
+$membership = $this->getMembership();
+$currentSellerListingWebsiteIds = $block->getSellerListingWebsiteIds();
+
+$helper = $this->helper("Lof\MarketPlace\Helper\Data");
+
+$_listingMembershipProductCollection = $this->getListingMembershipPlanProducts();
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$formKey = $block->getFormKey();
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><?= __('My Subscription'); ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <?php
+                $countryName = $block->getWebsiteNameById($defaultWebsite->getId());
+                ?>
+                <p>Subscription: <b><?= $membership->getName() ?></b></p>
+                <br/>
+                <p>Default Country: <b><?= $countryName ?></b></p>
+                <p>Default Currency: <b><?= $defaultWebsite->getDefaultStore()->getDefaultCurrencyCode() ?></b></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><?= __('My Additional Country Listing'); ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <?php if (str_contains('basic', $membership->getName())) : ?>
+                    <div class="message info empty">
+                        <div><?php /* @escapeNotVerified */
+                            echo __('Additional Country Listing are only available for <b>Standard</b> or <b>Premium</b> members. Please upgrade your membership to access this feature.') ?></div>
+                    </div>
+                <?php else: ?>
+                    <?php if ($listingCountryMembershipArr): ?>
+                        <?php foreach($listingCountryMembershipArr as $listingCountryMembership) : ?>
+                            <?php if ($listingCountryMembership->getExpirationDate() && strtotime((new \DateTime())->format('Y-m-d')) <= strtotime($listingCountryMembership->getExpirationDate())) : ?>
+                                <?php
+                                $expiredTime = $listingCountryMembership->getExpirationDate() ?: '';
+                                $countryName = $block->getWebsiteNameById($listingCountryMembership->getData('website_id'));
+                                ?>
+                                <p>Country: <b><?= $countryName; ?></b></p>
+                                <p>Expired Date: <b><?= $listingCountryMembership->getExpirationDate(); ?></b></p>
+                                <ul class="list-unstyled text-left" id="features_list_<?= $listingCountryMembership->getId() ?>" style="display:none">
+                                    <li>
+                                        <?= __('Publish product to <strong>%1</strong> country', $countryName) . ''; ?>
+                                    </li>
+                                    <li>
+                                        <?= __('Product listing on <strong>%1</strong> country', $countryName) . ''; ?>
+                                    </li>
+                                    <li>
+                                        <?= __('Reach <strong>%1</strong> users', $countryName) . ''; ?>
+                                    </li>
+                                </ul>
+                                <!-- <p><span id="hide_features_<?= $listingCountryMembership->getId() ?>" style="text-decoration:underline;display:none">Hide Features <i class="fa fa-angle-up" style="font-size:16px;margin-left:5px;"></i></span></p>
+                                <p><span id="show_features_<?= $listingCountryMembership->getId() ?>" style="text-decoration:underline">Show Features <i class="fa fa-angle-down" style="font-size:16px;margin-left:5px;"></i></span></p> -->
+                                <hr />
+                                <script>
+                                    require([
+                                        'jquery'
+                                    ], function ($) {
+                                        $('#show_features_<?= $listingCountryMembership->getId() ?>').click(function() {
+                                            $('#show_features_<?= $listingCountryMembership->getId() ?>').hide();
+                                            $('#hide_features_<?= $listingCountryMembership->getId() ?>').show();
+                                            $('#features_list_<?= $listingCountryMembership->getId() ?>').slideDown();
+                                        });
+
+                                        $('#hide_features_<?= $listingCountryMembership->getId() ?>').click(function() {
+                                            $('#show_features_<?= $listingCountryMembership->getId() ?>').show();
+                                            $('#hide_features_<?= $listingCountryMembership->getId() ?>').hide();
+                                            $('#features_list_<?= $listingCountryMembership->getId() ?>').slideUp();
+                                        });
+                                    });
+                                </script>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="negotiable-quote-errors messages">
+                            <div class="message message-warning error-wrap error" data-role="error-wrap">You currently do not have any active additional membership plans.</div>
+                        </div>
+                    <?php endif; ?>
+                    <a style="max-width:200px;text-decoration:underline;" href="<?= $this->getUrl('sellermembership/additional/history'); ?>" class=""><?= __('View Transaction History') ?></a>
+                    <br />
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+    if ($membership->getName() !== 'Premium') {
+        $hidden = 'hidden';
+    } else {
+        $hidden = '';
+    }    
+?>
+<div class="row" <?= $hidden; ?>>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <!-- LISTING COUNTRY EXPANSION -->
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><?= __('Buy / Upgrade Additional Country Listing'); ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" id="buy_listing_membership">
+                <?php if (str_contains('basic', $membership->getName())) : ?>
+                    <div class="message info empty">
+                        <div><?php /* @escapeNotVerified */
+                            echo __('Additional Country Listing are only available for <b>Standard</b> or <b>Premium</b> members. Please upgrade your membership to access this feature.') ?></div>
+                    </div>
+                <?php else: ?>
+                    <div style="padding: 5px;">
+                        <h2>Expand Your Business with Our Additional Country Listing</h2>
+                        <p>Looking to grow your sales in new markets? Our additional membership plans let you target specific countries and connect with customers where it matters most.</p>
+                    </div>
+                    <?php if (!$_listingMembershipProductCollection->getSize()): ?>
+                        <div class="message info empty">
+                            <div><?php /* @escapeNotVerified */
+                                echo __('We can\'t find products matching the selection.') ?></div>
+                        </div>
+                    <?php else: ?>
+                        <?php
+                        /**
+                         * Position for actions regarding image size changing in vde if needed
+                         */
+                        $pos = $block->getPositioned();
+                        ?>
+                        <div class="row">
+                            <?php $iterator = 1; ?>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div>
+                                    <div class="x_content" style="padding: 0px 100px;">
+                                    <?php //dd($_productCollection->getData()); //echo $block->getToolbarHtml() ?>
+                                        <div class="row">
+                                            <div class="col-md-12 card-wrapper">
+                                                <?php foreach ($_listingMembershipProductCollection as $_product):
+                                                    $seller_group = $_product->getData('seller_group');
+                                                    // dd($seller_group);
+                                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                                    $SellerGroup = $objectManager->create('Lof\MarketPlace\Model\ResourceModel\Group\CollectionFactory');
+                                                    $collection = $SellerGroup->create()
+                                                        ->addFieldToFilter('group_id', $seller_group)
+                                                        ->getData();
+                                                    $price = 0;
+                                                    $duration = $_product->getData('seller_duration');
+
+                                                    if ($duration && !is_array($duration)) {
+                                                        $duration = @json_decode($duration, true);
+
+                                                        $duration = $block->filterMembershipDurationByWebsite($duration);
+
+                                                        $price = @current($duration);
+                                                        $price = $price['membership_price'] ?? 0;
+                                                    }
+
+                                                    ?>
+                                                    <?php
+                                                    $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                                                    ?>
+                                                    <div class="col-md-4 col-sm-6 col-xs-12 card-listing">
+                                                        <div class="pricing ">
+                                                            <div class="title">
+                                                                <h2>
+                                                                    <?= $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                                                </h2>
+                                                                <h1 id="lof_price_<?= $_product->getId() ?>"><?= $helper->getFormatedPrice($price); ?></h1>
+                                                            </div>
+                                                            <?= $block->getProductDetailsHtml($_product) ?>
+                                                            <?php
+                                                            $countryName = $block->getWebsiteNameById($_product->getData('membership_country'));
+                                                            ?>
+                                                            <div class="x_content" style="padding: 0px; margin-top: 0px;">
+                                                                <div class="">
+                                                                    <div class="listing_membership_pricing_features">
+                                                                        <div class="list-unstyled text-left">
+                                                                            <li>
+                                                                                <?= __('Publish product to <strong>%1</strong> country', $countryName) . ''; ?>
+                                                                            </li>
+                                                                            <li>
+                                                                                <?= __('Product listing on <strong>%1</strong> country', $countryName) . ''; ?>
+                                                                            </li>
+                                                                            <li>
+                                                                                <?= __('Reach <strong>%1</strong> users', $countryName) . ''; ?>
+                                                                            </li>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="pricing_footer">
+                                                                        <?php $postParams = $block->getAddToCartPostParams($_product);?>
+                                                                        <form data-role="tocart-form"
+                                                                            action="<?php /* @escapeNotVerified */
+                                                                echo $postParams['action']; ?>" method="post">
+                                                                            <input type="hidden"
+                                                                                id="lofprice_<?= $_product->getId() ?>"
+                                                                                name="price" value="<?php /* @escapeNotVerified */
+                                                                            echo $price; ?>">
+                                                                            <input type="hidden" name="product"
+                                                                                value="<?php /* @escapeNotVerified */
+                                                                                echo $postParams['data']['product']; ?>">
+                                                                            <input type="hidden" name="<?php /* @escapeNotVerified */
+                                                                            echo Action::PARAM_NAME_URL_ENCODED; ?>"
+                                                                                value="<?php /* @escapeNotVerified */
+                                                                                echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                                                            <select name="seller_membership[duration]"
+                                                                                data-validate="{required:true}"
+                                                                                id="lof_membership_duration_<?= $_product->getId() ?>"
+                                                                                class="super-attribute-select">
+                                                                                <?php
+                                                                                if ($duration) {
+                                                                                    foreach ($duration as $key => $_duration) { ?>
+                                                                                        <option
+                                                                                            value="<?= $_duration['membership_duration'] . '|' . $_duration['membership_unit'] . '|' . $_duration['membership_price'] ?>"><?= $_duration['membership_duration'] . ' ' . $_duration['membership_unit'] . ' ' . $helper->getPriceFomat($_duration['membership_price']) ?></option>
+
+                                                                                    <?php }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                            <input name="form_key" type="hidden" value="<?= $formKey ?>">
+                                                                            <?php
+                                                                            $buyLabel = __('Buy Now');
+                                                                            if ($currentSellerListingWebsiteIds) {
+                                                                                if (in_array($_product->getData('membership_country'),$currentSellerListingWebsiteIds)) {
+                                                                                    $buyLabel = __('Renew Plan');
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                            <button type="submit"
+                                                                                    title="<?= $block->escapeHtml($buyLabel); ?>"
+                                                                                    class="action tocart primary">
+                                                                                <span><?php /* @escapeNotVerified */
+                                                                                    echo $buyLabel ?></span>
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <script type="text/javascript">
+                                                        require(['jquery'], function ($) {
+                                                            $(document).ready(function () {
+                                                                $('#lof_membership_duration_<?= $_product->getId() ?>').on('change', function () {
+                                                                    var value = this.value.split('|');
+                                                                    $('#lofprice_<?= $_product->getId() ?>').val(value[2]);
+                                                                    $('#lof_price_<?= $_product->getId() ?>').text('<?= $helper->getCurrentCurrencySymbol() ?>' + value[2]);
+                                                                })
+                                                            });
+                                                        });
+                                                    </script>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <div style="padding: 5px;">
+                        <h2>Why Choose an Additional Membership Plan?</h2>
+                        <ul style="padding: 0px 20px;">
+                            <li><strong>Access New Markets:</strong> List your products in the marketplace of your chosen country and reach a wider audience.</li>
+                            <li><strong>Global Opportunities:</strong> Expand your business by unlocking access to customers in other country.</li>
+                        </ul>
+                        <br />
+                        <h2>Choose Your Target Market</h2>
+                        <p>With our flexible plans, you can:</p>
+                        <ul style="padding: 0px 20px;">
+                            <li>Gain access to other countries marketplaces.</li>
+                            <li>Reach millions of potential buyers in your target region.</li>
+                        </ul>
+                        <br />
+                        <p>Don't miss this opportunity to scale your business internationally. Select a plan and start reaching new customers today!</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        $('#show_features').click(function() {
+            $('#show_features').hide();
+            $('#hide_features').show();
+            $('#features_list').slideDown();
+        });
+
+        $('#hide_features').click(function() {
+            $('#show_features').show();
+            $('#hide_features').hide();
+            $('#features_list').slideUp();
+        });
+
+        $('#show_platform_membership').click(function(){
+            $('#buy_platform_membership').slideToggle();
+        });
+
+        $('#show_listing_membership').click(function(){
+            $('#buy_listing_membership').slideToggle();
+        });
+    });
+</script>
+<style>
+    .card-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin: 50px 0px;
+    }
+    .card-listing {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        overflow: hidden;
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 320px;
+    }
+    .card-listing:hover{
+        transform: translateY(-6px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    .action.tocart.primary {
+       background: linear-gradient(135deg, #f97316, #fb923c);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .action.tocart.primary:hover {
+        color: white;
+        border: none;
+        background: linear-gradient(135deg, #ea580c, #f59e0b);
+    }
+    .pricing_footer{
+        border-bottom-right-radius: 16px;
+        border-bottom-left-radius: 16px;
+        padding-right: 30px;
+        padding-left: 30px;
+        background: #fff;
+        padding-bottom: 35px;
+    }
+    .listing_membership_pricing_features {
+        background: #fff;
+        padding: 20px 30px;
+        min-height: 110px;
+        font-size: 13.5px;
+    }
+    .list-unstyled li::before {
+        content: "✔";
+        color: #16a34a;
+        margin-right: 8px;
+        font-weight: bold;
+    }
+    select {
+        background: #ffffff url(../images/select-bg.svg) no-repeat 100% 45%;
+        background-clip: padding-box;
+        border: 1px solid #cccccc;
+        border-radius: 1px;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        height: 32px;
+        line-height: 1.42857143;
+        padding: 4px 25px 5px 10px;
+        vertical-align: baseline;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .super-attribute-select {
+        width: 100%;
+        padding: 5px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+    .pricing .title span {
+        background: none;
+        color: white;
+    }
+
+    /* .basic_plan .title {
+        background: rgb(131 131 131) !important;
+    }
+
+    .standard_plan .title {
+        background: rgb(0 137 255) !important;
+    }
+
+    .premium_plan .title {
+        background: rgba(247, 107, 28) !important;
+    } */
+
+    .pricing .title {
+        background: linear-gradient(135deg, #f97316, #fb923c);
+        color: white;
+        text-align: center;
+        border-radius: 16px 16px 0px 0px;
+    }
+
+    .main_color_bg {
+        color: white;
+        background: rgba(247, 107, 28, 1);
+    }
+
+    .main_color_bg:hover {
+        color: white;
+        background: rgb(215, 98, 30);
+    }
+    .pricing .title span {
+        font-size: 28px;
+    }
+    .pricing .title h2 {
+        font-size: 18px;
+    }
+    .pricing .title {
+        padding: 25px 0 0;
+    }
+</style>

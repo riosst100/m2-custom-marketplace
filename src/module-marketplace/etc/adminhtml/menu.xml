@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- REMOVE UNUSED MENU -->
+        <remove id="Lof_MarketPlace::marketplace" />
+        <remove id="Lof_All::lof_all" />
+        <remove id="Magento_Backend::faq_elements" />
+        <remove id="Lofmp_Rma::rma" />
+        <remove id="Magento_Marketplace::partners" />
+        <remove id="Magento_Newsletter::newsletter_template" />
+        <remove id="Magento_Newsletter::newsletter_queue" />
+        <remove id="Magento_Newsletter::newsletter_subscriber" />
+        <remove id="Magento_Newsletter::newsletter_problem" />
+        <remove id="Magento_Analytics::business_intelligence" />
+        <remove id="Magento_Analytics::bi_essentials" />
+        <remove id="Magento_Analytics::advanced_reporting" />
+        <remove id="Magento_Paypal::report_salesroot_paypal_settlement_reports" />
+        <remove id="Magento_Paypal::paypal_billing_agreement" />
+        <remove id="Magento_Backend::marketing_seo" />
+        <remove id="Magento_Backend::marketing_user_content" />
+        <remove id="Magento_MediaGalleryUi::media" />
+        <remove id="Magento_Backend::system_design_schedule" />
+
+        <!-- SIDE MENU PARENT -->
+        <add id="TCGCollective_MarketPlace::marketplace" title="Marketplace" module="TCGCollective_MarketPlace" sortOrder="10" resource="TCGCollective_MarketPlace::marketplace" />
+        <add id="TCGCollective_MarketPlace::seller" title="Seller" module="TCGCollective_MarketPlace" sortOrder="10" resource="TCGCollective_MarketPlace::seller" />
+
+        <!-- MARKETPLACE -->
+        <add id="TCGCollective_MarketPlace::manage_seller" title="Seller" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::manage_seller"/>
+        <add id="TCGCollective_MarketPlace::admin_messages" title="Messages Inbox" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::admin_messages"/>
+        <add sortOrder="25" id="TCGCollective_MarketPlace::new_game_brand_request" title="New Games/Brands Request" module="TCGCollective_MarketPlace" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::new_game_brand_request"/>
+        <add id="TCGCollective_MarketPlace::seller_help" title="Seller Help Center" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::seller_help"/>
+        <add id="TCGCollective_MarketPlace::user_help" title="User Help Center" module="TCGCollective_MarketPlace" sortOrder="40" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::user_help"/>
+        <add sortOrder="50" id="TCGCollective_MarketPlace::platform_fee" title="Platform Fee" module="TCGCollective_MarketPlace" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::platform_fee"/>
+        <add sortOrder="60" id="TCGCollective_MarketPlace::subscription" title="Subscription" module="TCGCollective_MarketPlace" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::subscription"/>
+        <add sortOrder="80" id="TCGCollective_MarketPlace::smtp" title="Emails / SMTP" module="TCGCollective_MarketPlace" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::smtp"/>
+        <add sortOrder="90" id="TCGCollective_MarketPlace::configurations" title="Configurations" module="TCGCollective_MarketPlace" parent="TCGCollective_MarketPlace::marketplace" resource="TCGCollective_MarketPlace::configurations"/>
+
+        <!-- MARKETPLACE | SELLER -->
+        <add id="TCGCollective_MarketPlace::all_seller" title="All Sellers" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::manage_seller" action="lofmarketplace/seller/index" resource="TCGCollective_MarketPlace::all_seller"/>
+        <add id="TCGCollective_MarketPlace::seller_verification" title="Seller Verification" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::manage_seller" action="lofmarketplace/sellerpending/index" resource="TCGCollective_MarketPlace::seller_verification"/>
+        <add id="TCGCollective_MarketPlace::seller_now_online" title="Now Online" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::manage_seller" action="marketplace/onlineseller/index" resource="TCGCollective_MarketPlace::seller_now_online"/>
+        <add id="TCGCollective_MarketPlace::loginasseller_log" title="Login as Seller Log" module="TCGCollective_MarketPlace" sortOrder="40" parent="TCGCollective_MarketPlace::manage_seller" action="marketplace/loginassellerlog/index" resource="TCGCollective_MarketPlace::loginasseller_log"/>
+        <add id="TCGCollective_MarketPlace::seller_groups" title="Seller Groups" module="TCGCollective_MarketPlace" sortOrder="50" parent="TCGCollective_MarketPlace::manage_seller" action="marketplace/sellergroup/index" resource="TCGCollective_MarketPlace::seller_groups"/>
+
+        <!-- MARKETPLACE | MESSAGES -->
+        <add id="TCGCollective_MarketPlace::admin_seller_messages" title="Messages From Seller" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::admin_messages" action="lofmarketplace/message/index" resource="TCGCollective_MarketPlace::admin_seller_messages"/>
+
+        <!-- MARKETPLACE | SELLER HELP CENTER -->
+        <add id="TCGCollective_MarketPlace::seller_help_category" title="Manage Category" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_help" action="loffaq/category/index" resource="TCGCollective_MarketPlace::seller_help_category"/>
+        <add id="TCGCollective_MarketPlace::seller_help_articles" title="Manage Questions" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::seller_help" action="loffaq/question/index" resource="TCGCollective_MarketPlace::seller_help_articles"/>
+
+        <!-- MARKETPLACE | USER HELP CENTER -->
+        <add id="TCGCollective_MarketPlace::user_help_category" title="Manage Category" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::user_help" action="loffaq/categoryuser/index" resource="TCGCollective_MarketPlace::user_help_category"/>
+        <add id="TCGCollective_MarketPlace::user_help_articles" title="Manage Questions" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::user_help" action="loffaq/questionuser/index" resource="TCGCollective_MarketPlace::user_help_articles"/>
+
+        <!-- MARKETPLACE | PLATFORM FEE -->
+        <add id="TCGCollective_MarketPlace::product_commission" title="Manage Commissions / Fee" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::platform_fee" action="lofmarketplace/commission/index" resource="TCGCollective_MarketPlace::product_commission"/>
+
+        <!-- MARKETPLACE | SUBSCRIPTION -->
+        <add id="TCGCollective_MarketPlace::subscription_plan" title="Subscription Plan" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::subscription" action="lofmpsellermembership/product/index" resource="TCGCollective_MarketPlace::subscription_plan"/>
+        <add id="TCGCollective_MarketPlace::membership_group" title="Membership Group" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::subscription" action="lofmarketplace/group/index" resource="TCGCollective_MarketPlace::membership_group"/>
+        <add id="TCGCollective_MarketPlace::subscription_history" title="Transaction History" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::subscription" action="lofmpsellermembership/transaction/index" resource="TCGCollective_MarketPlace::subscription_history"/>
+
+        <!-- MARKETPLACE | NEW GAMES / BRANDS REQUEST -->
+        <add id="TCGCollective_MarketPlace::new_game_brand_request_messages" title="Manage Form Messages" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::new_game_brand_request" action="formbuilder/message/index" resource="TCGCollective_MarketPlace::new_game_brand_request_messages"/>
+        <add id="TCGCollective_MarketPlace::new_game_brand_request_form" title="Manage Form" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::new_game_brand_request" action="formbuilder/form/index" resource="TCGCollective_MarketPlace::new_game_brand_request_form"/>
+
+        <!-- MARKETPLACE | SMTP -->
+        <add id="TCGCollective_MarketPlace::email_log" title="Emails Log" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/emaillog/index" resource="TCGCollective_MarketPlace::email_log"/>
+        <add id="TCGCollective_MarketPlace::email_debug" title="Emails Debug" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/emaildebug/index" resource="TCGCollective_MarketPlace::email_debug"/>
+        <add id="TCGCollective_MarketPlace::email_blacklist" title="Emails Blacklist" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/blacklist/index" resource="TCGCollective_MarketPlace::email_blacklist"/>
+        <add id="TCGCollective_MarketPlace::email_blockip" title="Block Ip" module="TCGCollective_MarketPlace" sortOrder="40" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/blockip/index" resource="TCGCollective_MarketPlace::email_blockip"/>
+        <add id="TCGCollective_MarketPlace::email_spam" title="Spam" module="TCGCollective_MarketPlace" sortOrder="50" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/spam/index" resource="TCGCollective_MarketPlace::email_spam"/>
+        <add id="TCGCollective_MarketPlace::report_email" title="Report" module="TCGCollective_MarketPlace" sortOrder="60" parent="TCGCollective_MarketPlace::smtp" action="lofsmtpemail/report/report" resource="TCGCollective_MarketPlace::report_email"/>
+        <add id="TCGCollective_MarketPlace::email_settings" title="Settings" module="TCGCollective_MarketPlace" sortOrder="70" parent="TCGCollective_MarketPlace::smtp" action="adminhtml/system_config/edit/section/lofsmtpemail" resource="TCGCollective_MarketPlace::email_settings"/>
+
+        <!-- MARKETPLACE | CONFIGURATIONS -->
+        <add id="TCGCollective_MarketPlace::product_listing_categories_config" title="Product Listing Configurations" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::configurations" action="marketplace/productlisting_configurations/index" resource="TCGCollective_MarketPlace::product_listing_categories_config"/>
+
+        <!-- SELLER -->
+        <add id="TCGCollective_MarketPlace::seller_catalog" title="Catalog" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_catalog" />
+        <add id="TCGCollective_MarketPlace::seller_sales" title="Sales" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_sales" />
+        <add id="TCGCollective_MarketPlace::seller_preorders" title="Pre Orders" module="TCGCollective_MarketPlace" sortOrder="40" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_preorders" />
+        <add id="TCGCollective_MarketPlace::seller_rfq" title="Offers (RFQ)" module="TCGCollective_MarketPlace" sortOrder="50" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_rfq" />
+        <add id="TCGCollective_MarketPlace::seller_transaction_amounts" title="Transaction Amounts" module="TCGCollective_MarketPlace" sortOrder="60" resource="TCGCollective_MarketPlace::seller_transaction_amounts" parent="TCGCollective_MarketPlace::seller" />
+        <add id="TCGCollective_MarketPlace::seller_rma" title="Return / RMA" module="TCGCollective_MarketPlace" sortOrder="70" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_rma" />
+        <add id="TCGCollective_MarketPlace::seller_storelocator" title="Physical Store" module="TCGCollective_MarketPlace" sortOrder="80" parent="TCGCollective_MarketPlace::seller" resource="TCGCollective_MarketPlace::seller_storelocator" />
+        <add id="TCGCollective_MarketPlace::seller_reviewrating" title="Review &amp; Ratings" module="TCGCollective_MarketPlace" sortOrder="90" resource="TCGCollective_MarketPlace::seller_reviewrating" parent="TCGCollective_MarketPlace::seller" />
+
+        <!-- SELLER | CATALOG | PRODUCTS -->
+        <add id="TCGCollective_MarketPlace::seller_products" title="Products" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_catalog" action="lofmarketplace/sellerproduct/index" resource="TCGCollective_MarketPlace::seller_products"/>
+        
+        <!-- SELLER | SALES -->
+		<add id="TCGCollective_MarketPlace::seller_orders" title="Orders" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_sales" action="lofmarketplace/order/index" resource="TCGCollective_MarketPlace::seller_orders"/>
+		<add id="TCGCollective_MarketPlace::seller_invoices" title="Invoices" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::seller_sales" action="lofmarketplace/invoice/index" resource="TCGCollective_MarketPlace::seller_invoices"/>
+		<add id="TCGCollective_MarketPlace::seller_transaction" title="Transactions" module="TCGCollective_MarketPlace" sortOrder="30" parent="TCGCollective_MarketPlace::seller_sales" action="lofmarketplace/transaction/index" resource="TCGCollective_MarketPlace::seller_transaction"/>
+		<add id="TCGCollective_MarketPlace::seller_refunds" title="Refunds" module="TCGCollective_MarketPlace" sortOrder="40" parent="TCGCollective_MarketPlace::seller_sales" action="lofmarketplace/refund/index" resource="TCGCollective_MarketPlace::seller_refunds"/>
+        <!-- SELLER | PRE ORDERS -->
+        <add id="TCGCollective_MarketPlace::manage_seller_preorders" title="Pre Orders" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_preorders" action="lofpreorder/preorder/index" resource="TCGCollective_MarketPlace::manage_seller_preorders"/>
+        <!-- SELLER | OFFERS / RFQ -->
+        <add id="TCGCollective_MarketPlace::manage_seller_rfq" title="Offers" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_rfq" action="quickrfq/index" resource="TCGCollective_MarketPlace::manage_seller_rfq"/>
+        <!-- SELLER | TRANSACTION AMOUNT -->
+        <add id="TCGCollective_MarketPlace::seller_amount_transaction" title="Amount Transactions" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_transaction_amounts" action="lofmarketplace/amounttransaction/index" resource="TCGCollective_MarketPlace::seller_amount_transaction"/>
+		<add id="TCGCollective_MarketPlace::seller_amount" title="Seller Amounts" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::seller_transaction_amounts" action="lofmarketplace/amount/index" resource="TCGCollective_MarketPlace::seller_amount"/>
+        <!-- SELLER | RMA -->
+        <add id="TCGCollective_MarketPlace::manage_seller_rma" title="Return / RMA" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_rma" action="rma/rma" resource="TCGCollective_MarketPlace::manage_seller_rma"/>
+        
+        <!-- <add id="TCGCollective_MarketPlace::rma_status" title="Rma Status" module="Lofmp_Rma" sortOrder="20" action="rma/status" resource="TCGCollective_MarketPlace::rma_status" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_reason" title="Return Reasons" module="Lofmp_Rma" sortOrder="20" action="rma/reason" resource="TCGCollective_MarketPlace::rma_reason" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_condition" title="Item Conditions" module="Lofmp_Rma" sortOrder="30" action="rma/condition" resource="TCGCollective_MarketPlace::rma_condition" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_resolution" title="Resolutions" module="Lofmp_Rma" sortOrder="40" action="rma/resolution" resource="TCGCollective_MarketPlace::rma_resolution" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_field" title="Custom Fields" module="Lofmp_Rma" sortOrder="50" action="rma/field" resource="TCGCollective_MarketPlace::rma_field" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_template" title="Quick Responses" module="Lofmp_Rma" sortOrder="60" action="rma/template" resource="TCGCollective_MarketPlace::rma_template" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_rule" title="Workflow Rules" module="Lofmp_Rma" sortOrder="80" action="rma/rule" resource="TCGCollective_MarketPlace::rma_rule" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_address" title="Return Address" module="Lofmp_Rma" sortOrder="80" action="rma/address" resource="TCGCollective_MarketPlace::rma_address" parent="TCGCollective_MarketPlace::seller_rmar"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_report" title="Reports" module="Lofmp_Rma" sortOrder="40" resource="TCGCollective_MarketPlace::rma_report" parent="TCGCollective_MarketPlace::rma"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_report_report_rma" title="RMA" module="Lofmp_Rma" sortOrder="10" action="rma/report/view" resource="TCGCollective_MarketPlace::rma_report_report_rma" parent="TCGCollective_MarketPlace::rma_report"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_report_report_rma_product" title="RMA by Product" module="Lofmp_Rma" sortOrder="20" action="rma/report/product" resource="TCGCollective_MarketPlace::rma_report_report_rma_product" parent="TCGCollective_MarketPlace::rma_report"/> -->
+        <!-- <add id="TCGCollective_MarketPlace::rma_report_report_rma_brand" title="RMA by Reasons" module="Lofmp_Rma" sortOrder="30" action="rma/report/reason" resource="TCGCollective_MarketPlace::rma_report_report_rma_brand" parent="TCGCollective_MarketPlace::rma_report"/> -->
+
+		<!-- <add id="Lof_MarketPlace::paymentmethod" title="Payment Methods" module="Lof_MarketPlace" sortOrder="85" parent="Lof_MarketPlace::payment" action="lofmarketplace/payment/index" resource="Lof_MarketPlace::paymentmethod"/> -->
+
+        <!-- SELLER | PHYSICAL STORES -->
+        <add id="TCGCollective_MarketPlace::manage_seller_storelocator" title="Physical Store" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_storelocator" action="storelocator/storelocator/index" resource="TCGCollective_MarketPlace::manage_seller_storelocator"/>
+
+        <!-- SELLER | REVIEWS AND RATINGS -->
+		<add id="TCGCollective_MarketPlace::review" title="Product Review &amp; Ratings" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::seller_reviewrating" action="lofmarketplace/review/index" resource="TCGCollective_MarketPlace::review"/>
+		<!-- <add id="TCGCollective_MarketPlace::rating" title="Manage Ratings" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketPlace::seller_reviewrating" action="lofmarketplace/rating/index" resource="TCGCollective_MarketPlace::rating"/> -->
+
+        <!-- SELLER | SHIPPING -->
+        <!-- <add id="TCGCollective_MarketPlace::seller_shipping" title="Shippings" module="TCGCollective_MarketPlace" sortOrder="30" resource="TCGCollective_MarketPlace::seller_shipping" parent="TCGCollective_MarketPlace::seller" />
+		<add id="Lof_MarketPlace::shipping" title="Shipping" module="Lof_MarketPlace" sortOrder="140" resource="Lof_MarketPlace::shipping" parent="Lof_MarketPlace::marketplace" /> -->
+
+        <!-- Attribute Set Mapping -->
+        <!-- <add id="TCGCollective_MarketPlace::sidebar_filters" title="Sidebar Filters / Layered Navigation" translate="title" module="TCGCollective_MarketPlace" sortOrder="10" parent="Magento_Catalog::catalog" resource="TCGCollective_MarketPlace::sidebar_filters"/> -->
+
+        <!-- <add id="TCGCollective_MarketPlace::manage_filters_attributes" title="Manage Filters Attributes" module="TCGCollective_MarketPlace" sortOrder="11" action="marketplace/sidebarfilters/index" resource="TCGCollective_MarketPlace::manage_filters_attributes" parent="TCGCollective_MarketPlace::sidebar_filters"/> -->
+
+
+        <!-- TCG Collective Side Menu -->
+        <!-- <add id="TCGCollective_MarketPlace::tcgcollective" title="TCG Collective" module="TCGCollective_MarketPlace" sortOrder="10" resource="Lof_MarketPlace::marketplace" /> -->
+
+        <!-- Seller -->
+        <!-- <add id="Lof_MarketPlace::seller" title="Seller" module="Lof_MarketPlace" sortOrder="5" resource="Lof_MarketPlace::seller" parent="TCGCollective_MarketPlace::tcgcollective" />
+        <add id="Lof_MarketPlace::seller_manage_pending" title="Seller Verification" module="Lof_MarketPlace" sortOrder="10" parent="Lof_MarketPlace::seller" action="lofmarketplace/sellerpending/index" resource="Lof_MarketPlace::pending_seller"/>
+        <add id="Lof_MarketPlace::seller_manage" title="All Sellers" module="Lof_MarketPlace" sortOrder="20" parent="Lof_MarketPlace::seller" action="lofmarketplace/seller/index" resource="Lof_MarketPlace::seller"/> -->
+        
+    </menu>
+</config>

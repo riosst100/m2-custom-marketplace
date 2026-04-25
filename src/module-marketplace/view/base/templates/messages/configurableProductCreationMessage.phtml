@@ -1,0 +1,26 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<span style="font-size:14px" class="custom-message-info">
+    <?= __('Please note that single or child products must be added first before adding the variations.'); ?>
+</span>
+<style>
+    .custom-message-info a {
+        text-decoration: underline;
+        color: #31708f !important;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .custom-modal-class {
+        max-width: 600px;
+        border-radius: 8px;
+    }
+    .custom-modal-class .modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .custom-modal-class .modal-content {
+        font-size: 14px;
+        color: #333;
+    }
+</style>

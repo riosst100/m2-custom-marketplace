@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="TCGCollective_MarketplaceProductImportExport::css/marketplace-mediagallery.css"/>
+        <css src="jquery/jstree/themes/default/style.css"/>
+    </head>
+    <update handle="seller_store_switcher"/>
+    <body>
+        <referenceContainer htmlTag="div" htmlClass="media-gallery-container" name="content">
+            <uiComponent name="seller_media_gallery_listing"/>
+	        <block name="image.details" class="Magento\MediaGalleryUi\Block\Adminhtml\ImageDetailsStandalone" template="TCGCollective_MarketplaceProductImportExport::image_details_standalone.phtml">
+                <arguments>
+                    <argument name="imageDetailsUrl" xsi:type="url" path="media_gallery/image/details"/>
+                </arguments>
+	        </block>
+            <block name="image.edit.details" class="Magento\Backend\Block\Template" template="TCGCollective_MarketplaceProductImportExport::image_edit_details_standalone.phtml">
+                <arguments>
+                    <argument name="imageEditDetailsUrl" xsi:type="url" path="media_gallery/image/details"/>
+                    <argument name="saveDetailsUrl" xsi:type="url" path="media_gallery/image/saveDetails"/>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

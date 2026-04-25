@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">TCGCollective_ProductAttributesLink::sets_cards</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="TCGCollective\ProductAttributesLink\Block\Adminhtml\PlatformDatabase\Tabs" template="TCGCollective_ProductAttributesLink::platform_database/product_type_tabs.phtml" name="product.type.tabs"/>
+            <uiComponent name="dolls_listing"/>
+        </referenceContainer>
+    </body>
+</page>

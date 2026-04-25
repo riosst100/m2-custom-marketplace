@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Xendit\M2Invoice\Helper\Data" type="TCGCollective\MarketplacePaymentXendit\Helper\XenditHelperData" />
+    <!-- <preference for="Xendit\M2Invoice\Model\Payment\AbstractInvoice" type="TCGCollective\MarketplacePaymentXendit\Model\Payment\AbstractInvoice" /> -->
+    <preference for="Xendit\M2Invoice\Model\Payment\Xendit" type="TCGCollective\MarketplacePaymentXendit\Model\Payment\Xendit" />
+    <type name="Xendit\M2Invoice\Model\Payment\AbstractInvoice">
+        <plugin name="coremarketplace_marketplacepaymentxendit_abstractinvoice_plugin"
+                type="TCGCollective\MarketplacePaymentXendit\Model\Payment\AbstractInvoicePlugin"
+                sortOrder="10"/>
+    </type>
+</config>

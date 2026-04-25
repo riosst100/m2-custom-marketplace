@@ -1,0 +1,1140 @@
+<?php
+// phpcs:disable Magento2.Security.XssTemplate.FoundNotAllowed
+// phpcs:disable Generic.Files.LineLength.TooLong
+/**
+ * @var $block Lof\MarketPlace\Block\Seller\Dashboard
+ */
+$helper = $this->helper('TCGCollective\MarketPlace\Helper\Data');
+$listingCountry = $helper->getSellerCountries();
+$listingCategories = $helper->getSellerListingCategories();
+
+$countryFilter = $helper->getParam('country');
+$categoryFilter = $helper->getParam('category');
+$dateFilter = $helper->getParam('date');
+
+
+$filters = $this->getData('filters');
+
+// dd($filters);
+?>
+<?php if (!$filters) : ?>
+    <style>
+        .dashboard-options {
+            .active {
+                background-color:white !important;
+                border: 1px solid #e4e4e4;
+                font-weight: 500;
+                /* box-shadow: 1px 1px 4px 0px #ededed; */
+            }
+            ul {
+                padding-bottom:15px;
+            }
+            a {
+                color:black;
+                padding: 8px 30px !important;
+                border-radius: 5px !important;
+                margin-left: 10px;
+            }
+        }
+    </style>
+    <style>
+        .dashboard {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        }
+        .dashboard .header {
+        background: #1f2937;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        }
+        .dashboard .header h2 {
+        margin: 0;
+        font-size: 18px;
+        }
+        .dashboard .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        }
+        .dashboard .header-right a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        }
+        .dashboard .header-right .profile {
+        background: #374151;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        }
+        .dashboard .filters {
+        padding: 20px;
+        display: flex;
+        gap: 10px;
+            margin-top: 10px;
+        background: #fff;
+        border: 1px solid #e4e4e4;
+        border-radius: 6px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: inherit !important;
+    padding-top: 5px;
+}
+        .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px !important;
+    min-height: 38px;
+}
+.select2-container {
+    width: 250px !important;
+}
+        .dashboard .filters select {
+            font-size: 14px;
+        padding: 8px 30px;
+        border: 1px solid #e4e4e4;
+        border-radius: 6px;
+        appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #fff url("data:image/svg+xml;utf8,<svg fill='%23666' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
+    background-size: 16px;
+        }
+        .dashboard .stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        padding: 15px 0;
+        }
+        .dashboard .card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e4e4e4;
+        }
+        .dashboard .card.center {
+        text-align: center;
+        }
+        .dashboard .card small {
+        font-size: 14px;
+        /* color: black; */
+        }
+        .dashboard .card .value {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 5px;
+        }
+        .dashboard .action-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e4e4e4;
+        }
+        .dashboard .action-card.center {
+        text-align: center;
+        }
+        .dashboard .action-card small {
+        font-size: 14px;
+        /* color: black; */
+        }
+        .dashboard .action-card .value {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 5px;
+        }
+        .dashboard .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        padding: 0 0px 15px 0px;
+        }
+        .dashboard button {
+        margin-top: 8px;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        background: #d7edff;
+        /* color: #fff; */
+        font-size: 12px;
+        cursor: pointer;
+        }
+        .dashboard h4 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        }
+        .dashboard .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 0 0px 20px 0px;
+        }
+        .dashboard .quick-actions-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .dashboard .graph {
+        background: #fff;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        }
+        .dashboard .graph-placeholder {
+        height: 200px;
+        border: 1px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        }
+        .dashboard .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+    }
+
+    .dashboard .mini-table th,
+    .dashboard .mini-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dashboard .mini-table th {
+    text-align: left;
+    font-weight: bold;
+    /* color: #666; */
+    }
+
+    .dashboard .mini-table td:first-child {
+    text-align: left;   /* kolom Name rata kiri */
+    }
+
+    .dashboard .mini-table td:last-child,
+    .dashboard .mini-table th:last-child {
+    text-align: right;  /* kolom Revenue rata kanan */
+    }
+
+    .dashboard .mini-table tr:last-child td {
+    border-bottom: none; /* hilangin border di row terakhir */
+    }
+
+    </style>
+<?php endif; ?>
+<?php if (!$filters) : ?>
+<div class="lof-seller-reports dashboard">
+    <h4><b>Sales Report</b></h4>
+    <!-- Filters -->
+    <div class="filters">
+      <select id="country">
+        <option<?= !$categoryFilter ? ' selected' : '' ?> value="">All Countries/Regions</option>
+        <?php if ($listingCountry) : ?>
+            <?php foreach($listingCountry as $countryData) : ?>
+                <?php
+                $isActive = false;
+                if ($countryFilter) {
+                    $isActive = $countryData['code'] == $countryFilter ? true : false;
+                }
+
+                $params = ['country' => $countryData['code']];
+                if ($categoryFilter) {
+                    $params = array_merge($params, ['category' => $categoryFilter]);
+                }
+                $url = $block->getUrl('*/*/*', $params);
+                ?>
+                <option value="<?= $countryData['code'] ?>" class="nav-item"<?= $isActive ? ' selected' : '' ?>>
+                    <?= $countryData['name'] . ' (' .$countryData['currency'] .')' ?>
+                </option>
+            <?php endforeach; ?>
+        <?php endif; ?>
+      </select>
+        <script>
+            require([
+                "jquery",
+                "mage/mage",
+                "select2"
+            ], function ($) {
+                $(document).ready(function(){
+                    var data = <?= $block->getCategoriesData() ?>;
+                    $('#category').select2(
+                        {
+                            data: data,
+                            width: 'resolve'
+                        }
+                    );
+                });
+            });
+        </script>
+      <select id="category">
+        <option value="">All Categories</option>
+        <?php if ($listingCategories) : ?>
+            <?php
+            $isActive = false;
+
+            
+            if (!$categoryFilter || $categoryFilter && $categoryFilter == 'all') {
+                $isActive = true;
+            }
+            $params = [];
+            if ($countryFilter) {
+                $params = array_merge($params, ['country' => $countryFilter]);
+            }
+            $url = $block->getUrl('*/*/*', $params);
+            ?>
+        <?php endif; ?>
+      </select>
+      <select id="date-range">
+        <?php foreach($block->getTransactionDateOptions() as $code => $label) : ?>
+            <?php
+            $isActive = !$dateFilter && $code == "all" || $dateFilter && $code == $dateFilter ? true : false;
+            $params = ['date' => $code];
+            if ($countryFilter) {
+                $params = array_merge($params, ['country' => $countryFilter]);
+            }
+            if ($categoryFilter) {
+                $params = array_merge($params, ['category' => $categoryFilter]);
+            }
+            $url = $block->getUrl('*/*/*', $params);
+            ?>
+            <option class="nav-item"<?= $isActive ? ' selected' : '' ?>>
+                <?= $label ?>
+            </option>
+        <?php endforeach; ?>
+      </select>
+      <div id="custom-date-container" style="display:none;">
+            <input type="text" id="from_date" placeholder="From Date" />
+            <input type="text" id="to_date" placeholder="To Date" />
+      </div>
+    </div>
+<?php endif; ?>
+
+<style>
+    .card:hover {
+        background-color:#e1e7f1;
+        border-color:#e1e7f1;
+        cursor:pointer;
+    }
+</style>
+    
+<div id="dashboard-ajax">
+    <div id="report-content">
+        <!-- Stats Section -->
+        <div class="stats">
+            <a href="<?= $block->getReportUrl('catalog/sales/index') ?>" style="color:inherit">
+                <div class="card center">
+                    <small>Net Revenue</small>
+                    <div class="value"><?= $block->getNetRevenue() ?></div>
+                </div>
+            </a>
+            <a href="<?= $block->getReportUrl('catalog/sales/order') ?>" style="color:inherit">
+                <div class="card center">
+                    <small>Total Orders</small>
+                    <div class="value"><?= $block->getTotalOrder() ?></div>
+                </div>
+            </a>
+            <a href="<?= $block->getReportUrl('mppreorder/preorder/index') ?>" style="color:inherit">
+                <div class="card center">
+                    <small>Total Pre-Orders</small>
+                    <div class="value"><?= $block->getTotalPreOrder() ?></div>
+                </div>
+            </a>
+            <a href="<?= $block->getReportUrl('quickrfq/quickrfq/index') ?>" style="color:inherit">
+                <div class="card center">
+                    <small>Total Offers</small>
+                    <div class="value"><?= $block->getTotalOffers() ?></div>
+                </div>
+            </a>
+            <a href="<?= $block->getReportUrl('favoriteseller/index/index') ?>" style="color:inherit">
+                <div class="card center">
+                    <small>Total Followers</small>
+                    <div class="value"><?= $block->getTotalSubscribers() ?></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Middle Cards -->
+         
+        <div class="grid-3">
+            <?php
+            $topCategories = $block->getTopCategories();
+            // dd($topCategories);
+            ?>
+            <div class="action-card">
+                <h4>Top Categories</h4>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($topCategories) : ?>
+                            <?php foreach($topCategories as $data) : ?>
+                                <?php
+                                // dd($data); 
+                                ?>
+                                <tr>
+                                    <td class="table-product-name" title="<?= htmlspecialchars($data['category_name']) ?>">
+                                        
+                                        <a href="<?= $block->getReportUrl('favoriteseller/index/index') ?>" style="color:inherit">
+                                            <?= htmlspecialchars($data['category_name']) ?>
+                                        </a>
+                                    </td>
+                                    <td><?= $block->getPriceFomat($data['total_sales'], $data['currency']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php
+            $topProducts = $block->getTopProducts();
+            // dd($topProducts);
+            ?>
+            <style>
+            .table-product-name {
+            max-width: 350px;       /* sesuaikan sesuai desain */
+            white-space: nowrap;    /* biar gak turun ke baris baru */
+            overflow: hidden;       /* sembunyikan teks yang lewat */
+            text-overflow: ellipsis; /* tambahkan "..." di akhir */
+            }
+            .table-product-name a {
+                /* background-color:red; */
+                padding: 10px 0;
+                width:100%;
+            }
+            .table-product-name a:hover {
+        /* background-color:#e1e7f1; */
+            }
+            </style>
+            <div class="action-card">
+                <h4>Top Products</h4>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($topProducts) : ?>
+                            <?php foreach($topProducts as $data) : ?>
+                                <?php
+                                // dd($data); 
+                                ?>
+                                <tr>
+                                    <td class="table-product-name" title="<?= htmlspecialchars($data['product_name']) ?>">
+                                        <a href="<?= $block->getReportUrl('catalog/product/edit').'id/' . $data['product_id'] ?>" style="color:inherit">
+                                            <?= htmlspecialchars($data['product_name']) ?>
+                                        </a>
+                                    </td>
+                                    <td><?= $block->getPriceFomat($data['total_sales'], $data['currency']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php
+            $topCountries = $block->getTopCountries();
+            // dd($topCountries);
+            ?>
+        <div class="action-card">
+            <h4>Top Countries</h4>
+            <table class="mini-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($topCountries) : ?>
+                        <?php foreach($topCountries as $data) : ?>
+                            <?php
+                            // dd($data); 
+                            ?>
+                            <tr>
+                                <td class="table-product-name" title="<?= htmlspecialchars($data['website_name']) ?>">
+                                    <a href="<?= $block->getReportUrl('catalog/product/edit').'id/' . $data['website_id'] ?>" style="color:inherit">
+                                        <?= htmlspecialchars($data['website_name']) ?>
+                                    </a>
+                                </td>
+                                <td><?= $block->getPriceFomat($data['total_sales'], $data['currency']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+
+    <br />
+
+    <h4><b>Quick Actions</b></h4>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <div class="action-card">
+        <small>Order to Ship</small>
+        <div class="quick-actions-buttons">
+            <div class="value"><?= $block->getOrderToShip() ?></div>
+            <a href="<?= $block->getReportUrl('catalog/sales/order') ?>" style="color:inherit">
+                <button>Manage Orders</button>
+            </a>
+        </div>
+      </div>
+      <div class="action-card">
+        <small>Active Offers</small>
+        <div class="quick-actions-buttons">
+            <div class="value"><?= $block->getActiveOffers() ?></div>
+            <a href="<?= $block->getReportUrl('quickrfq/quickrfq/index') ?>" style="color:inherit">
+                <button>Manage Offer</button>
+            </a>
+        </div>
+      </div>
+      <div class="action-card">
+        <small>Active Coupon</small>
+        <div class="quick-actions-buttons">
+            <div class="value"><?= $block->getActiveCoupon() ?></div>
+            <a href="<?= $block->getReportUrl('lofmpcouponcode/coupon/index') ?>" style="color:inherit">
+                <button>Manage Coupon</button>
+            </a>
+        </div>
+      </div>
+      <div class="action-card">
+        <small>Unread Messages</small>
+        <div class="quick-actions-buttons">
+            <div class="value"><?= $block->getUnreadMessage() ?></div>
+            <a href="<?= $block->getReportUrl('catalog/message/index') ?>" style="color:inherit">
+                <button>View Messages</button>
+            </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Cards -->
+    <div class="grid-3">
+        <?php
+        $dataArr = $this->getDraftProducts();
+        ?>
+        <div class="action-card">
+            <h4>Draft / Unpublish Products</h4>
+            <table class="mini-table">
+                <thead>
+                    <tr>
+                        <th>Categories</th>
+                        <th>Total Products</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($dataArr) : ?>
+                        <?php foreach ($dataArr as $data) : ?>
+                            <tr>
+                                <td class="table-product-name" title="<?= htmlspecialchars($data['category_name']) ?>">
+
+                                    <?php
+                                    $categoryName = $data['category_name'];
+
+                                    // Map keywords → report URLs
+                                    $routes = [
+                                        'Action Toys'              => 'catalog/actiontoys/index/',
+                                        'Action Toys Model Kits'   => 'catalog/actiontoysmodelkits/index/',
+                                        'Anime Toys'               => 'catalog/animetoys/index/',
+                                        'Anime Model Kits'         => 'catalog/animemodelkits/index/',
+                                        'Gundam'                   => 'catalog/gundam/index/',
+                                        'Fun Goods'                => 'catalog/fungoods/index/',
+                                        'Fashion Dolls'            => 'catalog/fashiondolls/index/',
+                                        'Doll Accessories'         => 'catalog/dollsaccessories/index/',
+                                        'Collectible Card Games'   => 'catalog/cardgame/index/',
+                                        'Living Card Games'        => 'catalog/livingcardgames/index/',
+                                        'Miniature Games'          => 'catalog/miniaturegames/index/',
+                                        'Games Workshop'           => 'catalog/gamesworkshop/index/',
+                                        'Sport Cards'              => 'catalog/sportcards/index/',
+                                        'Non Sports Cards'         => 'catalog/nonsportcards/index/',
+                                        'Bricks'                   => 'catalog/bricks/index/',
+                                        'Diecast Vehicles'         => 'catalog/diecastvehicles/index/',
+                                        'Diecast Aircrafts'        => 'catalog/diecastaircrafts/index/',
+                                        'Diecast Military'         => 'catalog/diecastmilitary/index/',
+                                        'Diecast Accessories'      => 'catalog/diecastaccessories/index/',
+                                        'Model Kits Vehicles'      => 'catalog/modelkitsvehicles/index/',
+                                        'Model Kits Aircrafts'     => 'catalog/modelkitsaircrafts/index/',
+                                        'Model Kits Military'      => 'catalog/modelkitsmilitary/index/',
+                                        'Trains'                   => 'catalog/railway/index/',
+                                        'Trains Accessories'       => 'catalog/railwayaccessories/index/',
+                                        'Hobby Supplies'           => 'catalog/hobbysupplies/index/',
+                                        'Cards & Games'            => 'catalog/hobbysuppliescardsgames/index/',
+                                        'Railway'                  => 'catalog/railway/index/',
+                                        'Diecast'                  => 'catalog/diecastvehicles/index/',
+                                    ];
+
+                                    // Default URL
+                                    $url = $block->getReportUrl('catalog/report/draftproducts') . 'category/' . $data['category_id'];
+
+                                    // Try matching the category name with keywords
+                                    foreach ($routes as $keyword => $route) {
+                                        if (str_contains($categoryName, $keyword)) {
+                                            $url = $block->getReportUrl($route);
+                                            break;
+                                        }
+                                    }
+                                    ?>
+
+                                    <a href="<?= $url ?>" style="color: inherit;">
+                                        <?= htmlspecialchars($categoryName) ?>
+                                    </a>
+
+                                </td>
+                                <td><?= $data['product_count'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+      <?php
+      $dataArr = $this->getPublishedProducts();
+      ?>
+      <div class="action-card">
+        <h4>Published Products / Active Listing</h4>
+        <table class="mini-table">
+            <thead>
+                <tr>
+                    <th>Categories</th>
+                    <th>Total Products</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($dataArr) : ?>
+                    <?php foreach ($dataArr as $data) : ?>
+                        <tr>
+                            <td class="table-product-name" title="<?= htmlspecialchars($data['category_name']) ?>">
+
+                                <?php
+                                $categoryName = $data['category_name'];
+
+                                // Map keywords → report URLs
+                                $routes = [
+                                    'Action Toys'              => 'catalog/actiontoys/index/',
+                                    'Action Toys Model Kits'   => 'catalog/actiontoysmodelkits/index/',
+                                    'Anime Toys'               => 'catalog/animetoys/index/',
+                                    'Anime Model Kits'         => 'catalog/animemodelkits/index/',
+                                    'Gundam'                   => 'catalog/gundam/index/',
+                                    'Fun Goods'                => 'catalog/fungoods/index/',
+                                    'Fashion Dolls'            => 'catalog/fashiondolls/index/',
+                                    'Doll Accessories'         => 'catalog/dollsaccessories/index/',
+                                    'Collectible Card Games'   => 'catalog/cardgame/index/',
+                                    'Living Card Games'        => 'catalog/livingcardgames/index/',
+                                    'Miniature Games'          => 'catalog/miniaturegames/index/',
+                                    'Games Workshop'           => 'catalog/gamesworkshop/index/',
+                                    'Sport Cards'              => 'catalog/sportcards/index/',
+                                    'Non Sports Cards'         => 'catalog/nonsportcards/index/',
+                                    'Bricks'                   => 'catalog/bricks/index/',
+                                    'Diecast Vehicles'         => 'catalog/diecastvehicles/index/',
+                                    'Diecast Aircrafts'        => 'catalog/diecastaircrafts/index/',
+                                    'Diecast Military'         => 'catalog/diecastmilitary/index/',
+                                    'Diecast Accessories'      => 'catalog/diecastaccessories/index/',
+                                    'Model Kits Vehicles'      => 'catalog/modelkitsvehicles/index/',
+                                    'Model Kits Aircrafts'     => 'catalog/modelkitsaircrafts/index/',
+                                    'Model Kits Military'      => 'catalog/modelkitsmilitary/index/',
+                                    'Trains'                   => 'catalog/railway/index/',
+                                    'Trains Accessories'       => 'catalog/railwayaccessories/index/',
+                                    'Hobby Supplies'           => 'catalog/hobbysupplies/index/',
+                                    'Cards & Games'            => 'catalog/hobbysuppliescardsgames/index/',
+                                    'Railway'                  => 'catalog/railway/index/',
+                                    'Diecast'                  => 'catalog/diecastvehicles/index/',
+                                ];
+
+                                // Default URL
+                                $url = $block->getReportUrl('favoriteseller/index/index');
+
+                                // Try matching the category name with keywords
+                                foreach ($routes as $keyword => $route) {
+                                    if (str_contains($categoryName, $keyword)) {
+                                        $url = $block->getReportUrl($route);
+                                        break;
+                                    }
+                                }
+                                ?>
+
+                                <a href="<?= $url ?>" style="color: inherit;">
+                                    <?= htmlspecialchars($categoryName) ?>
+                                </a>
+
+                            </td>
+                            <td><?= $data['product_count'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+      </div>
+      <?php
+      $dataArr = $this->getLowStockProducts();
+      ?>
+      <div class="action-card">
+        <h4>Low-stock Products (qty < 5)</h4>
+        <table class="mini-table">
+            <thead>
+                <tr>
+                    <th>Categories</th>
+                    <th>Total Products</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($dataArr) : ?>
+                    <?php foreach ($dataArr as $data) : ?>
+                        <tr>
+                            <td class="table-product-name" title="<?= htmlspecialchars($data['category_name']) ?>">
+
+                                <?php
+                                $categoryName = $data['category_name'];
+
+                                // Map keywords → report URLs
+                                $routes = [
+                                    'Action Toys'              => 'catalog/actiontoys/index/',
+                                    'Action Toys Model Kits'   => 'catalog/actiontoysmodelkits/index/',
+                                    'Anime Toys'               => 'catalog/animetoys/index/',
+                                    'Anime Model Kits'         => 'catalog/animemodelkits/index/',
+                                    'Gundam'                   => 'catalog/gundam/index/',
+                                    'Fun Goods'                => 'catalog/fungoods/index/',
+                                    'Fashion Dolls'            => 'catalog/fashiondolls/index/',
+                                    'Doll Accessories'         => 'catalog/dollsaccessories/index/',
+                                    'Collectible Card Games'   => 'catalog/cardgame/index/',
+                                    'Living Card Games'        => 'catalog/livingcardgames/index/',
+                                    'Miniature Games'          => 'catalog/miniaturegames/index/',
+                                    'Games Workshop'           => 'catalog/gamesworkshop/index/',
+                                    'Sport Cards'              => 'catalog/sportcards/index/',
+                                    'Non Sports Cards'         => 'catalog/nonsportcards/index/',
+                                    'Bricks'                   => 'catalog/bricks/index/',
+                                    'Diecast Vehicles'         => 'catalog/diecastvehicles/index/',
+                                    'Diecast Aircrafts'        => 'catalog/diecastaircrafts/index/',
+                                    'Diecast Military'         => 'catalog/diecastmilitary/index/',
+                                    'Diecast Accessories'      => 'catalog/diecastaccessories/index/',
+                                    'Model Kits Vehicles'      => 'catalog/modelkitsvehicles/index/',
+                                    'Model Kits Aircrafts'     => 'catalog/modelkitsaircrafts/index/',
+                                    'Model Kits Military'      => 'catalog/modelkitsmilitary/index/',
+                                    'Trains'                   => 'catalog/railway/index/',
+                                    'Trains Accessories'       => 'catalog/railwayaccessories/index/',
+                                    'Hobby Supplies'           => 'catalog/hobbysupplies/index/',
+                                    'Cards & Games'            => 'catalog/hobbysuppliescardsgames/index/',
+                                    'Railway'                  => 'catalog/railway/index/',
+                                    'Diecast'                  => 'catalog/diecastvehicles/index/',
+                                ];
+
+                                // Default URL
+                                $url = $block->getReportUrl('favoriteseller/index/index');
+
+                                // Try matching the category name with keywords
+                                foreach ($routes as $keyword => $route) {
+                                    if (str_contains($categoryName, $keyword)) {
+                                        $url = $block->getReportUrl($route);
+                                        break;
+                                    }
+                                }
+                                ?>
+
+                                <a href="<?= $url ?>" style="color: inherit;">
+                                    <?= htmlspecialchars($categoryName) ?>
+                                </a>
+
+                            </td>
+                            <td><?= $data['low_stock_count'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr><td colspan="2" style="text-align: center;">No data available.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+      </div>
+<?php if (!$filters) : ?>
+</div>
+<?php endif; ?>
+
+    <!-- <div class="dashboard-options">
+        
+        
+    </div>
+    <div class="row top_tiles">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/amounttransaction') ?>" class="tile-stats">
+                <h4><?= $block->escapeHtml(__('Total Sales')) ?></h3>
+                <div class="count"><?= $block->escapeHtml($block->getTotalSales()) ?></div>
+                <?php
+                    // Hardcode: naik 20%
+                    $diff = 20;
+                    $isUp = $diff > 0;
+                    $color = $isUp ? 'green' : 'red';
+                    $sign = $isUp ? '+' : '';
+                ?>
+                <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                    <?= $sign . $diff ?>% month over month
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/order') ?>" class="tile-stats">
+                <h4><?= $block->escapeHtml(__('Total Orders')) ?></h3>
+                <div class="count"><?= $block->escapeHtml($block->getTotalOrder()) ?></div>
+                 <?php
+                    // Hardcode
+                    $diff = 33;
+                    $isUp = $diff > 0;
+                    $color = $isUp ? 'green' : 'red';
+                    $sign = $isUp ? '+' : '';
+                ?>
+                <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                    <?= $sign . $diff ?>% month over month
+                </div>
+            </a>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php
+            $productListingUrl = '#';
+            // if ($categoryId = $helper->getParam('category')) {
+            //     $category = $block->getMyProductsUrlKey($categoryId);
+            //     $productListingUrl = $block->getUrl('catalog/'.$category.'/sealedproducts');
+            // }
+            ?>
+            <a href="<?= $productListingUrl ?>" class="tile-stats">
+                <h4><?= $block->escapeHtml(__('Published Products / Active Listing')) ?></h3>
+                <div class="count"><?= $block->escapeHtml($block->getTotalProduct()) ?></div>
+                <?php
+                    // Hardcode
+                    $diff = 2;
+                    $isUp = $diff > 0;
+                    $color = $isUp ? 'green' : 'red';
+                    $sign = $isUp ? '+' : '';
+                ?>
+                <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                    <?= $sign . $diff ?> month over month
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/amounttransaction') ?>" class="x_panel">
+                <div class="x_title">
+                    <h4><?= $block->escapeHtml(__('Today\'s Sales')) ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p><?= $block->escapeHtml($block->getTotalSalesDay()) ?></p>
+                    <?php
+                        // Hardcode
+                        $diff = -5;
+                        $isUp = $diff > 0;
+                        $color = $isUp ? 'green' : 'red';
+                        $sign = $isUp ? '+' : '';
+                    ?>
+                    <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                        <?= $sign . $diff ?>% month over month
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/amounttransaction') ?>" class="x_panel">
+                <div class="x_title">
+                    <h4><?= $block->escapeHtml(__('Today\'s Earnings')) ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p><?= $block->escapeHtml($block->getEarningsToDay()) ?></p>
+                    <?php
+                        // Hardcode
+                       $diff = 33;
+                       $isUp = $diff > 0;
+                       $color = $isUp ? 'green' : 'red';
+                       $sign = $isUp ? '+' : '';
+                   ?>
+                   <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                       <?= $sign . $diff ?>% month over month
+                   </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/amounttransaction') ?>" class="x_panel">
+                <div class="x_title">
+                    <h4><?= $block->escapeHtml(__('Current Month\'s Sales')) ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p><?= $block->escapeHtml($block->getTotalSalesMonth()) ?></p>
+                    <?php
+                        // Hardcode
+                        $diff = 8;
+                        $isUp = $diff > 0;
+                        $color = $isUp ? 'green' : 'red';
+                        $sign = $isUp ? '+' : '';
+                    ?>
+                    <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                        <?= $sign . $diff ?>% month over month
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="<?= $block->getUrl('catalog/sales/amounttransaction') ?>" class="x_panel">
+                <div class="x_title">
+                    <h4><?= $block->escapeHtml(__('Current Month\'s Earnings')) ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p><?= $block->escapeHtml($block->getEarningsToMonth()) ?></p>
+                    <?php
+                        // Hardcode
+                        $diff = 8;
+                        $isUp = $diff > 0;
+                        $color = $isUp ? 'green' : 'red';
+                        $sign = $isUp ? '+' : '';
+                    ?>
+                    <div style="color:<?= $color ?>;font-size:14px;display:none;">
+                        <?= $sign . $diff ?>% month over month
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 card-report">
+            <div class="x_panel">
+                <div class="x_content2">
+                    <div id="section-first" class="last-order">
+                        <table class="table">
+                            <h4><?= $block->escapeHtml(__('Last orders')) ?></h4>
+                            <thead>
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Order Number')) ?></th>
+                                <th><?= $block->escapeHtml(__('Date')) ?></th>
+                                <th><?= $block->escapeHtml(__('Total')) ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($block->getOrderSeller()->setPageSize(10) as $order):
+                                $data = $block->getOrder($order->getOrderId());
+                                $order_date = date('d/m/Y', strtotime($data->getCreatedAt()));
+                                $id = $data->getRealOrderId();
+                                $customer = $data->getCustomerName();
+                                $total = number_format($data->getGrandtotal(), 2, '.', ',');
+                                $subtotal = $data->getSubtotal();
+                                $orderViewUrl = $block->getUrl(
+                                    'catalog/sales/orderview/',
+                                    ['id' => $data->getId()]
+                                );
+                                ?>
+                                <tr onclick="window.location='<?= $block->escapeUrl($orderViewUrl) ?>';" style="cursor:pointer;" onmouseover="this.style.backgroundColor='#f5f5f5';" onmouseout="this.style.backgroundColor='';">
+                                    <td><?= $block->escapeHtml($id) ?></td>
+                                    <td><?= $block->escapeHtml($order_date) ?></td>
+                                    <td><?= $block->getPriceFomat($total) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>                                
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_content2">
+                    <div id="section-second" class="best-seller">
+                        <h4> <?= $block->escapeHtml(__('Best sellers')) ?></h4>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Name')) ?></th>
+                                <th><?= $block->escapeHtml(__('SKU')) ?></th>
+                                <th><?= $block->escapeHtml(__('Total Sales')) ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($block->getBestSeller()->setPageSize(10) as $data):
+                                $id = $data->getData('entity_id');
+                                $name = $data->getData('name');
+                                $price = $data->getData('price');
+                                $qty = intval($data->getData('qty_ordered'));
+                                $sku = $data->getData('sku');
+                                $editProductUrl = $block->getUrl('catalog/product/edit', ['id' => $id]);
+                                ?>
+                                <tr onclick="window.location='<?= $block->escapeUrl($editProductUrl) ?>';" style="cursor:pointer;" onmouseover="this.style.backgroundColor='#f5f5f5';" onmouseout="this.style.backgroundColor='';">
+                                    <td><?= $block->escapeHtml($name) ?></td>
+                                    <td><?= $block->escapeHtml($sku) ?></td>
+                                    <td><?= $block->escapeHtml($qty) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_content2">
+                    <div id="section-third" class="most-viewed">
+                        <h4> <?= $block->escapeHtml(__('Most viewed products')) ?></h4>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Name')) ?></th>
+                                <th><?= $block->escapeHtml(__('SKU')) ?></th>
+                                <th><?= $block->escapeHtml(__('Total View')) ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($block->getMostView()->setPageSize(10) as $data):
+                                if ($data = $data->getData()):
+                                    $id = $data['entity_id'];
+                                    $name = $data['name'];
+                                    $sku = $data['sku'];
+                                    $price = $data['price'];
+                                    $views = $data['views'];
+                                    ?>
+                                    <tr style="cursor:pointer;" onmouseover="this.style.backgroundColor='#f5f5f5';" onmouseout="this.style.backgroundColor='';">
+                                        <td><?= $block->escapeHtml($name) ?></td>
+                                        <td><?= $block->escapeHtml($sku) ?></td>
+                                        <td><?= $block->escapeHtml($views) ?></td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- line graph -->
+        <!-- <div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4><?= $block->escapeHtml(__('Sales Report')) ?></h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content2">
+                    <div id="saleschart" style="width:100%; height:300px;"></div>
+                </div>
+            </div>
+        </div> -->
+        <!-- /line graph -->
+    </div>
+</div>
+<?php if (!$filters) : ?>
+    <script>
+        require([
+            "jquery",
+            "Lof_MarketPlace/js/raphael",
+            "Lof_MarketPlace/js/morris",
+            "Lof_MarketPlace/js/jquery.vmap",
+            "Lof_MarketPlace/js/jquery.vmap.world",
+            "Lof_MarketPlace/js/jquery.vmap.sampledata",
+            "mage/calendar"
+        ], function ($) {
+            $("#from_date, #to_date").calendar({
+                dateFormat: "yy-mm-dd"
+            });
+
+            // Show/hide custom date inputs
+            $("#date-range").on("change", function () {
+                if ($(this).val() === "Custom Date Range") {
+                    $("#custom-date-container").show();
+                } else {
+                    $("#custom-date-container").hide();
+                    updateReport(); // trigger immediately for non-custom
+                }
+            });
+
+            function updateReport() {
+                var dateRange = $('#date-range').val();
+
+                // If custom, wait for both dates
+                if (dateRange === "Custom Date Range") {
+                    var from = $("#from_date").val();
+                    var to   = $("#to_date").val();
+
+                    // Prevent early trigger
+                    if (!from || !to) {
+                        return; 
+                    }
+                }
+
+                var data = {
+                    country: $('#country').val(),
+                    category: $('#category').val(),
+                    date: dateRange
+                };
+
+                if (dateRange === "Custom Date Range") {
+                    data.from_date = $("#from_date").val();
+                    data.to_date   = $("#to_date").val();
+                }
+
+                $.ajax({
+                    url: '<?= $block->getUrl("catalog/dashboard/ajax") ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    showLoader: true,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#dashboard-ajax').html(response.html);
+                        }
+                    }
+                });
+            }
+
+            // Trigger update for normal filters
+            $("#country, #category").on("change", updateReport);
+
+            // Trigger update **only after both dates chosen**
+            $("#from_date, #to_date").on("change", function () {
+                if ($("#date-range").val() === "Custom Date Range") {
+                    updateReport();
+                }
+            });
+            
+            $('#country, #category, #date-range').on('change', updateReport);
+
+            // lineChart();
+            // $(window).resize(function () {
+            //     window.lineChart.redraw();
+            // });
+
+            // function lineChart() {
+            //     var day_data = <?= $block->getSalesReport(); ?>;
+            //     window.lineChart = Morris.Line({
+            //         element: 'saleschart',
+            //         data: day_data,
+            //         xkey: 'period',
+            //         ykeys: ['sales'],
+            //         labels: ['Sales'],
+            //         parseTime: false,
+            //         showTooltip: true,
+            //         lineColors: ['#000'], // set line color to black
+            //         pointFillColors: ['#000'], // set point fill color to black
+            //         pointStrokeColors: ['#000'], // set point stroke color to black
+            //         hoverCallback: function (index, options, default_content, data) {
+            //             return default_content.replace("Sales", "<span style='color:#000;'>Earn Amount: " + data.earn + "</span><br>Sales ");
+            //         },
+            //         xLabelMargin: 10,
+            //         integerYLabels: true
+            //     });
+            // }
+        });
+    </script>
+<?php endif; ?>

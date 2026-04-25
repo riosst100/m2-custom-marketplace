@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::bulk_upload_tools" icon="fa fa-cloud-upload" title="Bulk Upload Tools" module="TCGCollective_MarketplaceProductImportExport" sortOrder="40" resource="TCGCollective_MarketplaceProductImportExport::manager_product" translate="title"/> -->
+
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::import" title="Bulk Upload Product" module="TCGCollective_MarketPlace" sortOrder="10" parent="TCGCollective_MarketPlace::catalog_add_products" resource="TCGCollective_MarketplaceProductImportExport::import" translate="title"/> -->
+
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::bulk_add_product" title="Bulk Add / Update Products" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/import" sortOrder="3" parent="TCGCollective_MarketPlace::add_products" resource="TCGCollective_MarketplaceProductImportExport::bulk_add_product" translate="title"/> -->
+
+        <add id="TCGCollective_MarketplaceProductImportExport::export" title="Products Tools" module="TCGCollective_MarketPlace" sortOrder="11" parent="TCGCollective_MarketPlace::catalog_add_products" resource="TCGCollective_MarketplaceProductImportExport::import" translate="title"/>
+        <add id="TCGCollective_MarketplaceProductImportExport::bulk_add_product" title="Bulk Add / Update Products" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/import" sortOrder="1" parent="TCGCollective_MarketplaceProductImportExport::export" resource="TCGCollective_MarketplaceProductImportExport::bulk_add_product" translate="title"/>
+        <add id="TCGCollective_MarketplaceProductImportExport::export_db" title="Download Platform Database CSV For Bulk Upload" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/export/source/database" sortOrder="1" parent="TCGCollective_MarketplaceProductImportExport::export" resource="TCGCollective_MarketplaceProductImportExport::export_db" translate="title"/>
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::export_catalog" title="Download My Products" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/export/source/catalog" sortOrder="2" parent="TCGCollective_MarketplaceProductImportExport::export" resource="TCGCollective_MarketplaceProductImportExport::export_catalog" translate="title"/> -->
+
+        <add id="TCGCollective_MarketplaceProductImportExport::images" title="Product Images" module="TCGCollective_MarketplaceProductImportExport" sortOrder="35" resource="TCGCollective_MarketPlace::manage_products" parent="TCGCollective_MarketPlace::catalog_add_products" translate="title"/>
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::bulk_add_product_images" title="Upload Product Images" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/uploadimage" sortOrder="10" parent="TCGCollective_MarketplaceProductImportExport::images" resource="TCGCollective_MarketplaceProductImportExport::bulk_add_product" translate="title"/> -->
+
+        <add id="TCGCollective_MarketplaceProductImportExport::manage_images" title="Manage Product Images" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/mediagallery" sortOrder="30" parent="TCGCollective_MarketplaceProductImportExport::images" resource="TCGCollective_MarketPlace::manage_images" translate="title"/>
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::export" title="Export" module="TCGCollective_MarketPlace" sortOrder="20" parent="TCGCollective_MarketplaceProductImportExport::bulk_upload_tools" resource="TCGCollective_MarketplaceProductImportExport::export" translate="title"/>
+        <add id="TCGCollective_MarketplaceProductImportExport::export_product" title="Export Product" module="TCGCollective_MarketplaceProductImportExport" action="catalog/product/export" sortOrder="10" parent="TCGCollective_MarketplaceProductImportExport::export" resource="TCGCollective_MarketplaceProductImportExport::export_product" translate="title"/>
+        <add id="TCGCollective_MarketplaceProductImportExport::export_stock" title="Export Stock" module="TCGCollective_MarketplaceProductImportExport" action="catalog/stock/export" sortOrder="20" parent="TCGCollective_MarketplaceProductImportExport::export" resource="TCGCollective_MarketplaceProductImportExport::export_stock" translate="title"/> -->
+
+        <remove id="Lof_MarketPlace::upload" />
+        <!-- <add id="Lof_MarketPlace::import" title="Import" module="Lof_MarketPlace"  action="catalog/product/import" sortOrder="101" parent="Lof_MarketPlace::upload" resource="Lof_MarketPlace::import" dependsOnConfig="lofmarketplace/seller_settings/allow_mass_import" translate="title"/>
+        <add id="Lof_MarketPlace::export" title="Export" module="Lof_MarketPlace"  action="catalog/product/export" sortOrder="102" parent="Lof_MarketPlace::upload" resource="Lof_MarketPlace::export" dependsOnConfig="lofmarketplace/seller_settings/allow_mass_export" translate="title"/>
+        <add id="Lof_MarketPlace::uploadimage" title="Upload Images" module="Lof_MarketPlace" action="catalog/product/uploadimage" sortOrder="103" parent="Lof_MarketPlace::upload" resource="Lof_MarketPlace::uploadimage" dependsOnConfig="lofmarketplace/seller_settings/allow_mass_upload_image" translate="title"/> -->
+    </menu>
+</config>

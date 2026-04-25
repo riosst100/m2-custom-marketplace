@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">variations_sets_product_listing.data_source</item>
+            <item name="deps" xsi:type="string">variations_sets_product_listing.data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">product_columns</item>
+    </argument>
+    <dataSource name="data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">TCGCollective\MarketplaceConfigurableProduct\Ui\DataProvider\VariationsProductCreationMyProductsSetsGridDataProvider</argument>
+            <argument name="name" xsi:type="string">data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="cacheRequests" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="statefull" xsi:type="array">
+                        <item name="applied" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="params" xsi:type="array">
+                        <item name="filters_modifier" xsi:type="array" />
+                    </item>
+                    <item name="observers" xsi:type="array">
+                        <item name="filters" xsi:type="object">Magento\ConfigurableProduct\Ui\Component\Listing\AssociatedProduct\Filters</item>
+                    </item>
+                </item>
+            </argument>
+            <filterSelect name="card_set" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\MarketplaceConfigurableProduct\Model\Source\Catalog\Variations\CardSet"/>
+                    <caption translate="true">Filter by Set...</caption>
+                    <label translate="true">Set</label>
+                    <dataScope>card_set</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+            <filterSelect name="language" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\MarketPlace\Model\Source\Catalog\Language"/>
+                    <caption translate="true">Filter by Language...</caption>
+                    <label translate="true">Language</label>
+                    <dataScope>language</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="product_columns" class="Magento\ConfigurableProduct\Ui\Component\Listing\AssociatedProduct\Columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">product_form.product_form.configurable_associated_product_modal.variations_sets_product_listing</item>
+                        <item name="target" xsi:type="string">selectProduct</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="entity_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </column>
+        <column name="card_set">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">TCGCollective\MarketplaceConfigurableProduct\Model\Source\Catalog\Variations\CardSet</item>
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Set</item>
+                    <item name="sortOrder" xsi:type="number">22</item>
+                </item>
+            </argument>
+        </column>
+        <column name="language">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">TCGCollective\MarketPlace\Model\Source\Catalog\Language</item>
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Language</item>
+                    <item name="sortOrder" xsi:type="number">61</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

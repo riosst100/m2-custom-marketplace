@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <lofmp_payment>
+            <payment>
+                <methods>
+                    <airwallex>
+                        <model>TCGCollective\MarketplacePaymentAirwallex\Model\Config\Payment\Methods\Airwallex</model>
+                        <config_path>carriers/airwallex/active</config_path>
+                    </airwallex>
+                </methods>
+            </payment>
+        </lofmp_payment>
+        <carriers>
+            <airwallex>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>TCGCollective\MarketplacePaymentAirwallex\Model\Carrier</model>
+                <name>MarketPlace Airwallex Payment</name>
+                <title>MarketPlace Airwallex</title>
+                <specificerrmsg>This shipping method is currently unavailable. If
+                  you would like to ship using this shipping method, please contact
+                  us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </airwallex>
+        </carriers>
+    </default>
+</config>

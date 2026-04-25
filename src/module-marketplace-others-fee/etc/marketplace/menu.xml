@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- PAYMENT | CONFIGURATIONS | OTHER FEES -->
+        <add id="Lof_MarketPlace::other_fees_configurations" title="Other Fees" module="TCGCollective_MarketPlace" action="otherfees/configurations/index" sortOrder="2" parent="TCGCollective_MarketPlace::payment_configurations" resource="TCGCollective_MarketPlace::payment" translate="title"/>
+    </menu>
+</config>

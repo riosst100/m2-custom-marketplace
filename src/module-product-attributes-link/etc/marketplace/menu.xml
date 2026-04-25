@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Sets / Release Database -->
+        <add id="TCGCollective_ProductAttributesLink::sets_database" icon="fa fa-database" title="Platform Database" module="TCGCollective_ProductAttributesLink" sortOrder="40" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Action Toys/Anime -->
+        <add id="TCGCollective_ProductAttributesLink::sets_action_toys_parent" title="Action Toys" module="TCGCollective_ProductAttributesLink" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_anime_parent" title="Anime" module="TCGCollective_ProductAttributesLink" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Dolls -->
+        <add id="TCGCollective_ProductAttributesLink::sets_dolls" title="Dolls" module="TCGCollective_ProductAttributesLink" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_games" title="Games" module="TCGCollective_ProductAttributesLink" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Miniature Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_miniaturegame_parent" title="Miniature Games" module="TCGCollective_ProductAttributesLink" parent="TCGCollective_ProductAttributesLink::sets_database" sortOrder="3" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Cards -->
+        <add id="TCGCollective_ProductAttributesLink::sets_sets_cards" title="Cards" module="TCGCollective_ProductAttributesLink" parent="TCGCollective_ProductAttributesLink::sets_database" sortOrder="4" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Bricks -->
+        <add id="TCGCollective_ProductAttributesLink::sets_bricks_parent" title="Bricks" module="TCGCollective_ProductAttributesLink" sortOrder="5" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | DIECAST -->
+        <add id="TCGCollective_ProductAttributesLink::sets_diecast_parent" title="Diecast" module="TCGCollective_ProductAttributesLink" sortOrder="6" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | MODEL KITS -->
+        <add id="TCGCollective_ProductAttributesLink::sets_modelkits_parent" title="Model Kits" module="TCGCollective_ProductAttributesLink" sortOrder="7" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Trains -->
+        <add id="TCGCollective_ProductAttributesLink::sets_trains" title="Trains" module="TCGCollective_ProductAttributesLink" sortOrder="8" parent="TCGCollective_ProductAttributesLink::sets_database" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Action Toys -->
+        <add id="TCGCollective_ProductAttributesLink::sets_action_toys" title="Action Toys" module="TCGCollective_ProductAttributesLink" action="database/actiontoys/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_action_toys_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_action_toys_modelkits" title="Action Toys Model Kits" module="TCGCollective_ProductAttributesLink" action="database/actiontoysmodelkits/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_action_toys_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+
+        <!-- ANIME -->
+        <add id="TCGCollective_ProductAttributesLink::sets_anime" title="Anime Toys" module="TCGCollective_ProductAttributesLink" action="database/anime/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_anime_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_anime_modelkits" title="Anime Model Kits" module="TCGCollective_ProductAttributesLink" action="database/animemodelkits/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_anime_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- <add id="TCGCollective_ProductAttributesLink::sets_anime_gundam" title="Gundam" module="TCGCollective_ProductAttributesLink" action="database/gundam/index" sortOrder="3" parent="TCGCollective_ProductAttributesLink::sets_anime_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/> -->
+
+        <add id="TCGCollective_ProductAttributesLink::sets_anime_fungoods" title="Fun Goods" module="TCGCollective_ProductAttributesLink" action="database/fungoods/index" sortOrder="4" parent="TCGCollective_ProductAttributesLink::sets_anime_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Dolls | Fashion Dolls -->
+        <add id="TCGCollective_ProductAttributesLink::sets_fashion_dolls" title="Dolls" module="TCGCollective_ProductAttributesLink" action="database/dolls/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_dolls" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Games | Card Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_cardgame" title="Collectible Card Games" module="TCGCollective_ProductAttributesLink" action="database/cardgame/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_games" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Games | Living Card Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_livingcardgame" title="Living Card Games" module="TCGCollective_ProductAttributesLink" action="database/livingcardgame/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_games" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Miniature Games | Miniature Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_miniaturegame" title="Miniature Games" module="TCGCollective_ProductAttributesLink" action="database/miniaturegame/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_miniaturegame_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Miniature Games | Role Playing Games -->
+        <add id="TCGCollective_ProductAttributesLink::sets_roleplayinggames" title="Role Playing Games" module="TCGCollective_ProductAttributesLink" action="database/roleplayinggames/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_miniaturegame_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Miniature Games | Games Workshop -->
+        <add id="TCGCollective_ProductAttributesLink::sets_gamesworkshop" title="Games Workshop" module="TCGCollective_ProductAttributesLink" action="database/gamesworkshop/index" sortOrder="3" parent="TCGCollective_ProductAttributesLink::sets_miniaturegame_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Cards | Sport Cards -->
+        <add id="TCGCollective_ProductAttributesLink::sets_sportcards" title="Sport Cards" module="TCGCollective_ProductAttributesLink" action="database/sportcards/index" sortOrder="60" parent="TCGCollective_ProductAttributesLink::sets_sets_cards" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+        <add id="TCGCollective_ProductAttributesLink::sets_nonsportcards" title="Non Sports Cards" module="TCGCollective_ProductAttributesLink" action="database/nonsportcards/index" sortOrder="70" parent="TCGCollective_ProductAttributesLink::sets_sets_cards" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Bricks | Bricks -->
+        <add id="TCGCollective_ProductAttributesLink::sets_bricks" title="Bricks" module="TCGCollective_ProductAttributesLink" action="database/bricks/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_bricks_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | DIECAST | DIECAST -->
+        <add id="TCGCollective_ProductAttributesLink::sets_diecast_vehicles" title="Diecast Vehicles" module="TCGCollective_ProductAttributesLink" action="database/diecastvehicles/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_diecast_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_diecast_aircrafts" title="Diecast Aircrafts" module="TCGCollective_ProductAttributesLink" action="database/diecastaircrafts/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_diecast_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_diecast_military" title="Diecast Military" module="TCGCollective_ProductAttributesLink" action="database/diecastmilitary/index" sortOrder="3" parent="TCGCollective_ProductAttributesLink::sets_diecast_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | MODEL KITS | MODEL KITS -->
+        <add id="TCGCollective_ProductAttributesLink::sets_modelkits_vehicles" title="Model Kits Vehicles" module="TCGCollective_ProductAttributesLink" action="database/modelkitsvehicles/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_modelkits_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_modelkits_aircrafts" title="Model Kits Aircrafts" module="TCGCollective_ProductAttributesLink" action="database/modelkitsaircrafts/index" sortOrder="2" parent="TCGCollective_ProductAttributesLink::sets_modelkits_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <add id="TCGCollective_ProductAttributesLink::sets_modelkits_military" title="Model Kits Military" module="TCGCollective_ProductAttributesLink" action="database/modelkitsmilitary/index" sortOrder="3" parent="TCGCollective_ProductAttributesLink::sets_modelkits_parent" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+
+        <!-- Sets / Release Database | Trains | Trains -->
+        <add id="TCGCollective_ProductAttributesLink::sets_railway" title="Trains" module="TCGCollective_ProductAttributesLink" action="database/trains/index" sortOrder="1" parent="TCGCollective_ProductAttributesLink::sets_trains" resource="TCGCollective_ProductAttributesLink::sets_database" translate="title"/>
+    </menu>
+</config>

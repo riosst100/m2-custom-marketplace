@@ -1,0 +1,58 @@
+<?php
+/** @var $block \TCGCollective\MarketplaceProductImportExport\Block\Marketplace\Product\MediaGallery */
+?>
+<link rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="<?= $block->getViewFileUrl('TCGCollective_MarketplaceProductImportExport::css/marketplace-mediagallery.css') ?>" />
+
+<?php
+$urls     = $block->getAjaxUrls(); // must return list_images, list_folders, list_categories etc.
+$sellerId = (int)$block->getSellerId();
+?>
+<div class="core-mp-mediagallery">
+    <div class="toolbar" style="margin-bottom:12px;">
+        <button id="cm_create_folder" class="action secondary"><?= __('Create Folder') ?></button>
+        <button id="cm_delete_folder" class="action secondary"><?= __('Delete Folder') ?></button>
+        <button id="cm_upload_image"  class="action primary"><?= __('Upload Images') ?></button>
+        <button id="cm_delete_images" class="action secondary"><?= __('Delete Selected Images') ?></button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="cm-filters" style="display:flex; gap:12px; margin-bottom:15px;">
+        <input type="text" id="cm_filter_name" placeholder="<?= $block->escapeHtml(__('Filter by image name')) ?>"
+               style="flex:1; padding:6px;">
+        <!-- <select id="cm_filter_category" style="padding:6px; min-width:200px;">
+            <option value=""><?= $block->escapeHtml(__('All Categories')) ?></option>
+        </select> -->
+        <button id="cm_filter_apply" class="action primary"><?= __('Apply Filter') ?></button>
+    </div>
+
+    <div style="display:flex; gap:20px;">
+        <div style="width:260px;">
+            <label><?= __('Folders') ?></label>
+            <div id="cm_folder_tree" class="cm-folder-tree"></div>
+        </div>
+
+        <div style="flex:1;">
+            <div id="cm_images_grid" class="cm-images-grid"></div>
+        </div>
+    </div>
+
+    <script type="text/x-magento-init">
+    {
+        "*": { "marketplace-mediagallery": {} }
+    }
+    </script>
+
+    <script>
+        require(['jquery'], function ($) {
+            window.CM_MG_CONFIG = {
+                urls: <?= json_encode($urls) ?>,
+                sellerId: <?= $sellerId ?: 0 ?>,
+                deleteUrl: '<?= $block->getUrl("catalog/product/deleteimage") ?>',
+                uploadUrl: '<?= $block->getUrl("catalog/product/uploadimage") ?>'
+            };
+        });
+    </script>
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <remove id="Lofmp_PreOrder::mppreorder_management" />
+    	<add
+            id="TCGCollective_MarketplaceProductPreorder::mppreorder_management"
+            title="Pre Orders"
+            module="TCGCollective_MarketplaceProductPreorder"
+            sortOrder="142"
+            parent="TCGCollective_MarketPlace::sales"
+            resource="TCGCollective_MarketplaceProductPreorder::preorder"
+            dependsOnConfig="lofpreorder/settings/enabled"
+            />
+
+        <add
+            id="TCGCollective_MarketplaceProductPreorder::slot_groups"
+            title="Manage Pre Orders"
+            module="TCGCollective_MarketplaceProductPreorder"
+            action="mppreorder/preorder/index"
+            sortOrder="33"
+            parent="TCGCollective_MarketPlace::sales" 
+            resource="TCGCollective_MarketplaceProductPreorder::preorder"
+            dependsOnConfig="lofpreorder/settings/enabled"
+            />
+
+    </menu>
+</config>

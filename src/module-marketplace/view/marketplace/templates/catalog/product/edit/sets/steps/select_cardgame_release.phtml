@@ -1,0 +1,67 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lof_MarketProductConfigurable
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes */
+// dd($block->getData('config/form')."setsAndSingles");
+?>
+<div class="select-cardgame-release-block <?= /* @noEscape */ $block->getData('config/dataScope') ?>" data-role="select-cardgame-release-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        <?= /* @noEscape */  $block->getAddNewSetsButton() ?>
+    </div>
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Select Release')
+        ); ?></h2>
+    <div class="selected-release" data-bind="scope: '<?= /* @noEscape */  $block->getComponentName()?>'">
+        <?php echo $block->escapeHtml(
+            __('Selected Release:')
+        ); ?>
+        <span data-bind="text: selectedRelease() || '--'"></span>
+    </div>
+</div>
+<div class="productFormSets">
+    <?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "<?= /* @noEscape */  $block->getComponentName()?>": {
+                        "component": "TCGCollective_MarketPlace/js/sets/steps/select_cardgame_release",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "setsAndSinglesComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.setsAndSingles",
+                        "modalComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.cardgame.setsModal",
+                        "appendTo": "<?= /* @noEscape */  $block->getParentComponentName()?>"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function ($) {
+        $('.<?= /* @noEscape */ $block->getData('config/dataScope') ?>[data-role=select-cardgame-release-step]').applyBindings();
+        $('body').trigger('contentUpdated');
+    })
+</script>

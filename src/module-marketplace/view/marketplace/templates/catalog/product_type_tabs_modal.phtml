@@ -1,0 +1,62 @@
+<?php
+$buttons = $block->getTabsButtonModal();
+?>
+<?php if ($buttons) : ?>
+    <div class="custom-data-grid-filters-actions-wrap">
+        <div class="custom-data-grid-filters-action-wrap">
+            <?php foreach($buttons as $button) : ?>
+                <a href="<?= $button['href'] ?>" class="action-default <?= $button['is_active'] ? '_active' : '_inactive' ?>" data-action="grid-filter-expand" ><?= $button['label'] ?></a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="custom-data-grid-filters-actions-wrap" style="margin-top: -1px;border-top: 1px solid #ccc;padding-top: 10px;text-align: right;">
+    <div class="custom-data-grid-filters-action-wrap">
+        <a href="<?= $block->getUrl(
+            'catalog/notification/index',
+            []
+        ) ?>" class="action-default button-seller" data-action="grid-filter-expand">See Import Notification</a>
+        <a href="<?= $block->getUrl(
+            'catalog/product/import',
+            []
+        ) ?>" class="action-default button-seller" data-action="grid-filter-expand">Bulk Add / Update Products</a>
+        <span id="export_button" class="action-default button-seller-primary" data-action="grid-filter-expand">Download As CSV</span>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery'],
+        function ($) {
+            $('#export_button').click(function(){
+                console.log('OKEEE')
+                $('.admin__action-dropdown-menu .action-secondary').trigger('click');
+            });
+        }
+    );
+</script>
+<style>
+    .button-seller {
+        background-color: #2a3f54;
+        color: white;
+        border: none;
+        padding: 9px 18px !important;
+        cursor: pointer;
+    }
+
+    .button-seller-primary {
+        background-color: #f76b1c;
+        color:white;
+        border: none;
+        padding: 9px 18px !important;
+        cursor: pointer;
+    }
+
+    .button-seller-primary:hover {
+        background-color: #ff7b2fff;
+        color:white;
+    }
+
+    .button-seller:hover {
+        background-color: #3e5367;
+        color:white;
+    }
+</style>

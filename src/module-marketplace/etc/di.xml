@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="SellerCustomerSave" disabled="true" />
+        <plugin name="CustomSellerCustomerSave" type="TCGCollective\MarketPlace\Plugin\Customer\Api\CustomerRepository\Save"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="seller_online_grid_data_source" xsi:type="string">TCGCollective\MarketPlace\Model\ResourceModel\Seller\Online\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="TCGCollective\MarketPlace\Model\ResourceModel\Seller\Online\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">seller_visitor</argument>
+            <argument name="resourceModel" xsi:type="string">TCGCollective\MarketPlace\Model\ResourceModel\Seller\Visitor</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Backend\Block\AnchorRenderer" type="TCGCollective\MarketPlace\Block\AnchorRenderer" />
+    <preference for="Magento\Customer\Model\AccountConfirmation" type="TCGCollective\MarketPlace\Model\Customer\AccountConfirmation" />
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced" type="TCGCollective\MarketPlace\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced" />
+    <preference for="Magento\Customer\Controller\Account\Logout" type="TCGCollective\MarketPlace\Controller\Account\Logout" />
+    <!-- <preference for="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper" type="TCGCollective\MarketPlace\Controller\Adminhtml\Product\Initialization\Helper" /> -->
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main\Formset" type="TCGCollective\MarketPlace\Block\Adminhtml\Product\Attribute\Set\Main\Formset" />
+    <preference for="Lof\MarketPlace\Block\Adminhtml\Seller\Edit\Tabs" type="TCGCollective\MarketPlace\Block\Adminhtml\Seller\Edit\Tabs" />
+    <preference for="Lof\MarketPlace\Controller\Seller\Becomeseller" type="TCGCollective\MarketPlace\Controller\Seller\Becomeseller" />
+    <preference for="Lof\MarketPlace\Helper\Data" type="TCGCollective\MarketPlace\Helper\Data" />
+    <preference for="Lof\MarketPlace\Model\Seller" type="TCGCollective\MarketPlace\Model\Seller" />
+    <preference for="Lof\MarketPlace\Block\Seller\Editprofile" type="TCGCollective\MarketPlace\Block\Seller\Editprofile" />
+    <preference for="Lof\MarketPlace\Controller\Marketplace\Saveprofile\Index" type="TCGCollective\MarketPlace\Controller\Marketplace\Saveprofile\Index" />
+    <preference for="Lof\MarketPlace\Block\Adminhtml\Group\Edit\Tab\Option" type="TCGCollective\MarketPlace\Block\Adminhtml\Group\Edit\Tab\Option" />
+    <preference for="Lof\MarketPlace\Ui\DataProvider\Product\Form\Modifier\Categories" type="TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\Categories" />
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AttributeSet" type="TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\AttributeSet" />
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Eav" type="TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\Eav" />
+    <preference for="Lof\MarketPlace\Controller\Marketplace\Product\Reload" type="TCGCollective\MarketPlace\Controller\Marketplace\Product\Reload" />
+    <type name="Magento\Theme\Model\View\Design">
+        <arguments>
+            <argument name="themes" xsi:type="array">
+                <item name="marketplace" xsi:type="string">TCGCollective/market</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Backend\Block\Page\RequireJs" type="TCGCollective\MarketPlace\Block\Page\RequireJs" />
+    <!-- <preference for="Magento\CatalogImportExport\Model\Import\Product" type="TCGCollective\MarketPlace\Model\Import\Product" /> -->
+    <preference for="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Button\Save" type="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Button\Save" />
+    <!-- <type name="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Button\Save">
+        <plugin name="remove_button_options_plugin" type="TCGCollective\MarketPlace\Plugin\ProductSaveButton"/>
+    </type> -->
+
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
+        <plugin name="marketplace_product_initialization_helper" type="TCGCollective\MarketPlace\Plugin\ProductInitializationHelper"/>
+    </type>
+
+    
+    <preference for="Magento\Catalog\Model\Locator\RegistryLocator" type="TCGCollective\MarketPlace\Model\Locator\RegistryLocator" />
+    <preference for="Lof\MarketPlace\Ui\DataProvider\Product\Seller\ProductDataProvider" type="TCGCollective\MarketPlace\Ui\DataProvider\Product\Seller\ProductDataProvider" />
+    <preference for="Magento\Catalog\Model\Product\Attribute\Source\Status" type="TCGCollective\MarketPlace\Model\Product\Attribute\Source\Status" />
+    <preference for="Magento\ImportExport\Model\History" type="TCGCollective\MarketPlace\Model\HistoryOverwrite" />
+    <!-- <preference for="Magento\ImportExport\Model\ResourceModel\History" type="TCGCollective\MarketPlace\Model\ResourceModel\HistoryOverwrite" /> -->
+    <preference for="Lof\MarketPlace\Ui\Component\Listing\Columns\Quantity" type="TCGCollective\MarketPlace\Ui\Component\Listing\Columns\Quantity" />
+    <preference for="Magento\MediaStorage\Model\File\Uploader" type="TCGCollective\MarketPlace\Model\File\Uploader" />
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="databaseProductCreationMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">\Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">TCGCollective_MarketPlace::messages/databaseProductCreationMessage.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="productCreationMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">\Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">TCGCollective_MarketPlace::messages/productCreationMessage.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="configurableProductCreationMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">\Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">TCGCollective_MarketPlace::messages/configurableProductCreationMessage.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sidebarfilters_attributes_listing_data_source" xsi:type="string">TCGCollective\MarketPlace\Model\ResourceModel\SidebarFilterAttributes\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogGraphQl\DataProvider\Product\SearchCriteriaBuilder">
+        <plugin name="add_publish_status_filter_plugin" type="TCGCollective\MarketPlace\Plugin\AddPublishStatusFilter"/>
+    </type>
+    <type name="Magento\Framework\Console\CommandList">
+		<arguments>
+			<argument name="commands" xsi:type="array">
+                <item name="purgeVarnishCache" xsi:type="object">TCGCollective\MarketPlace\Console\Command\PurgeVarnishCache</item>
+			</argument>
+		</arguments>
+	</type>
+
+    <type name="Magento\Customer\Model\Group">
+        <plugin name="coremarketplace_force_seller_group"
+                type="TCGCollective\MarketPlace\Plugin\CustomerGroupSavePlugin"/>
+    </type>
+    <type name="Magento\Customer\Model\ResourceModel\Group\Collection">
+        <plugin name="coremarketplace_filter_customer_groups"
+                type="TCGCollective\MarketPlace\Plugin\FilterCustomerGroupCollection"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Model\ResourceModel\Group\Grid\Collection">
+        <plugin name="coremarketplace_filter_seller_group_grid"
+                type="TCGCollective\MarketPlace\Plugin\FilterSellerGroupGridCollection"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="seller_group_listing_data_source" xsi:type="string">TCGCollective\MarketPlace\Model\ResourceModel\SellerGroup\Grid\Collection</item>                
+            </argument>
+        </arguments>
+    </type>
+    <!-- Seller Group Grid Collection -->
+    <type name="TCGCollective\MarketPlace\Model\ResourceModel\SellerGroup\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">customer_group</argument>
+            <argument name="eventPrefix" xsi:type="string">customer_group_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">customer_group_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Customer\Model\ResourceModel\Group</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Api\GroupRepositoryInterface">
+        <plugin name="coremarketplace_group_is_seller_mapper"
+                type="TCGCollective\MarketPlace\Plugin\CustomerGroupRepositoryPlugin"/>
+    </type>
+
+    <type name="Magento\Customer\Model\ResourceModel\Group\Collection">
+        <plugin name="filter_seller_groups_for_catalog_rule"
+                type="TCGCollective\MarketPlace\Plugin\FilterSellerGroups"/>
+    </type>
+    <type name="Magento\User\Block\User\Edit\Tab\Main">
+        <plugin name="coremarketplace_add_website_access"
+                type="TCGCollective\MarketPlace\Plugin\User\Edit\Tab\MainPlugin"/>
+    </type>
+    
+    <preference for="Magento\User\Block\User\Edit\Tab\Main"
+                type="TCGCollective\MarketPlace\Block\User\Edit\Tab\Main"/>
+    
+    <type name="Magento\Sales\Model\ResourceModel\Order\Collection">
+    <plugin name="restrict_orders_by_website"
+                type="TCGCollective\MarketPlace\Plugin\Order\OrderCollectionPlugin"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="category_config_listing_data_source" xsi:type="string">
+                    TCGCollective\MarketPlace\Model\ResourceModel\ProductListingCategoryConfig\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

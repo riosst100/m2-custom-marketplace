@@ -1,0 +1,52 @@
+<div class="custom-data-grid-filters-actions-wrap" style="margin-top: -1px;border-top: 1px solid #ccc;padding-top: 10px;text-align: right;">
+    <div class="custom-data-grid-filters-action-wrap">
+        <span id="download_button" class="action-default button-seller-primary" data-action="grid-filter-expand">Download As CSV</span>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery'],
+        function ($) {
+            $('#download_button').click(function(){
+                $('.admin__action-dropdown-menu .action-secondary').trigger('click');
+            });
+        }
+    );
+</script>
+<style>
+    a .product-queues-counter {
+        background-color: #e22626;
+        border-radius: 1em;
+        color: #ffffff;
+        display: inline-block;
+        font-size: 11px;
+        margin-left: 6px;
+        margin-top: 0;
+        padding: 0px 5px;
+    }
+
+    .button-seller {
+        background-color: #2a3f54;
+        color: white;
+        border: none;
+        padding: 9px 18px !important;
+        cursor: pointer;
+    }
+
+    .button-seller-primary {
+        background-color: #f76b1c;
+        color:white;
+        border: none;
+        padding: 9px 18px !important;
+        cursor: pointer;
+    }
+
+    .button-seller-primary:hover {
+        background-color: #ff7b2fff;
+        color:white;
+    }
+
+    .button-seller:hover {
+        background-color: #3e5367;
+        color:white;
+    }
+</style>

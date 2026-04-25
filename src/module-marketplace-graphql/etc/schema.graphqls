@@ -1,0 +1,656 @@
+type Query {
+  products (
+        search: String @doc(description: "One or more keywords to use in a full-text search."),
+        category_uid: String @doc(description: "One or more keywords to use in a full-text search."),
+        filter: ProductAttributeFilterInput @doc(description: "The product attributes to search for and return."),
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default value is 20."),
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default value is 1."),
+        sort: ProductAttributeSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
+    ): Products
+    @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Products") @doc(description: "Search for products that match the criteria specified in the `search` and `filter` attributes.") @cache(cacheIdentity: "Magento\\CatalogGraphQl\\Model\\Resolver\\Product\\Identity")
+  sellerCountries: [Country] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SellerCountries") @doc(description: "Seller countries.")
+  sellerCategories(
+      sellerUrl: String!
+      filters: CategoryFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+      pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. The default value is 20.")
+      currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
+    ): [SellerCategoryTree] @doc(description: "Return an array of categories based on the specified filters.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SellerCategoriesQuery") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SellerCategory\\SellerCategoriesIdentity") @deprecated(reason: "Use `categories` instead.")
+  collectibleGameSets(categoryUrlKey: String!, productType: String): [CollectibleGameSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\CollectibleGameSets") @doc(description: "Seller countries.")
+  shopByCard(categoryUrlKey: String!, productType: String, filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")): [ShopByCard] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByCard") @doc(description: "Seller countries.")
+  sportCardsSets(
+    categoryUrlKey: String!, 
+    setType: String, 
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [SportCardsSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SportCardsSets") @doc(description: "Seller countries.")
+  getSetsData(
+    categoryUrlKey: String!, 
+    activeTab: String,
+    activeFilter: String,
+    shopby: String,
+    set_filters: [SetFiltersInput],
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): SetsDataOutput @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SetsData") @doc(description: "Seller countries.") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SetsData\\Identity")
+  nonSportCardsSets(
+    categoryUrlKey: String!, 
+    setType: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [NonSportCardsSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\NonSportCardsSets") @doc(description: "Seller countries.")
+ legoSets(
+    categoryUrlKey: String!, 
+    activeTab: String,
+    activeFilter: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [LegoSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\LegoSets") @doc(description: "Seller countries.")
+  trainsSets(
+    categoryUrlKey: String!, 
+    activeTab: String,
+    activeFilter: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [TrainsSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\TrainsSets") @doc(description: "Seller countries.") 
+  shopByVehicles(
+    categoryUrlKey: String!, 
+    activeTab: String,
+    activeFilter: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [LegoSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByVehicles") @doc(description: "Seller countries.")
+  miniatureGameSets(
+    categoryUrlKey: String!, 
+    activeTab: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): [MiniatureGameSets] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\MiniatureGameSets") @doc(description: "Seller countries.")
+  shopByData(
+    activeFilter: String,
+    categoryUrlKey: String!,
+    categoryUrlPath: String,
+    attributeCode: String,
+    shopby: String,
+    search: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): ShopByDataOutput @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByData") @doc(description: "Seller countries.") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByData\\Identity")
+  showMoreData(
+    activeFilter: String,
+    categoryUrlKey: String!,
+    categoryUrlPath: String,
+    attributeCode: String,
+    shopby: String,
+    search: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): ShopByDataOutput @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShowMoreData") @doc(description: "Seller countries.") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByData\\Identity")
+  shopByBrands(
+    activeFilter: String,
+    categoryUrlKey: String!, 
+    attributeCode: String,
+    shopby: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): ShopByBrands @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ShopByBrands") @doc(description: "Seller countries.")
+  customSubFilters(
+    category: String,
+    categoryId: String,
+    shopby: String,
+    filterBy: String,
+    search: String,
+    filters: ProductAttributeFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+  ): CustomSubFiltersOutput @doc(description: "A bucket that contains the attribute code and label for each filterable option.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\CustomSubFilters") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\CustomSubFilters\\Identity")
+  masterAttributes: [MasterAttributesOutput] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\MasterAttributes") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\MasterAttributes\\Identity")
+  subFilters: [SubFiltersOutput] @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SubFilters") @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SubFilters\\Identity")
+  productFaqList(product_id: Int!): [ProductFaq]
+        @resolver(
+            class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Faq\\ProductFaqList"
+        )
+  getFaqCategories(product_id: Int!): [FaqCategory] 
+        @resolver(
+            class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Faq\\GetFaqCategories"
+        )
+  getAgeVerificationConfig(
+    attribute_code: String
+    attribute_option: String
+    category_uid: String
+  ): AgeVerificationConfig 
+    @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\AgeVerification\\AgeVerificationConfig") 
+    @cache(cacheIdentity: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\AgeVerification\\AgeVerificationConfig\\Identity")
+    @doc(description: "Delete the current logged-in customer's account.")
+}
+
+type Mutation {
+  deleteCustomerAccount: DeleteAccountOutput @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\DeleteAccount") @doc(description: "Delete the current logged-in customer's account.")
+  confirmCustomerEmail(
+        id: Int!
+        key: String!
+    ): ConfirmCustomerEmailOutput
+        @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ConfirmCustomerEmail")
+        @doc(description: "Confirm customer email based on id and key.")
+  resendCustomerConfirmation(
+        email: String!
+    ): ResendCustomerConfirmationOutput
+        @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\ResendCustomerConfirmation")
+        @doc(description: "Resend the customer account confirmation email.")
+  addProductFaq(input: AddProductFaqInput!): AddProductFaqOutput
+        @resolver(
+            class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Faq\\AddProductFaq"
+        )
+}
+
+type AgeVerificationConfig {
+  status: Boolean
+  minimum_age: Int
+}
+
+type SellerMessage {
+  seller: Seller
+    @doc(description: "Seller messages")
+    @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Messages\\Seller")
+}
+
+type ConfirmCustomerEmailOutput {
+    success: Boolean!
+    message: String!
+}
+
+input CustomerInput {
+  address: CustomerAddressInput!
+}
+
+type ResendCustomerConfirmationOutput {
+    success: Boolean!
+    message: String!
+}
+
+type DeleteAccountOutput {
+  success: Boolean!
+  message: String
+}
+
+type CustomSubFiltersOutput {
+  filter_id: String
+  filters: [Aggregation]
+}
+
+type Aggregation {
+  show_all_btn: Boolean
+}
+
+type AggregationOption {
+  products_count: String
+}
+
+type SubFiltersOutput {
+  attribute_code: String
+  options: [SubFilters]
+}
+
+type SellerCategoryTree implements SellerCategoryInterface, RoutableInterface @doc(description: "Contains the hierarchy of categories.") {
+    children: [CategoryTree] @doc(description: "A tree of child categories.") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\CategoryTree")
+}
+
+interface SellerCategoryInterface @typeResolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\SellerCategoryInterfaceTypeResolver") @doc(description: "Contains the full set of attributes that can be returned in a category search.") {
+    id: Int @deprecated(reason: "Use `uid` instead.") @doc(description: "An ID that uniquely identifies the category.")
+    uid: ID! @doc(description: "The unique ID for a `SellerCategoryInterface` object.")
+    description: String @doc(description: "An optional description of the category.") @resolver(class: "\\Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\CategoryHtmlAttribute")
+    name: String @doc(description: "The display name of the category.")
+    path: String @doc(description: "The full category path.")
+    path_in_store: String @doc(description: "The category path within the store.")
+    url_key: String @doc(description: "The URL key assigned to the category.")
+    url_path: String @doc(description: "The URL path assigned to the category.")
+    canonical_url: String @doc(description: "The relative canonical URL. This value is returned only if the system setting 'Use Canonical Link Meta Tag For Categories' is enabled.") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\CanonicalUrl")
+    position: Int @doc(description: "The position of the category relative to other categories at the same level in tree.")
+    level: Int @doc(description: "The depth of the category within the tree.")
+    created_at: String @deprecated(reason: "The field should not be used on the storefront.") @doc(description: "The timestamp indicating when the category was created.")
+    updated_at: String @deprecated(reason: "The field should not be used on the storefront.") @doc(description: "The timestamp indicating when the category was updated.")
+    product_count: Int @doc(description: "The number of products in the category that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\ProductsCount")
+    default_sort_by: String @doc(description: "The attribute to use for sorting.")
+    products(
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default value is 20."),
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default value is 1."),
+        sort: ProductAttributeSortInput @doc(description: "The attributes to sort on, and whether to return the results in ascending or descending order.")
+    ): CategoryProducts @doc(description: "The list of products assigned to the category.") @cache(cacheIdentity: "Magento\\CatalogGraphQl\\Model\\Resolver\\Product\\Identity") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\Products")
+    breadcrumbs: [Breadcrumb] @doc(description: "An array of breadcrumb items.") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\Breadcrumbs")
+}
+
+type SubFilters {
+  option_label: String
+  sub_option_labels: [String]
+}
+
+type MasterAttributesOutput {
+  attribute_code: String
+}
+
+type ShopByDataOutput {
+  filter_id: String
+  page_info: PageInfo
+  data: [Aggregation]
+}
+
+type SetsDataOutput {
+  available_filters: [SetFilters]
+  filter_id: String
+  page_info: PageInfo
+  attribute: Attribute
+  data: [SetsGroup]
+}
+
+input SetFiltersInput {
+  code: String
+  value: String
+}
+
+type SetFilters {
+  code: String
+  options: [String]
+}
+
+type PageInfo {
+  title: String
+  hide_title: Boolean
+  filter_group: Boolean
+}
+
+type Attribute {
+  attribute_code: String
+  label: String
+}
+
+type SetsGroup {
+  group: String
+  release_year: String
+  sets: [Sets]
+}
+
+type Sets {
+  products_count: String
+  set_name: String
+  option_id: String
+  set_abbreviation: String
+  release_number: String
+  release_date: String
+  release_year: String
+}
+
+type ShopByBrands {
+  filters: [ShopByFilter]
+  options: [Brands]
+}
+
+type ShopByFilter {
+  name: String
+  value: String
+  subfilter: [SubFilter]
+}
+
+type SubFilter {
+  name: String
+  value: String
+}
+
+type Brands {
+  name: String
+  value: String
+  attribute_code: String
+}
+
+type MiniatureGameSets {
+  group: String
+  sets: [MiniatureGameSet]
+}
+
+type MiniatureGameSet {
+  set_name: String
+  option_id: String
+  release_year: String
+}
+
+type LegoSets {
+  group: String
+  sets: [LegoSet]
+}
+
+type TrainsSets {
+  group: String
+  sets: [TrainsSet]
+}
+
+type TrainsSet {
+  set_name: String
+  option_id: String
+  country: String
+  trains_gauge: String
+}
+
+type LegoSet {
+  set_name: String
+  option_id: String
+  release_year: String
+  vehicles_diecast: String
+}
+
+type SportCardsSets {
+  group: String
+  sets: [SportCardsSet]
+}
+
+type NonSportCardsSets {
+  group: String
+  sets: [NonSportCardsSet]
+}
+
+type NonSportCardsSet {
+  set_name: String
+  option_id: String
+  release_year: String
+}
+
+type SportCardsSet {
+  set_name: String
+  option_id: String
+  release_year: String
+  sc_league: String
+  sc_brands: String
+}
+
+type ShopByData {
+  items: [ShopByItems]
+}
+
+type ShopByItems {
+  group: String
+  options: [ShopByOptions]
+}
+
+type ShopByOptions {
+  label: String
+  value: String
+}
+
+type StoreConfig {
+  custommarketplace_plp_filters_virtualcategory: String
+  marketplace_menu_topfilters_attributes: String
+}
+
+interface ProductInterface {
+  product_details: [CustomAttribute]!
+    @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\ProductDetails")
+    @doc(description: "List of product custom attributes details.")
+  term_and_conditions: String @doc(description: "Term and conditions of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\TermAndConditions")
+  custom_table_metadata: CustomTableMetadata @doc(description: "") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\CustomTableMetadata")
+  shipping_policy: String @doc(description: "Shipping policy of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\ShippingPolicy")
+  return_policy: String @doc(description: "Return policy of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\ReturnPolicy")
+  card_name: String @doc(description: "Card name of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\CardName")
+  preorder: PreOrder @doc(description: "Term and conditions of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\PreOrderData")
+  auction_data: Auction @doc(description: "Term and conditions of the product.") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Product\\AuctionData")
+}
+
+type CustomTableMetadata {
+  mainAttrCode: String
+  mainAttrVal: String
+  mainAttrLabel: String
+}
+
+type PreOrder {
+  is_preorder: Boolean
+  pre_order_payment_type: String
+  pre_order_deposit: String
+  pre_order_notes: String
+  pre_order_date: String
+}
+
+type Auction {
+  is_auction: Boolean
+  status: String
+  customer_id: String
+  starting_price: String
+  reserve_price: String
+  days: String
+  min_qty: String
+  max_qty: String
+  start_auction_time: String
+  stop_auction_time: String
+  auction_status: String
+  increment_opt: String
+  increment_price: String
+  auto_auction_opt: String
+  featured_auction: String
+  buy_it_now: String
+  max_amount: String
+  min_amount: String
+  current_time_stamp: String
+  continue_time: String
+  limit_bids: String
+  time_zone: String
+  stop_auction_utc_time: String
+  start_auction_utc_time: String
+  today_time: String
+  start_auction_time_stamp: String
+  stop_auction_time_stamp: String
+  new_auction_start: String
+  customer_name: String
+  max_bids: String
+}
+
+type CollectibleGameSets {
+  release_type: String
+  sets: [CardGamesSet]
+}
+
+type ShopByCard {
+  release_type: String
+  sets: [CardGamesSet]
+}
+
+
+type CardGamesSet {
+  set_name: String
+  option_id: String
+  set_abbreviation: String
+  release_number: String
+  release_date: String
+  release_year: String
+}
+
+type AttributesBlock {
+  label: String
+  code: String
+  items: [AttributesBlockItem]
+}
+
+type AttributesBlockItem {
+  label: String
+  value: String
+}
+
+input ProductAttributeFilterInput {
+  is_preorder: FilterEqualTypeInput @doc(description: "Filter product by preorder.")
+  seller_id: FilterEqualTypeInput @doc(description: "Filter seller id")
+}
+
+interface CategoryInterface { 
+  default_top_filter: DefaultTopFilter @doc(description: "Category custom landing page") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Category\\DefaultTopFilter")
+  shop_by: [ShopBy] @doc(description: "Category shop by") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Category\\ShopBy")
+  prefixes: [String] @doc(description: "Category shop by") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Category\\Prefixes")
+  custom_submenu: [CategoryCustomSubmenu] @doc(description: "Category custom submenu") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Category\\CustomSubmenu")
+  count: Int @doc(description: "Category custom submenu") @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\Category\\ProductCount")
+}
+
+type DefaultTopFilter {
+  attribute_code: String
+  label: String
+  value: String
+}
+
+type CustomSubCategory {
+  name: String
+  path: String
+}
+
+type Filter {
+  code: String
+}
+
+type ShopBy {
+  name: String @doc(description: "Shop by attribute name")
+  code: String @doc(description: "Shop by attribute code")
+  items: [ShopByItem] @doc(description: "Shop by items")
+}
+
+type CategoryCustomSubmenu {
+  name: String
+  attribute: CustomSubmenuAttribute
+  path: String
+  count: String
+}
+
+type CustomSubmenuAttribute {
+  code: String
+  value: String
+}
+
+type CategoryTree {
+  parent: [CategoryTree] @doc(description: "A tree of parent categories") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\CategoryTree")
+}
+
+type ShopBy {
+  name: String @doc(description: "Shop by attribute name")
+  code: String @doc(description: "Shop by attribute code")
+  items: [ShopByItem] @doc(description: "Shop by items")
+}
+
+type ShopByItem {
+  name: String @doc(description: "Shop by option label")
+  option_id: String @doc(description: "Shop by option id")
+  url_path: String @doc(description: "Shop by option url path")
+}
+
+input SellerInput {
+  seller_type: String @doc(description: "Store Type")
+  name: String @doc(description: "Store Name")
+  company: String @doc(description: "Company Name")
+  company_registration_number: String @doc(description: "Company Registration Number")
+  country_id: String @doc(description: "Store Address Country ID")
+  address_line_1: String! @doc(description: "Store Address Line 1")
+  address_line_2: String @doc(description: "Store Address Line 2")
+  city: String! @doc(description: "Store Address City")
+  region: String @doc(description: "Store Address Region")
+  region_id: String @doc(description: "Store Address Region")
+  postcode: String! @doc(description: "Store Address Postal Code")
+  contact_number: String! @doc(description: "Store Address Contact Number")
+}
+
+type Seller {
+  seller_type: String @doc(description: "Store Type")
+  name: String @doc(description: "Store Name")
+  company: String @doc(description: "Company Name")
+  company_registration_number: String @doc(description: "Company Registration Number")
+  country_id: String @doc(description: "Store Address Country ID")
+  address_line_1: String @doc(description: "Store Address Line 1")
+  address_line_2: String @doc(description: "Store Address Line 2")
+  city: String @doc(description: "Store Address City")
+  region: String @doc(description: "Store Address Region")
+  creation_time: String @doc(description: "Creation Time")
+  region_id: String @doc(description: "Store Address Region")
+  postcode: String @doc(description: "Store Address Postal Code")
+  contact_number: String @doc(description: "Store Address Contact Number")
+  description: String @doc(description: "Store Description")
+  website_url: String @doc(description: "Store Website URL")
+  ship_to: String @doc(description: "Store Ship To")
+  ship_to_country: String @doc(description: "Store Ship To Country")
+  operating_hours: [OperatingHours] @doc(description: "Store Operating Hours") @resolver(class: "\\TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\SellerOperatingHours")
+  term_and_conditions: String @doc(description: "Store Term & Conditions")
+}
+
+type OperatingHours {
+  day: String @doc(description: "Hours Code")
+  status: String @doc(description: "Hours Status")
+  time: [Time] @doc(description: "Hours Time")
+}
+
+type Time {
+  opening_time: String @doc(description: "Opening Time")
+  closing_time: String @doc(description: "Closing Time")
+}
+
+type Customer {
+  is_seller: Boolean @doc(description: "Customer is seller") @resolver(class: "\\TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\IsCustomerSeller")
+}
+
+extend interface OrderItemInterface {
+    seller_name: String
+        @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\OrderItem\\Seller")
+        @doc(description: "Seller name of the ordered product.")
+    product_image_url: String
+        @resolver(class: "TCGCollective\\MarketplaceGraphQl\\Model\\Resolver\\OrderItem\\ProductImage")
+        @doc(description: "Product image URL of the ordered item.")
+}
+
+type ProductFaq {
+    question_id: Int
+    seller_id: Int
+    customer_name: String
+    customer_email: String
+    category_id: Int
+    store_id: Int
+    title: String
+    title_size: String
+    title_color: String
+    title_background: String
+    border_width: String
+    border_color: String
+    border_radius: String
+    body_color: String
+    body_background: String
+    margin_bottom: String
+    margin_left: String
+    icon: String
+    answer: String
+    status: Int
+    position: Int
+    creation_time: String
+    update_time: String
+    meta_keywords: String
+    meta_description: String
+    page_title: String
+}
+
+input AddProductFaqInput {
+    product_id: Int!
+    category_id: Int!
+    title: String!
+    customer_name: String!
+    customer_email: String!
+}
+
+type AddProductFaqOutput {
+    success: Boolean!
+    message: String
+    question_id: Int
+}
+
+type FaqCategory {
+    category_id: Int
+    parent_id: Int
+    seller_id: Int
+    store_id: Int
+    title: String
+    title_size: String
+    title_color: String
+    title_background: String
+    border_width: String
+    border_color: String
+    border_radius: String
+    body_background: String
+    margin_bottom: String
+    margin_left: String
+    icon: String
+    description: String
+    position: Int
+    status: Int
+    creation_time: String
+    update_time: String
+    meta_keywords: String
+    meta_description: String
+    page_title: String
+}

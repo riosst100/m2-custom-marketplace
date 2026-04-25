@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="TCGCollective_MarketPlace::marketplace" title="Marketplace" sortOrder="8">
+                    <resource id="TCGCollective_MarketPlace::manage_seller" title="Seller" sortOrder="10">
+                        <resource id="TCGCollective_MarketPlace::all_seller" title="All Sellers" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::seller_verification" title="Seller Verification" sortOrder="20" />
+                        <resource id="TCGCollective_MarketPlace::seller_groups" title="Seller Groups" sortOrder="30" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::admin_messages" title="Messages Inbox" sortOrder="20">
+                        <resource id="TCGCollective_MarketPlace::admin_seller_messages" title="Messages From Seller" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_help" title="Seller Help Center" sortOrder="30">
+                        <resource id="TCGCollective_MarketPlace::seller_help_category" title="Manage Category" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::seller_help_articles" title="Manage Questions" sortOrder="20" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::user_help" title="User Help Center" sortOrder="40">
+                        <resource id="TCGCollective_MarketPlace::user_help_category" title="Manage Category" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::user_help_articles" title="Manage Questions" sortOrder="20" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::platform_fee" title="Platform Fee" sortOrder="50">
+                        <resource id="TCGCollective_MarketPlace::product_commission" title="Manage Commissions / Fee" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::subscription" title="Subscription" sortOrder="60">
+                        <resource id="TCGCollective_MarketPlace::subscription_plan" title="Subscription Plan" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::membership_group" title="Membership Group" sortOrder="20" />
+                        <resource id="TCGCollective_MarketPlace::subscription_history" title="Transaction History" sortOrder="30" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::new_game_brand_request" title="New Games/Brands Request" sortOrder="70">
+                        <resource id="TCGCollective_MarketPlace::new_game_brand_request_messages" title="Manage Form Messages" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::new_game_brand_request_form" title="Manage Form" sortOrder="20" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::smtp" title="Email / SMTP" sortOrder="80">
+                        <resource id="TCGCollective_MarketPlace::email_log" title="Email Log" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::email_debug" title="Email Debug" sortOrder="20" />
+                        <resource id="TCGCollective_MarketPlace::email_blacklist" title="Email Blacklist" sortOrder="30" />
+                        <resource id="TCGCollective_MarketPlace::email_blockip" title="Block Ip" sortOrder="40" />
+                        <resource id="TCGCollective_MarketPlace::email_spam" title="Spam" sortOrder="50" />
+                        <resource id="TCGCollective_MarketPlace::report_email" title="Report" sortOrder="60" />
+                        <resource id="TCGCollective_MarketPlace::email_settings" title="Settings" sortOrder="70" />
+                    </resource>
+                </resource>
+                <resource id="TCGCollective_MarketPlace::seller" title="Seller" sortOrder="9">
+                    <resource id="TCGCollective_MarketPlace::seller_catalog" title="Catalog" sortOrder="20">
+                        <resource id="TCGCollective_MarketPlace::seller_products" title="Products" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_sales" title="Sales" sortOrder="30">
+                        <resource id="TCGCollective_MarketPlace::seller_orders" title="Orders" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::seller_invoices" title="Invoices" sortOrder="20" />
+                        <resource id="TCGCollective_MarketPlace::seller_transaction" title="Transactions" sortOrder="30" />
+                        <resource id="TCGCollective_MarketPlace::seller_refunds" title="Refunds" sortOrder="40" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_preorders" title="Pre Orders" sortOrder="40">
+                        <resource id="TCGCollective_MarketPlace::manage_seller_preorders" title="Manage Pre Orders" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_rfq" title="Offers (RFQ)" sortOrder="50">
+                        <resource id="TCGCollective_MarketPlace::manage_seller_rfq" title="Manage Offers" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_transaction_amounts" title="Transaction Amount" sortOrder="60">
+                        <resource id="TCGCollective_MarketPlace::seller_amount_transaction" title="Manage Amount Transactions" sortOrder="10" />
+                        <resource id="TCGCollective_MarketPlace::seller_amount" title="Manage Seller Amounts" sortOrder="20" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_rma" title="Return / RMA" sortOrder="70">
+                        <resource id="TCGCollective_MarketPlace::manage_seller_rma" title="Manage RMA" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_storelocator" title="Physical Stores" sortOrder="80">
+                        <resource id="TCGCollective_MarketPlace::manage_seller_storelocator" title="Physical Stores" sortOrder="10" />
+                    </resource>
+                    <resource id="TCGCollective_MarketPlace::seller_reviewrating" title="Product Reviews" sortOrder="90">
+                        <!-- <resource id="TCGCollective_MarketPlace::manage_seller_storelocator" title="Physical Stores" sortOrder="10" /> -->
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

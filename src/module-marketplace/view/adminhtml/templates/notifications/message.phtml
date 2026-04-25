@@ -1,0 +1,83 @@
+<?php
+/**
+ * @var $block \Lof\MarketPlace\Block\Adminhtml\Notifications\Message
+ */
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+$helperData = $this->helper(\Lof\MarketPlace\Helper\Data::class);
+$totalCount = 0;
+// $countPendingSellers = 0;
+// $countPendingProducts = 0;
+// $countWithdrawl = 0;
+$countUnread = $block->countUnread();
+// $totalCount += (int)$countUnread;
+$countSellerVerification = (int)$block->countSellerVerification();
+// $countPendingProducts = (int)$block->countPendingProducts();
+// $countWithdrawl = (int)$block->countWithdrawl();
+$totalCount += $countSellerVerification;
+?>
+<script type="text/javascript">
+    require(['jquery'],
+        function ($) {
+            <?php if ($totalCount) : ?>
+                $('.item-marketplace>a').append('<span class="notifications-counter<?php if($totalCount) { echo ' active'; } ?>"><?= $block->escapeHtml($totalCount) ?></span>');
+            <?php endif; ?>
+            $('.item-seller-verification>a').append('<span class="notifications-counter<?php if($countSellerVerification) { echo ' active'; } ?>"><?= $block->escapeHtml($countSellerVerification) ?></span>');
+            $('.item-new-game-brand-request-messages>a').append('<span class="notifications-counter<?php if($countUnread) { echo ' active'; } ?>"><?= $block->escapeHtml($countUnread) ?></span>');
+            $('.item-admin-seller-messages>a').append('<span class="notifications-counter<?php if($countUnread) { echo ' active'; } ?>"><?= $block->escapeHtml($countUnread) ?></span>');
+        });
+</script>
+<style>
+    .admin__menu .item-admin-seller-messages > a,
+    .admin__menu .item-seller-verification > a,
+    .admin__menu .item-new-game-brand-request-messages > a,
+    .admin__menu .item-marketplace > a {
+        position: relative;
+    }
+
+    .admin__menu .item-admin-seller-messages > a:before,
+    .admin__menu .item-seller-verification > a:before,
+    .admin__menu .item-new-game-brand-request-messages > a:before {
+        content: '\e607';
+        font-family: 'Admin Icons';
+        float: right;
+        font-size: 1.8rem;
+    }
+
+    .admin__menu .item-admin-seller-messages > a .notifications-counter,
+    .admin__menu .item-seller-verification > a .notifications-counter,
+    .admin__menu .item-new-game-brand-request-messages > a .notifications-counter {
+        font-weight: 500;
+        border-radius: 1em;
+        color: #ffffff;
+        display: inline-block;
+        margin-left: .3em;
+        margin-top: -2.1em;
+        position: absolute;
+        background-color: #878787;
+        font-size: 12px;
+        right: 3%;
+        padding: .1em .4em;
+        top: 70%;
+    }
+
+    .admin__menu .item-marketplace > a .notifications-counter {
+        right: 25%;
+        top: 45%;
+        padding: .1em .4em;
+        font-weight: 500;
+
+        border-radius: 1em;
+        color: #ffffff;
+        display: inline-block;
+        margin-left: .3em;
+        margin-top: -2.1em;
+        position: absolute;
+        background-color: #878787;
+        font-size: 12px;
+    }
+
+    .notifications-counter.active {
+        background-color: #e22626 !important;
+    }
+</style>

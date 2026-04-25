@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <settings>
+        <buttons>
+            <button name="save" class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Button\Save"/>
+            <button name="back" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Button\Back"/>
+            <!-- <button name="unpublish" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Button\Unpublish"/> -->
+            <!-- <item name="back" xsi:type="string">TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Button\Back</item> -->
+        </buttons>
+    </settings>
+    <htmlContent name="product.form.configurable.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.configurable.matrix" class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Variations\Config\Matrix" template="Lof_MarketProductConfigurable::catalog/product/edit/super/wizard.phtml" as="matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">configurableModal</item>
+                    <item name="nameStepWizard" xsi:type="string">variation-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                    <item name="urlWizard" xsi:type="string">catalog/database/wizard</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <htmlContent name="gallery">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Images</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="gallery" class="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery">
+            <block class="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content" as="content">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="parentComponent" xsi:type="string">product_form.product_form.block_gallery.block_gallery</item>
+                    </argument>
+                </arguments>
+                <block class="Magento\ProductVideo\Block\Adminhtml\Product\Edit\NewVideo" name="new-video" template="Magento_ProductVideo::product/edit/slideout/form.phtml"/>
+            </block>
+        </block>
+    </htmlContent>
+    <!-- ACTION TOY -->
+    <htmlContent name="product.form.actiontoy.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.actiontoy.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="actiontoy.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">actiontoy.setsModal</item>
+                    <item name="scope" xsi:type="string">actiontoy</item>
+                    <item name="nameStepWizard" xsi:type="string">select-actiontoy-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormActionToySets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/actiontoys</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- ANIME -->
+    <htmlContent name="product.form.anime.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.anime.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="anime.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">anime.setsModal</item>
+                    <item name="scope" xsi:type="string">anime</item>
+                    <item name="nameStepWizard" xsi:type="string">select-anime-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormAnimeSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/anime</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- CARD GAME -->
+    <htmlContent name="product.form.cardgame.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.cardgame.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="cardgame.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                    <item name="scope" xsi:type="string">cardgame</item>
+                    <item name="nameStepWizard" xsi:type="string">select-cardgame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/cardgame</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- LIVING CARD GAME -->
+    <htmlContent name="product.form.livingcardgame.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.livingcardgame.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="livingcardgame.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                    <item name="scope" xsi:type="string">livingcardgame</item>
+                    <item name="nameStepWizard" xsi:type="string">select-livingcardgame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/livingcardgames</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- MINIATURE GAMES -->
+    <htmlContent name="product.form.miniaturegame.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.miniaturegame.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="miniaturegame.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">miniaturegame.setsModal</item>
+                    <item name="scope" xsi:type="string">miniaturegame</item>
+                    <item name="nameStepWizard" xsi:type="string">select-miniaturegame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormMiniatureGameSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/miniaturegames</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- GAMES WORKSHOP -->
+    <htmlContent name="product.form.gamesworkshop.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.gamesworkshop.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="gamesworkshop.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">gamesworkshop.setsModal</item>
+                    <item name="scope" xsi:type="string">gamesworkshop</item>
+                    <item name="nameStepWizard" xsi:type="string">select-gamesworkshop-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormGamesWorkshopSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/gamesworkshop</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- SPORT CARD -->
+    <htmlContent name="product.form.sportcard.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.sportcard.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="sportcard.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                    <item name="scope" xsi:type="string">sportcard</item>
+                    <item name="nameStepWizard" xsi:type="string">select-sportcard-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormSportCardSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/sportcards</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- NON SPORT CARD -->
+    <htmlContent name="product.form.nonsportcard.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.nonsportcard.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="nonsportcard.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">nonsportcard.setsModal</item>
+                    <item name="scope" xsi:type="string">nonsportcard</item>
+                    <item name="nameStepWizard" xsi:type="string">select-nonsportcard-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormNonSportCardSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/nonsportcards</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- BRICKS -->
+    <htmlContent name="product.form.bricks.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.bricks.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="bricks.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">bricks.setsModal</item>
+                    <item name="scope" xsi:type="string">bricks</item>
+                    <item name="nameStepWizard" xsi:type="string">select-bricks-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormBricksSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/bricks</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- DIECAST -->
+    <htmlContent name="product.form.diecast.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.diecast.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="diecast.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">diecast.setsModal</item>
+                    <item name="scope" xsi:type="string">diecast</item>
+                    <item name="nameStepWizard" xsi:type="string">select-diecast-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormDiecastSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/diecast</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- MODEL KITS -->
+    <htmlContent name="product.form.modelkits.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.modelkits.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="modelkits.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">modelkits.setsModal</item>
+                    <item name="scope" xsi:type="string">modelkits</item>
+                    <item name="nameStepWizard" xsi:type="string">select-modelkits-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormModelKitsSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/modelkits</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+    <!-- RAILWAY -->
+    <htmlContent name="product.form.trains.sets.matrix.content" sortOrder="1000">
+        <argument name="data" xsi:type="array">
+            <item name="wrapper" xsi:type="array">
+                <item name="visible" xsi:type="boolean">false</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"/>
+            </item>
+        </argument>
+        <settings>
+            <wrapper>
+                <canShow>true</canShow>
+                <componentType>fieldset</componentType>
+            </wrapper>
+        </settings>
+        <block name="product.form.trains.sets.matrix" class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platformDbWizard.phtml" as="trains.matrix">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">1000</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="provider" xsi:type="string">product_form.product_form_data_source</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">trains.setsModal</item>
+                    <item name="scope" xsi:type="string">trains</item>
+                    <item name="nameStepWizard" xsi:type="string">select-trains-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormTrainsSets</item>
+                    <item name="urlWizard" xsi:type="string">catalog/setsrelease/trains</item>
+                </argument>
+            </arguments>
+        </block>
+    </htmlContent>
+</form>

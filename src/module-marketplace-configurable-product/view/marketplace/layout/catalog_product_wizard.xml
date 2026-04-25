@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Variations\Config\Matrix" template="Lof_MarketProductConfigurable::catalog/product/edit/super/wizard-ajax.phtml" as="wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">configurableModal</item>
+                    <item name="nameStepWizard" xsi:type="string">variation-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                </argument>
+            </arguments>
+            <block class="Magento\Ui\Block\Component\StepsWizard" name="variation-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">configurableModal</item>
+                        <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                    </argument>
+                </arguments>
+                <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes" name="step1" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_attributes.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">product_attributes_listing.product_attributes_listing.product_attributes_columns.ids</item>
+                            <item name="providerName" xsi:type="string">product_attributes_listing.product_attributes_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="product_attributes_listing"/>
+                </block>
+                <!-- <block class="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectRelease" name="step.release" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_release.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_variations_release_listing.cardgame_variations_release_listing.cardgame_release_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_variations_release_listing.cardgame_variations_release_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_variations_release_listing"/>
+                </block> -->
+                <!-- <block class="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectSets" name="step.sets" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_variations_sets_listing.cardgame_variations_sets_listing.cardgame_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_variations_sets_listing.cardgame_variations_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_variations_sets_listing"/>
+                </block> -->
+                <block class="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectProducts" name="step.sets" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_set.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">variations_sets_product_listing.variations_sets_product_listing.product_columns.ids</item>
+                            <item name="providerName" xsi:type="string">variations_sets_product_listing.data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="variations_sets_product_listing"/>
+                </block>
+                <block class="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectProducts" name="step.singles" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_products.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">variations_singles_product_listing.variations_singles_product_listing.product_columns.ids</item>
+                            <item name="providerName" xsi:type="string">variations_singles_product_listing.data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="variations_singles_product_listing"/>
+                </block>
+                <!-- <block class="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectSealedProducts" name="step.sealedproducts" template="TCGCollective_MarketplaceConfigurableProduct::catalog/product/edit/attribute/steps/select_sealedproducts.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">configurableModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_sealedproducts_configurable_associated_product_listing.cardgame_sealedproducts_configurable_associated_product_listing.product_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_sealedproducts_configurable_associated_product_listing.data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormConfigurable</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_sealedproducts_configurable_associated_product_listing"/>
+                </block> -->
+                <referenceBlock name="step3" remove="true" />
+                <referenceBlock name="step4" remove="true" />
+            </block>
+        </block>
+    </container>
+</layout>

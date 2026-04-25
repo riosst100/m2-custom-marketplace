@@ -1,0 +1,794 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lof_MarketPlace
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Magento2.Security.XssTemplate.FoundUnescaped
+// phpcs:disable Generic.Files.LineLength.TooLong
+/**
+ * @var $block Lof\MarketPlace\Block\Product\Import
+ */
+$seller = $block->getSeller();
+?>
+<div class="clearfix"></div>
+<div class="row" style="padding-top:10px">
+    <div class="col-md-12">
+    <form enctype="multipart/form-data" method="post"
+                      action="<?= $block->escapeHtmlAttr($block->getUrl('*/*/validateimport/')) ?>" id="edit_form"
+                      novalidate="novalidate">
+        <div class="x_panel">
+            <div class="x_content import-product">
+                
+                    <input name="form_key" type="hidden" value="lenvCjnaOf6CBttF">
+                    <fieldset class="fieldset admin__fieldset fieldset_setting">
+                        <legend class="admin__legend legend">
+                            <h2><?= $block->escapeHtml(__('Select Categories')) ?></h2>
+                        </legend>
+                        <div class="admin__field field required">
+                            <label for="categories" class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Categories')) ?></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <select style="width: 100%" title="Entity Type" name="categories" id="categories" class="admin__control-select"
+                                        data-validate="{required:true}" aria-required="true">
+                                        <option value="" selected hidden style="display: none;">--Please select category--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SELECT SUBCATEGORIES -->
+                        <div class="admin__field field required" id="subcategories_field" style="display:none">
+                            <label for="subcategories" class="label admin__field-label">
+                                <span id="subcategories_label"></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <select style="width: 100%" name="subcategories" id="subcategories" class="admin__control-select"
+                                        data-validate="{required:true}" aria-required="true">
+                                        <option id="subcategories_default_value" value="" selected hidden style="display: none;">--Please select--</option>
+                                    </select>
+                                    <input type="hidden" id="subcategories_attr_code" name="subcategories_attr_code" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SELECT SUB SUBCATEGORIES -->
+                        <div class="admin__field field required" id="sub_subcategories_field" style="display:none">
+                            <label for="sub_subcategories" class="label admin__field-label">
+                                <span id="sub_subcategories_label"></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <select style="width: 100%" name="sub_subcategories" id="sub_subcategories" class="admin__control-select"
+                                        data-validate="{required:true}" aria-required="true">
+                                        <option id="sub_subcategories_default_value" value="" selected hidden style="display: none;">--Please select--</option>
+                                    </select>
+                                    <input type="hidden" id="sub_subcategories_attr_code" name="sub_subcategories_attr_code" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="entity" id="entity" value="stock"/>
+                        <input type="hidden" name="download_template_url" id="download_template_url" value=""/>
+                        <button type="button" style="display:none" id="download_template_btn" class="action-default scalable save primary"
+                            title="<?= $block->escapeHtmlAttr(__('Download Stock Data')) ?>">
+                            <span><?= $block->escapeHtml(__('Download Stock Data')) ?></span>
+                        </button>
+                        <div id="no_product_stock" style="display:none">No product found on selected categories.</div>
+                    </fieldset>
+                    </div>
+                </div>
+                <div class="x_panel">
+                    <div class="x_content import-product">
+                        <input type="hidden" name="behavior" id="basic_behavior" value="append"/>
+                        <input type="hidden" name="validation_strategy" id="basic_behaviorvalidation_strategy" value="validation-skip-errors"/>
+                        <input type="hidden" name="allowed_error_count" id="basic_behavior_allowed_error_count" value="9999"/>
+                        <!-- <div class="admin__field field required">
+                            <label for="basic_behavior_allowed_error_count" class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Allowed Errors Count')) ?></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <input type="text" class="input-file" title="Allowed Errors Count" value="10"
+                                           name="allowed_error_count" id="basic_behavior_allowed_error_count"
+                                           data-validate="{required:true}" aria-required="true">
+                                    <div id="basic_behavior_allowed_error_count-note"
+                                         class="note">
+                                        <?= $block->escapeHtml(__('Please specify number of errors to halt import process')) ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="admin__field field required">
+                            <label for="basic_behavior__import_field_separator" class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Field separator')) ?></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field"> -->
+                                    <input type="hidden" class="input-file" title="Field separator" value=","
+                                           name="_import_field_separator" id="basic_behavior__import_field_separator"
+                                           data-validate="{required:true}" aria-required="true">
+                                <!-- </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="admin__field field required">
+                            <label for="basic_behavior_import_multiple_value_separator"
+                                   class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Multiple value separator')) ?></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <input type="text" class="input-file" title="Multiple value separator" value=","
+                                           name="_import_multiple_value_separator"
+                                           id="basic_behavior_import_multiple_value_separator"
+                                           data-validate="{required:true}" aria-required="true">
+                                </div>
+                            </div>
+                        </div> -->
+                        <input type="hidden" name="_import_multiple_value_separator" id="basic_behavior_import_multiple_value_separator" value=";"/>
+                    <!-- </fieldset> -->
+                    <fieldset class="fieldset admin__fieldset fieldset_setting">
+                        <legend class="admin__legend legend">
+                            <h2><?= $block->escapeHtml(__('Upload & History')) ?></h2>
+                        </legend>
+                        <div class="admin__field field required" style="display:none" id="fieldset_upload_history">
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <button type="button" class="action-default scalable save primary" onclick="document.getElementById('import_file').click();">
+                                        Upload Stock Data
+                                    </button>
+                                    <input type="file" class="input-file" title="Upload Stock Data"
+                                        name="import_file"
+                                        id="import_file" aria-required="true" style="display: none;"
+                                        onchange="MST.validateImport();" accept=".csv">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="admin__field field">
+                            <label for="import_images_file_dir" class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Images File Directory')) ?></span>
+                            </label>
+                            <div class="admin__field-control control"> -->
+                                <input type="hidden" class="input-text" title="Images File Directory"
+                                       name="import_images_file_dir" id="import_images_file_dir"
+                                       value="pub/media/catalog/product/seller/<?= $seller->getId() ?>">
+                                <!-- <div class="note admin__field-note" id="import_images_file_dir-note">
+                                    <?= $block->escapeHtml(__('*Notice Import image first')) ?>
+                                </div> -->
+                            <!-- </div>
+                        </div> -->
+                        <!-- <button class="action-default scalable save primary" type="button"
+                                title="<?= $block->escapeHtmlAttr(__('Validate Data')) ?>"
+                                id="upload_button" onclick="MST.validateImport()">
+                            <span><?= $block->escapeHtml(__('Validate Data')) ?></span>
+                        </button>
+                        <button class="action-default scalable save primary" type="button"
+                                title="<?= $block->escapeHtmlAttr(__('Start Upload')) ?>"
+                                id="start_upload_button" onclick="MST.startImport()">
+                            <span><?= $block->escapeHtml(__('Start Upload')) ?></span>
+                        </button> -->
+                        <div style="clear:both;">
+                        <div id="progress-container" style="display:none;">
+                            <span id="progress-text">Uploading...</span>
+                            <div style="height: 16px;">
+                                <div id="progress-bar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        </div>
+                            <div id="upload_history">Loading history..</div>
+                        </div>
+                    </fieldset></div>
+                <div class="messages_validate_import"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .admin__field-error, label.mage-error {
+        text-align: left !important;
+    }
+    .required > .admin__field-label > span::after {
+        content: "";
+    }
+
+    #upload_button {
+        float: left;
+    }
+
+    .admin__fieldset > .admin__field {
+        clear: both;
+    }
+
+    .label {
+        color: #303030;
+        text-align: left;
+    }
+    
+    .data-grid {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .data-grid th, .data-grid td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #e3e3e3;
+    }
+
+    .file-icon::before {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2 2v12h12V2H2zm11 11H3V3h10v10z"/></svg>');
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .success-icon::before {
+        content: '✓';
+        color: #1ab394;
+        margin-right: 5px;
+    }
+
+    .error-icon::before {
+        content: '✕';
+        color: #ed5565;
+        margin-right: 5px;
+    }
+
+    .info-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #f0f0f0;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 16px;
+        margin-left: 5px;
+        cursor: help;
+    }
+
+    .info-icon::before {
+        content: 'i';
+        font-style: italic;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .paginator {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        /* margin-top: 15px; */
+    }
+
+    .page-size {
+        border-color: #d6d6d6;
+        padding: 5px;
+        margin: 0 10px;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pagination button {
+        padding: 5px 10px;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .current-page {
+        padding: 5px 10px;
+        background: #f76b1c;
+        color: white;
+    }
+    #progress-container {
+    width: 100%; /* Full width */
+    /* No background color */
+    border-radius: 10px; /* Rounded corners for the container */
+    overflow: hidden; /* Hide overflow to ensure rounded corners are visible */
+    margin-top: 5px; /* Space above the progress bar */
+    margin-bottom: 10px;
+}
+
+#progress-bar {
+    margin-top: 5px;
+    height: 5px; /* Height of the progress bar */
+    background: linear-gradient(to right, #4caf50, #81c784); /* Gradient color */
+    transition: width 0.5s ease, background-color 0.5s ease; /* Smooth transition for width and color */
+    border-radius: 35px; /* Rounded corners for the progress bar */
+    position: relative; /* Positioning for text */
+}
+
+#progress-text {
+    color: black; /* Text color */
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Center the text */
+    margin-bottom: 5px; /* Space between text and progress bar */
+    font-size: 14px; /* Font size */
+}
+</style>
+<?php
+$currentPage = $this->getRequest()->getParam('page') ?? 1;
+$pageSize = $this->getRequest()->getParam('size') ?? 5;
+?>
+<script>
+    require([
+        "jquery",
+        "mage/mage",
+        "select2"
+    ], function ($) {
+        $(document).ready(function() {
+
+            var fileUrl = '';
+
+            const pageSize = <?= $pageSize ?>;
+            const currentPage = <?= $currentPage ?>;
+
+            MST.updateHistory(currentPage, pageSize, true);
+
+            // DOWNLOAD TEMPLATE
+            $('#download_template_btn').on('click', function() {
+                //     // var dataForm = $('#edit_form');
+                //     // dataForm.mage('validation', {});
+                //     if ($('#edit_form').valid()) {
+                //         console.log(fileUrl)
+                    var fileUrl = $('#download_template_url').val();
+                    window.location.href = fileUrl;
+            //     }
+            });
+
+            $('#categories').on('change', async function () {
+                var exportDataRes = await startExportData();
+                // console.log(entityData);
+                if (exportDataRes) {
+                    getEntityData();
+                }
+            });
+
+            $('#subcategories').on('change', async function () {
+                var exportData = await startExportData();
+                // console.log(releaseData);
+                if (exportData) {
+                    getReleaseData();
+                }
+            });
+
+            $('#sub_subcategories').on('change', async function () {
+                // var releaseData = await getReleaseData();
+                // console.log(releaseData);
+                // if (!releaseData) {
+                    await startExportData();
+                // }
+            });
+
+            function getReleaseData() {
+                var formData = new FormData($('#edit_form')[0]);
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/import/getReleaseData')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: true,
+                        beforeSend: function () {},
+                        success: function (resp) {
+                            if (resp.data && resp.data.length) {
+                                resolve(true);
+
+                                $('#sub_subcategories_field').show();
+                                $('#sub_subcategories_attr_code').val(resp.attribute.code);
+                                $('#sub_subcategories_default_value').text('All ' + resp.attribute.label);
+                                $('#sub_subcategories_label').text(resp.attribute.label);
+                                $('#sub_subcategories').select2(
+                                    {
+                                        data: resp.data,
+                                        width: 'resolve'
+                                    }
+                                );
+                            } else {
+                                resolve(false);
+
+                                $('#sub_subcategories_field').hide();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            reject(error);
+                        }
+                    });
+                });
+            }
+
+            async function getEntityData() {
+                var formData = new FormData($('#edit_form')[0]);
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/import/getEntityData')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: true,
+                        beforeSend: function () {},
+                        success: function (resp) {
+                            if (resp.data && resp.data.length) {
+                                resolve(true);
+
+                                $('#subcategories_field').show();
+                                $('#subcategories_attr_code').val(resp.attribute.code);
+                                $('#subcategories_default_value').text('All ' + resp.attribute.label);
+                                $('#subcategories_label').text(resp.attribute.label);
+                                $('#subcategories').select2(
+                                    {
+                                        data: resp.data,
+                                        width: 'resolve'
+                                    }
+                                );
+                            } else {
+                                resolve(false);
+
+                                $('#subcategories_field').hide();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            reject(error);
+                        }
+                    });
+                });
+            }
+
+
+            async function startExportData() {
+                var formData = new FormData($('#edit_form')[0]);
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/export/processExport')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: true,
+                        beforeSend: function () {},
+                        success: function (resp) {
+                            if (resp.success && resp.data.file) {
+                                resolve(true);
+
+                                $('#download_template_url').val(resp.data.file);
+                                $('#download_template_btn').show();
+                                $('#fieldset_upload_history').show();
+                                $('#no_product_stock').hide();
+                            } else {
+                                resolve(false);
+
+                                $('#download_template_url').val('');
+                                $('#download_template_btn').hide();
+                                $('#fieldset_upload_history').hide();
+                                $('#no_product_stock').show();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            reject(error);
+                        }
+                    });
+                });
+            }
+            
+            // $('#categories').on('change', function() {
+            //     // var formData = new FormData($('#edit_form')[0]);
+            //     // $.ajax({
+            //     //     type: "POST",
+            //     //     url: "<?= $block->escapeJs($block->getUrl('*/*/bulkimportdata/')) ?>",
+            //     //     data: formData,
+            //     //     async: true,
+            //     //     cache: false,
+            //     //     contentType: false,
+            //     //     enctype: 'multipart/form-data',
+            //     //     processData: false,
+            //     //     showLoader: true,
+            //     //     beforeSend: function () { },
+            //     //     success: function (response) {
+            //     //         if (response.fields_information_html) {
+            //     //             $('#field_information_table').html(response.fields_information_html);
+            //     //         }
+
+            //     //         console.log('response')
+            //     //         console.log(response)
+
+            //     //         fileUrl = response.template_url;
+
+            //             if ($(this).val()) {
+            //                 $('#download_template_btn').show();
+            //                 $('#fieldset_upload_history').show();
+            //             } else {
+            //                 $('#download_template_btn').hide();
+            //                 $('#fieldset_upload_history').hide();
+            //             }
+                        
+            //     //         // $('#import_file').val('');
+
+            //     //         // const pageSize = parseInt($('#upload_history .paginator .page-size').text()) ?? null;
+            //     //         // const currentPage = parseInt($('#upload_history .pagination .current-page').text()) ?? null;
+
+            //     //         // MST.updateHistory(currentPage, pageSize, false, false, true);
+                        
+            //     //         // var $message_valid_import = $('.messages_validate_import');
+            //     //         // $message_valid_import.html('<p>Status</p>');
+            //     //         // var returnedData = jQuery.parseJSON(html);
+            //     //         // if (returnedData.error.length == 0) {
+            //     //         //     var success = returnedData.success;
+            //     //         //     for (i = 0; i < success.length; i++) {
+            //     //         //         $message_valid_import.append('<div class="message message-success success"><div>' + returnedData.success + '</div></div>');
+            //     //         //     }
+            //     //         // } else {
+            //     //         //     var notice = returnedData.notice;
+            //     //         //     for (i = 0; i < notice.length; i++) {
+            //     //         //         $message_valid_import.append('<div class="message message-error error"><div>' + returnedData.notice + '</div></div>');
+            //     //         //     }
+            //     //         // }
+            //     //     }
+            //     // });
+            // });
+            function showHistory() {
+                $('#upload_history').slideDown(1000);
+                $('#hide_upload_history').show();
+
+                var targetRow = $('#upload_history');
+                if (targetRow.length) {
+                    var offset = targetRow.offset().top;
+                    $('html, body').animate({
+                        scrollTop: offset-200
+                    }, 500); 
+                }
+            }
+
+            function hideHistory() {
+                $('#upload_history').slideUp();
+                $('#show_upload_history').show();
+
+                var targetRow = $('#upload_history');
+                if (targetRow.length) {
+                    var offset = targetRow.offset().top;
+                    $('html, body').animate({
+                        scrollTop: offset-200
+                    }, 500); 
+                }
+            }
+
+            $('#show_upload_history').click(function(){
+                showHistory();
+                $(this).hide();
+            });
+
+            $('#hide_upload_history').click(function(){
+                hideHistory();
+                $(this).hide();
+            });
+
+            var data = <?= $block->getCategoriesData() ?>;
+
+            $('#categories').select2(
+                {
+                    data: data,
+                    width: 'resolve'
+                }
+            );
+        });
+        
+        var dataForm = $('#edit_form');
+        dataForm.mage('validation', {});
+        var _action = dataForm.attr('action');
+        $('#entity').change(function () {
+            if ($(this).val() == 'catalog_product') {
+                $('.fieldset_behavior,.fieldset_import').show();
+            } else {
+                $('.fieldset_behavior,.fieldset_import').hide();
+            }
+        });
+        
+        MST = {
+            changePage: function(page) {
+                const pageSize = document.querySelector('.page-size').value;
+                MST.updateHistory(page, pageSize);
+            },
+            changePageSize: function(size) {
+                const currentPage = parseInt($('.pagination .current-page').text());
+                MST.updateHistory(currentPage, size);
+            },
+            updateHistory: function (currentPage = 1, pageSize = 5, showLoader = true, startImport = false, afterUpload = false) {
+                $.ajax({
+                    type: "GET",
+                    cache: false,
+                    showLoader:showLoader,
+                    url: "<?= $block->escapeJs($block->getUrl('*/*/updateHistory')) ?>",
+                    data: {
+                        page: currentPage,
+                        size: pageSize
+                    },
+                    beforeSend: function () {},
+                    success: function (html) {
+                        // Hide the progress bar on success
+                        $('#progress-container').slideUp();
+                        
+                        $('#upload_history').html(html);
+                        $('#upload_history').slideDown(1000);
+                        $('#hide_upload_history').show();
+                        $('#show_upload_history').hide();
+
+                        if (startImport) {
+                            var targetRow = $('#upload_history');
+                            if (targetRow.length) {
+                                var offset = targetRow.offset().top;
+                                $('html, body').animate({
+                                    scrollTop: offset-200
+                                }, 500); 
+                            }
+
+                            // Get all tr elements in tbody
+                            if (afterUpload) {
+                                $('#upload_history tbody tr:first').find('td').each(function() {
+                                    // For each td in the first tr, set background color
+                                    $(this).css('background-color', '#e5f7fe');
+
+                                    setTimeout(() => {
+                                        $(this).css('background-color', 'white');
+                                    }, 2000);
+                                });
+                            }
+                        }
+
+                        // $("a#trigger").trigger('mouseenter');
+                    }
+                });
+            },
+            validateImport: function () {
+                if ($('#edit_form').valid()) {
+                    var fileInput = document.getElementById('import_file');
+                    var filePath = fileInput.value;
+                    var allowedExtensions = /(\.csv)$/i;
+
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Only CSV files allowed.');
+                        fileInput.value = ''; // Clear the input
+                        return false;
+                    }
+                    //grab all form data
+                    var formData = new FormData($('#edit_form')[0]);
+                    
+                    // Show the progress bar
+                    $('#progress-bar').css('width', '0%');
+                    $('#progress-container').slideDown();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/*/startUpload')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: false,
+                        beforeSend: function () {},
+                        xhr: function() {
+                            var xhr = new window.XMLHttpRequest();
+                            var lastPercentComplete = 0; // Track the last percentage to throttle updates
+                            var updateDelay = 100; // Delay in milliseconds for updates
+                            var updateInterval = 500; // Interval to check progress in milliseconds
+
+                            // Function to update the progress bar
+                            function updateProgressBar(percentComplete) {
+                                $('#progress-bar').css('width', percentComplete + '%');
+                                lastPercentComplete = percentComplete; // Update the last tracked percentage
+                            }
+
+                            // Set initial width to 0% and show the progress container
+                            // $('#progress-bar').css('width', '0%');
+                            // $('#progress-container').show();
+
+                            $('#progress-bar').css('width', '0%');
+                            lastPercentComplete = 0; // Reset the last percent complete tracker
+                            $('#progress-container').show();
+
+                            // Upload progress
+                            xhr.upload.addEventListener("progress", function(evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                    // Update the progress bar only if the percentage has changed significantly
+                                    if (percentComplete - lastPercentComplete >= 20) { // Update every 20%
+                                        setTimeout(function() {
+                                            updateProgressBar(percentComplete);
+                                        }, updateDelay); // Delay the update
+                                    }
+                                }
+                            }, false);
+
+                            // Use a timer to check progress every updateInterval milliseconds
+                            setInterval(function() {
+                                if (lastPercentComplete < 100) {
+                                    updateProgressBar(lastPercentComplete); // Ensure the progress bar is updated
+                                }
+                            }, updateInterval);
+
+                            return xhr;
+                        },
+                        success: function (html) {
+
+                            $('#import_file').val('');
+
+                            const pageSize = parseInt($('#upload_history .paginator .page-size').text()) ?? null;
+                            const currentPage = parseInt($('#upload_history .pagination .current-page').text()) ?? null;
+
+                            MST.updateHistory(currentPage, pageSize, false, false, true);
+
+                            // var $message_valid_import = $('.messages_validate_import');
+                            // $message_valid_import.html('<p>Validation Results</p>');
+                            // var returnedData = jQuery.parseJSON(html);
+                            // $message_valid_import.html(html.innerHTML);
+
+                            // if ((returnedData.error.length) == 0) {
+                            //     var text = returnedData.success;
+                            //     var notice = returnedData.notice;
+                            //     //if(text.length == 2){
+                            //     $message_valid_import.append('<div class="message message-notice notice"><div>' + notice + '</div></div>');
+                            //     $message_valid_import.append('<div class="message message-success success"><div>' + text + '&nbsp; &nbsp; &nbsp;<button class="scalable save" type="button" onclick="MST.startImport()"><span><span><span>Import</span></span></span></button></div></div>');
+                            //     // }else{
+
+                            //     // }
+                            // } else {
+                            //     var notice = returnedData.notice;
+                            //     var error = returnedData.error;
+
+                            //     for (i = 0; i < error.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-error error"><div>' + error[i] + '</div></div>');
+                            //     }
+
+                            //     for (i = 0; i < notice.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-notice notice"><div>' + notice[i] + '</div></div>');
+                            //     }
+
+                            // }
+                        }
+                    });
+                }
+            }
+        }
+    });
+</script>

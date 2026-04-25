@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <marketplace>
+            <otherfees>
+                <allowed_types>
+                    <!-- <phyto_fees>
+                        <model>TCGCollective\MarketplaceOthersFee\Model\Config\OtherFees\Methods\PhytoFees</model>
+                    </phyto_fees>
+                    <export_permit>
+                        <model>TCGCollective\MarketplaceOthersFee\Model\Config\OtherFees\Methods\ExportPermit</model>
+                    </export_permit>
+                    <import_taxes>
+                        <model>TCGCollective\MarketplaceOthersFee\Model\Config\OtherFees\Methods\ImportTaxes</model>
+                    </import_taxes> -->
+                    <other_fees>
+                        <model>TCGCollective\MarketplaceOthersFee\Model\Config\OtherFees\Methods\OtherFees</model>
+                    </other_fees>
+                </allowed_types>
+            </otherfees>
+        </marketplace>
+    </default>
+</config>

@@ -1,0 +1,14 @@
+type Mutation {
+    xenditCreateInvoice(input: xenditInputInvoice!): xenditOutputInvoice @resolver(class: "\\TCGCollective\\MarketplacePaymentXendit\\Model\\Resolver\\XenditCreateInvoice")    
+}
+
+input xenditInputInvoice {
+    order_id: String!
+    # preferred_method: String!
+}
+
+type xenditOutputInvoice {
+   invoice_url: String
+   xendit_qrcode_external_id: String
+   mode: String @doc(description: "Mode xendit ( live / test)")
+}

@@ -1,0 +1,74 @@
+extend type Mutation {
+  addProductsToCart(
+    cartId: String!
+    cartItems: [CartItemInput!]!
+  ): AddProductsToCartOutput @resolver(
+        class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\AddProductsToCart"
+    )
+    completePreorder(input: CompletePreorderInput!): CompletePreorderOutput @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CompletePreorder")
+}
+
+extend input CartItemInput {
+    preorder: PreorderInput
+}
+
+input PreorderInput {
+    pre_order_payment_type: String!
+    pre_order_deposit: String
+}
+
+extend interface CartItemInterface {
+    is_preorder: Boolean
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+
+    pre_order_payment_type: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+
+    pre_order_deposit: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+}
+
+extend type CartItem {
+    is_preorder: Boolean
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+
+    pre_order_payment_type: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+
+    pre_order_deposit: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\CartItem\\PreorderData")
+}
+
+extend interface OrderItemInterface {
+    is_preorder: Boolean
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\OrderItem\\PreorderData")
+
+    pre_order_payment_type: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\OrderItem\\PreorderData")
+
+    pre_order_deposit: String
+        @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\OrderItem\\PreorderData")
+}
+
+type CompletePreorderOutput {
+    success: Boolean!
+    message: String
+    cart_id: String
+}
+
+input CompletePreorderInput {
+    cartId: String!    
+    item_id: String!    
+    qty: Float!
+    product_name: String!
+    order_reference: String!
+}
+
+type PaymentType {
+    label: String!
+    value: String!
+}
+
+type Query {
+    getPaymentType: [PaymentType] @resolver(class: "TCGCollective\\MarketplaceProductPreorder\\Model\\Resolver\\GetPaymentType")
+}

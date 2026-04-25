@@ -1,0 +1,667 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lofmp_SellerMembership
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+use Magento\Framework\App\Action\Action;
+
+$this->processMembership();
+$membership = $this->getMembership();
+$defaultWebsite = $this->getSellerDefaultWebsite();
+$availableWebsites = $this->getAvailableWebsites();
+$helper = $this->helper("Lof\MarketPlace\Helper\Data");
+
+$_productCollection = $this->getLoadedProductCollection();
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$formKey = $block->getFormKey();
+
+$currentSellerListingWebsiteIds = $block->getSellerListingWebsiteIds();
+$listingCountryMembershipArr = $this->getListingCountryMembership();
+
+
+// NEW LINE
+$this->processMembership();
+$currentSellerListingWebsiteIds = $block->getSellerListingWebsiteIds();
+$listingCountryMembershipArr = $this->getListingCountryMembership();
+
+$_listingMembershipProductCollection = $this->getListingMembershipPlanProducts();
+$keyedArray = [];
+
+foreach ($_listingMembershipProductCollection as $model) {
+    $key = $model->getMembershipCountry(); // ambil nilai field membership_country
+    $keyedArray[$key] = $model;
+}
+
+$defaultWebsiteId = $defaultWebsite->getId();
+
+$_listingMembershipProductCollection = array_replace(array_flip($currentSellerListingWebsiteIds), $keyedArray);
+if (isset($_listingMembershipProductCollection[$defaultWebsiteId])) {
+    $defaultItem = [$defaultWebsiteId => $_listingMembershipProductCollection[$defaultWebsiteId]];
+
+    // sisakan yang lain
+    $others = $_listingMembershipProductCollection;
+    unset($others[$defaultWebsiteId]);
+
+    // gabungkan ulang
+    $_listingMembershipProductCollection = $defaultItem + $others;
+}
+// dd($listingCountryMembershipArr);
+$helper = $this->helper("Lof\MarketPlace\Helper\Data");
+
+
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$formKey = $block->getFormKey();
+
+
+$membership = $this->getMembership();
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <?php
+            echo $this->getLayout()
+                ->createBlock('TCGCollective\MarketPlace\Block\Steps')
+                ->setTemplate('TCGCollective_MarketPlace::registration-step/step-guide.phtml')
+                ->toHtml();
+            ?>
+            <!-- <div class="alert alert-info notice alert-dismissable" style="margin-bottom: 5px;margin-top: 10px;">
+                          <span style="font-size:14px" class="custom-message-info">
+                            <span style="margin-right:10px"><i class="far fa-lightbulb"></i></span>A renewal or upgrade of your membership plan will require re-verification.
+                          </span>
+                      </div> -->
+            <div class="x_title">
+                <h2  style="margin-top:20px"><?= __('Renew / Buy Globals - Countries Subscription'); ?></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <p>Looking to grow your sales in new markets? Our additional membership plans let you target specific countries and connect with customers where it matters most.</p>
+                <?php if (!$_productCollection->getSize()): ?>
+                    <div class="message info empty">
+                        <div><?php /* @escapeNotVerified */
+                            echo __('We can\'t find products matching the selection.') ?></div>
+                    </div>
+                <?php else: ?>
+                    <?php if (!$membership) : ?>
+                        <div class="mplan-country">
+                        <div style="font-weight:500">Pick the country where you’ll sell your products:</div>
+                        <div>
+                        <select id="default_country_selection"
+                            data-validate="{required:true}"
+                            id="lof_membership_default_country"
+                            class="super-attribute-select">
+                            <option value=""><?= __('Please Select'); ?></option>
+                            <?php
+                            if ($availableWebsites) {
+                                foreach ($availableWebsites as $key => $websiteData) { ?>
+                                    <option value="<?= $websiteData['value'] ?>" <?= $websiteData['value'] == $defaultWebsite->getId() ? 'selected' : '' ?>>
+                                        <?= $websiteData['label'] ?>
+                                    </option>
+                                <?php }
+                            }
+                            ?>
+                        </select>
+                        <div style="margin-left: 3px;">This default country cannot be changed later. You can purchase additional listing countries in the future to expand your sales reach (Premium plan only).</div>
+                        </div>
+                        </div>
+                        <hr />
+                        <h1 class="mplan-title">Choose Your Membership Plan</h1>
+                    <?php endif; ?>
+                    
+<div class="mplan-wrapper">
+
+    <?php foreach ($_listingMembershipProductCollection as $_product):
+                    $seller_group = $_product->getData('seller_group');
+        // dd($seller_group);
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $SellerGroup = $objectManager->create('Lof\MarketPlace\Model\ResourceModel\Group\CollectionFactory');
+        $collection = $SellerGroup->create()
+            ->addFieldToFilter('group_id', $seller_group)
+            ->getData();
+        $price = 0;
+        $duration = $_product->getData('seller_duration');
+
+        if ($duration && !is_array($duration)) {
+            $duration = @json_decode($duration, true);
+
+            $duration = $block->filterMembershipDurationByWebsite($duration);
+
+            $price = @current($duration);
+            $price = $price['membership_price'] ?? 0;
+        }
+
+        ?>
+        <?php
+        $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+        $currency = $block->getWebsiteCurrency($_product->getData('membership_country'));
+        ?>
+        <!-- Basic Plan -->
+  <div class="mplan-card<?= $currentSellerListingWebsiteIds && in_array($_product->getData('membership_country'),$currentSellerListingWebsiteIds) ? ' featured' : '' ?>">
+    <div class="mplan-header">
+      <h2><?= $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h2>
+      <div style="margin-top:2px">( <?= $currency ?> )</div>
+      <div class="mplan-price">
+        <?php if ($_product->getData('membership_country') == $defaultWebsite->getId()) : ?>
+          -
+        <?php else: ?>
+          <?= $helper->getPriceFomat($price); ?>
+        <?php endif; ?>
+      </div>
+    </div>
+    <div class="mplan-footer">
+    
+    <?php $postParams = $block->getAddToCartPostParams($_product);?>
+    <form data-role="tocart-form"
+        action="<?php /* @escapeNotVerified */
+echo $postParams['action']; ?>" method="post">
+        <input type="hidden"
+            id="lofprice_<?= $_product->getId() ?>"
+            name="price" value="<?php /* @escapeNotVerified */
+        echo $price; ?>">
+        <input type="hidden" name="product"
+            value="<?php /* @escapeNotVerified */
+            echo $postParams['data']['product']; ?>">
+        <input type="hidden" name="<?php /* @escapeNotVerified */
+        echo Action::PARAM_NAME_URL_ENCODED; ?>"
+            value="<?php /* @escapeNotVerified */
+            echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+        <p style="
+            text-align: left;
+            font-weight: 500;
+            margin-bottom: 2px;
+            display:none;
+        "><?= __('Plan Duration:') ?></p>
+        <select name="seller_membership[duration]"
+            data-validate="{required:true}"
+            id="lof_membership_duration_<?= $_product->getId() ?>"
+            class="super-attribute-select" style="display:none">
+            <?php
+            if ($duration) {
+                foreach ($duration as $key => $_duration) { ?>
+                    <option
+                        value="<?= $_duration['membership_duration'] . '|' . $_duration['membership_unit'] . '|' . $_duration['membership_price'] ?>"><?= $_duration['membership_duration'] . ' ' . $_duration['membership_unit'] . ' ' . $helper->getPriceFomat($_duration['membership_price']) ?></option>
+
+                <?php }
+            }
+            ?>
+        </select>
+        
+        
+        <input name="form_key" type="hidden" value="<?= $formKey ?>">
+        <?php
+                            $buyLabel = __('Buy Now');
+                            if ($currentSellerListingWebsiteIds) {
+                                if (in_array($_product->getData('membership_country'),$currentSellerListingWebsiteIds)) {
+                                   $buyLabel = __('Renew Plan');
+                                  if ($_product->getData('membership_country') == $defaultWebsite->getId()) {
+                                    $buyLabel = __('Default Country');
+                                  }
+                                   
+                                }
+                            }
+                            ?>
+                            <?php if ($_product->getData('membership_country') == $defaultWebsite->getId()) : ?>
+                              <button type="submit"
+                                    title="<?= $block->escapeHtml($buyLabel); ?>"
+                                    class="action primary" disabled>
+                                <span><?php /* @escapeNotVerified */
+                                    echo $buyLabel ?></span>
+                            </button>
+                            <?php else: ?>
+                            <button type="submit"
+                                    title="<?= $block->escapeHtml($buyLabel); ?>"
+                                    class="action tocart primary">
+                                <span><?php /* @escapeNotVerified */
+                                    echo $buyLabel ?></span>
+                            </button>
+                            <?php endif; ?>
+    </form>
+    </div>
+  </div>
+        <script type="text/javascript">
+            require(['jquery'], function ($) {
+                $(document).ready(function () {
+                    $('#lof_membership_duration_<?= $_product->getId() ?>').on('change', function () {
+                        var value = this.value.split('|');
+                        $('#lofprice_<?= $_product->getId() ?>').val(value[2]);
+                        $('#lof_price_<?= $_product->getId() ?>').text('<?= $helper->getCurrentCurrencySymbol() ?>' + value[2]);
+                    })
+                });
+            });
+        </script>
+    <?php endforeach; ?>
+  
+
+
+</div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        $('#default_country_selection').change(function() {
+            $('input[name="default_country"]').val($(this).val());
+        });
+
+        $('#show_features').click(function() {
+            $('#show_features').hide();
+            $('#hide_features').show();
+            $('#features_list').slideDown();
+        });
+
+        $('#hide_features').click(function() {
+            $('#show_features').show();
+            $('#hide_features').hide();
+            $('#features_list').slideUp();
+        });
+
+        $('#show_platform_membership').click(function(){
+            $('#buy_platform_membership').slideToggle();
+        });
+
+        $('#show_listing_membership').click(function(){
+            $('#buy_listing_membership').slideToggle();
+        });
+    });
+
+    require(['jquery', 'mage/translate'], function ($) {
+        $(document).ready(function () {
+            // Bind submit event to all membership forms
+            $('form[data-role="tocart-form"]').on('submit', function (e) {
+                var $defaultCountry = $('#default_country_selection');
+                var countryVal = $defaultCountry.val();
+
+                // Only validate if this select exists on the page (i.e., first-time buyers)
+                if ($defaultCountry.length && (!countryVal || countryVal === '')) {
+                    e.preventDefault();
+
+                    // Remove any previous message
+                    $('.default-country-error').remove();
+
+                    // Insert error message below the select
+                    $('<div class="message message-error default-country-error" style="margin-top:8px;color:#d32f2f;font-weight:500;">'
+                        + $.mage.__('Please select a country before proceeding.')
+                        + '</div>').insertAfter($defaultCountry);
+
+                    // Scroll to the select for better UX
+                    $('html, body').animate({
+                        scrollTop: $defaultCountry.offset().top - 100
+                    }, 300);
+                    return false;
+                }
+            });
+        });
+    });
+
+    require([
+        'jquery',
+        'mage/translate',
+        'Magento_Ui/js/modal/confirm'
+    ], function ($, $t, confirm) {
+
+        $(document).ready(function () {
+            $('form[data-role="tocart-form"]').on('submit', function (e) {
+                var $form = $(this);
+                var $button = $form.find('button[type="submit"]');
+                var buttonText = $button.text().trim().toLowerCase();
+
+                // Detect upgrade scenario
+                if ($button.data('plan-action') === 'upgrade plan' || $button.data('plan-action') === 'renew plan') {
+                    e.preventDefault(); // Stop form temporarily
+
+                    confirm({
+                        title: $t('Re-verification Required'),
+                        content: $t('Upgrading your plan will require re-verification. Do you want to continue?'),
+                        actions: {
+                            confirm: function () {
+                                // Continue submit
+                                $form.off('submit').submit();
+                            },
+                            cancel: function () {
+                                // Stay on page
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .listing_membership_pricing_features {
+        background: #fafafa;
+        padding: 20px 15px;
+        min-height: 110px;
+        font-size: 13.5px;
+    }
+    select {
+        background: #ffffff url(../images/select-bg.svg) no-repeat 100% 45%;
+        background-clip: padding-box;
+        border: 1px solid #cccccc;
+        border-radius: 1px;
+        padding: 4px 25px 5px 10px;
+        vertical-align: baseline;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .super-attribute-select {
+        margin-bottom: 10px;
+    }
+
+    .pricing .title span {
+        background: none;
+        color: white;
+    }
+
+    /* .basic_plan .title {
+        background: rgb(131 131 131) !important;
+    }
+
+    .standard_plan .title {
+        background: rgb(0 137 255) !important;
+    }
+
+    .premium_plan .title {
+        background: rgba(247, 107, 28) !important;
+    } */
+
+    .pricing .title {
+        background: rgba(247, 107, 28, 1);
+    }
+
+    .main_color_bg {
+        color: white;
+        background: rgba(247, 107, 28, 1);
+    }
+
+    .main_color_bg:hover {
+        color: white;
+        background: rgb(215, 98, 30);
+    }
+    .pricing .title span {
+        font-size: 28px;
+    }
+    .pricing .title h2 {
+        font-size: 18px;
+    }
+    .pricing .title {
+        padding: 25px 0 0;
+    }
+</style>
+<style>
+  /* ====== Membership Plan Styles ====== */
+  /* body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+    color: #1e293b;
+    margin: 0;
+    padding: 40px;
+  } */
+
+  .mplan-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 55px;
+    color: #0f172a;
+  }
+
+  .mplan-country {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-direction: column;
+  }
+
+  .mplan-country select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    width: 450px;
+  }
+
+  .mplan-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 50px 0px;
+  }
+
+  .mplan-card {
+    background: white;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+  }
+
+  .mplan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  .mplan-header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: white;
+    text-align: center;
+    padding: 10px 10px 10px;
+  }
+
+  .mplan-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .mplan-price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  .mplan-body {
+    padding: 15px 30px 10px;
+  }
+
+  .mplan-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mplan-body li {
+    padding: 2px 0;
+    display: flex;
+    align-items: center;
+    /* font-size: 0.95rem; */
+  }
+
+  .mplan-body li::before {
+    content: "✔";
+    color: #16a34a;
+    margin-right: 8px;
+    font-weight: bold;
+  }
+
+  .mplan-footer {
+    border-top: 1px solid #f1f5f9;
+    padding: 10px 12px 15px;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .mplan-footer select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .mplan-btn {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .mplan-btn:hover {
+    color: white;
+    border: none;
+    background: linear-gradient(135deg, #ea580c, #f59e0b);
+  }
+
+  /* Highlighted (featured) plan */
+  .mplan-card.featured {
+    border: 2px solid #f97316;
+    transform: scale(1.03);
+  }
+
+  .mplan-card.featured .mplan-header {
+    background: linear-gradient(135deg, #ea580c, #facc15);
+  }
+
+  @media (max-width: 900px) {
+    .mplan-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .mplan-card {
+      width: 90%;
+    }
+  }
+</style>
+<style>
+/* Prefixed styles (msub-) to avoid global collisions */
+.msub-card {
+  --bg: #ffffff;
+  --border: #e6e9ee;
+  --accent: #2563eb;
+  --muted: #6b7280;
+  max-width: 520px;
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(16,24,40,0.04);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+/* Title */
+.msub-title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Rows */
+.msub-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-top: 1px dashed transparent; /* harmless spacing rule */
+}
+
+.msub-row:first-of-type { padding-top: 4px; }
+
+.msub-label {
+  min-width: 150px; /* aligns values nicely */
+  font-size: 13px;
+  color: var(--muted);
+  
+}
+
+.msub-value {
+    font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* muted inline text (currency) */
+.msub-muted {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Actions */
+.msub-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Button-like link */
+.msub-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(37,99,235,0.12);
+  background: linear-gradient(180deg, rgba(37,99,235,0.06), transparent);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+.msub-btn:hover,
+.msub-btn:focus {
+  background: rgba(37,99,235,0.08);
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.06);
+}
+
+/* Small responsive tweak */
+@media (max-width: 420px) {
+  .msub-card { padding: 14px; }
+  .msub-label { min-width: 120px; font-size: 12px; }
+  .msub-value { font-size: 13px; }
+  .msub-title { font-size: 16px; }
+}
+</style>

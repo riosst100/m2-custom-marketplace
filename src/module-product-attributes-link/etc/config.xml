@@ -1,0 +1,13 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+   <default>   
+      <system>
+         <media_storage_configuration>
+            <allowed_resources>
+               <media_gallery_image_folders>
+                  <singles_images_folder>singles</singles_images_folder>
+               </media_gallery_image_folders>
+            </allowed_resources>
+         </media_storage_configuration>
+      </system>
+   </default>
+</config>

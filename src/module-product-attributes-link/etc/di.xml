@@ -1,0 +1,1679 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<virtualType name="AttributeSetCategoriesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AttributeSetCategoriesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AttributeSetCategoriesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AttributeSetCategoriesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- BRANDS LIST -->
+    <virtualType name="BrandsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BrandsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\BrandsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">BrandsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- FRANCHISE LIST -->
+    <virtualType name="FranchiseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="FranchiseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\FranchiseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">FranchiseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="AttributeSetAttributesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AttributeSetAttributesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AttributeSetAttributesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AttributeSetAttributesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="ConfigurableAttributesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ConfigurableAttributesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ConfigurableAttributesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ConfigurableAttributesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="AttributeOptionAttributesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AttributeOptionAttributesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AttributeOptionAttributesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AttributeOptionAttributesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="AttributeOptionCategoriesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AttributeOptionCategoriesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AttributeOptionCategoriesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AttributeOptionCategoriesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CardGamesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesMappingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesMappingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Dolls -->
+    <virtualType name="DollsSetsMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DollsSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DollsSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DollsSetsMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Dolls Singles -->
+    <virtualType name="DollsSinglesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DollsSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DollsSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DollsSinglesMappingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Dolls Brand -->
+    <virtualType name="DollsBrandGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DollsBrandGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DollsBrandGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DollsBrandGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="LegoGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LegoGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\LegoGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">LegoGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="LegoSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LegoSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\LegoSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">LegoSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- LIVING CARD GAME SETS LISTING -->
+    <virtualType name="LivingCardGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LivingCardGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\LivingCardGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">LivingCardGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="LivingCardGameSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LivingCardGameSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\LivingCardGameSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">LivingCardGameSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- MINIATURE GAMES SETS & SINGLES -->
+    <virtualType name="MiniatureGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MiniatureGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\MiniatureGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">MiniatureGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MiniatureGameSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MiniatureGameSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\MiniatureGameSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">MiniatureGameSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MiniatureGameSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MiniatureGameSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\MiniatureGameSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">MiniatureGameSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- LEGO SINGLES -->
+    <virtualType name="LegoSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LegoSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\LegoSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">LegoSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SPORT CARD SETS & CARD -->
+    <virtualType name="SportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="SportCardSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SportCardSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SportCardSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SportCardSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="SportCardSetsCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SportCardSetsCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SportCardSetsCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SportCardSetsCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- NON SPORT CARD SETS & CARD -->
+    <virtualType name="NonSportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="NonSportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\NonSportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">NonSportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="NonSportCardSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="NonSportCardSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\NonSportCardSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">NonSportCardSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="NonSportCardSetsCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="NonSportCardSetsCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\NonSportCardSetsCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">NonSportCardSetsCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GAMES -->
+    <virtualType name="GamesSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GamesSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GamesSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GamesSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME FIGURES -->
+    <virtualType name="AnimeFiguresGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeFiguresGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeFiguresGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeFiguresGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME FUN GOODS -->
+    <virtualType name="AnimeFunGoodsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeFunGoodsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeFunGoodsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeFunGoodsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!--GUNDAM -->
+    <virtualType name="GundamGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GundamGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GundamGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GundamGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ACTION TOYS -->
+    <virtualType name="ActionToysGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ActionToysGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ActionToysGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ActionToysGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME TOYS -->
+    <virtualType name="AnimeToysGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeToysGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeToysGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeToysGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME TOYS | SINGLES -->
+    <virtualType name="AnimeToysSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeToysSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeToysSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeToysSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME TOYS | Sealed Products Database -->
+    <virtualType name="AnimeToysSealedProductsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeToysSealedProductsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeToysSealedProductsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeToysSealedProductsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GAMES WORKSHOP -->
+    <virtualType name="GamesWorkshopGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GamesWorkshopGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GamesWorkshopGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GamesWorkshopGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GAMES WORKSHOP | Singles -->
+    <virtualType name="GamesWorkshopSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GamesWorkshopSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GamesWorkshopSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GamesWorkshopSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GAMES WORKSHOP | Sealed Products -->
+    <virtualType name="GamesWorkshopSealedProductsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GamesWorkshopSealedProductsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GamesWorkshopSealedProductsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GamesWorkshopSealedProductsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | ACTION TOYS -->
+    <virtualType name="SinglesActionToysGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesActionToysGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesActionToysGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesActionToysGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | DIECAST -->
+    <virtualType name="SinglesDiecastGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesDiecastGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesDiecastGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesDiecastGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | FASHION DOLLS -->
+    <virtualType name="SinglesDollsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesDollsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesDollsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesDollsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | BRICKS -->
+    <virtualType name="SinglesLegoGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesLegoGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesLegoGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesLegoGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | LIVING CARD GAME -->
+    <virtualType name="SinglesLivingCardGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesLivingCardGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesLivingCardGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesLivingCardGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | MINIATURE GAME -->
+    <virtualType name="SinglesMiniatureGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesMiniatureGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesMiniatureGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesMiniatureGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | MODEL KITS -->
+    <virtualType name="SinglesModelKitsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesModelKitsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesModelKitsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesModelKitsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | ACTION TOYS -->
+    <virtualType name="SealedProductsActionToysGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsActionToysGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsActionToysGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsActionToysGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | FASHION DOLLS -->
+    <virtualType name="SealedProductsDollsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsDollsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsDollsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsDollsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | DIECAST -->
+    <virtualType name="SealedProductsDiecastGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsDiecastGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsDiecastGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsDiecastGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | BRICKS -->
+    <virtualType name="SealedProductsLegoGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsLegoGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsLegoGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsLegoGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | LIVING CARD GAME -->
+    <virtualType name="SealedProductsLivingCardGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsLivingCardGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsLivingCardGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsLivingCardGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | MINIATURE GAME -->
+    <virtualType name="SealedProductsMiniatureGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsMiniatureGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsMiniatureGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsMiniatureGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | MODEL KITS -->
+    <virtualType name="SealedProductsModelKitsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsModelKitsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsModelKitsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsModelKitsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | NON SPORT CARDS -->
+    <virtualType name="SealedProductsNonSportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsNonSportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsNonSportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsNonSportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | RAILWAY -->
+    <virtualType name="SealedProductsRailwayGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsRailwayGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsRailwayGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsRailwayGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- RAILWAY -->
+    <virtualType name="RailwayGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RailwayGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\RailwayGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">RailwayGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- RAILWAY SETS -->
+    <virtualType name="RailwaySetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RailwaySetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\RailwaySetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">RailwaySetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SETS LISTING DATAPROVIDER -->
+    <virtualType name="PlatformDbSetsListingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PlatformDbSetsListingGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\PlatformDbSetsListingGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">PlatformDbSetsListingGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+
+    <!-- RAILWAY -->
+    <virtualType name="RailwaySinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RailwaySinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\RailwaySinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">RailwaySinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DIECAST -->
+    <virtualType name="DiecastGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DiecastGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DiecastGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DiecastGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DIECAST SETS -->
+    <virtualType name="DiecastSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DiecastSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DiecastSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DiecastSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DIECAST SETS -->
+    <virtualType name="DiecastSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DiecastSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DiecastSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DiecastSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- MODEL KITS -->
+    <virtualType name="ModelKitsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ModelKitsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ModelKitsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ModelKitsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- MODEL KITS SETS -->
+    <virtualType name="ModelKitsSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ModelKitsSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ModelKitsSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ModelKitsSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- VEHICLES -->
+    <virtualType name="VehiclesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="VehiclesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\VehiclesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">VehiclesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- VEHICLES SETS -->
+    <virtualType name="VehiclesSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="VehiclesSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\VehiclesSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">VehiclesSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- VEHICLES SINGLES -->
+    <virtualType name="VehiclesSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="VehiclesSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\VehiclesSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">VehiclesSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DOLLS -->
+    <virtualType name="DollsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DollsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\DollsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">DollsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME -->
+    <virtualType name="AnimeGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME SETS -->
+    <virtualType name="AnimeSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ACTION TOYS BRAND -->
+    <virtualType name="ActionToysBrandGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ActionToysBrandGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ActionToysBrandGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ActionToysBrandGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ACTION TOYS LINE -->
+    <virtualType name="ActionToysLineGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ActionToysLineGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ActionToysLineGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ActionToysLineGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ACTION TOYS SETS -->
+    <virtualType name="ActionToySetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ActionToySetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ActionToySetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ActionToySetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ACTION TOYS SINGLES -->
+    <virtualType name="ActionToySinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ActionToySinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\ActionToySinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">ActionToySinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME FIGURES SETS -->
+    <virtualType name="AnimeFiguresSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeFiguresSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeFiguresSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeFiguresSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME FIGURES SINGLES -->
+    <virtualType name="AnimeFiguresSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeFiguresSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeFiguresSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeFiguresSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GUNDAM SETS -->
+    <virtualType name="GundamSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GundamSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GundamSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GundamSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- GUNDAM SINGLES -->
+    <virtualType name="GundamSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GundamSinglesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\GundamSinglesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">GundamSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- ANIME FUN GOODS SETS -->
+    <virtualType name="AnimeFunGoodsSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnimeFunGoodsSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AnimeFunGoodsSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AnimeFunGoodsSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CARD GAMES -->
+    <virtualType name="CardGamesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALEDPRODUCTS | CARD GAMES -->
+    <virtualType name="CardGamesGridSealedProductsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesGridSealedProductsDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesGridSealedProductsDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesGridSealedProductsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | CARD GAMES -->
+    <virtualType name="CardGamesGridSinglesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesGridSinglesDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesGridSinglesDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesGridSinglesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SEALED PRODUCTS | SPORT CARD -->
+    <virtualType name="SealedProductsSportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SealedProductsSportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SealedProductsSportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SealedProductsSportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | SPORT CARD -->
+    <virtualType name="SinglesSportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesSportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesSportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesSportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | SPORT CARD SETS -->
+    <virtualType name="SinglesSportCardSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesSportCardSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesSportCardSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesSportCardSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | NON SPORT CARD -->
+    <virtualType name="SinglesNonSportCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesNonSportCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesNonSportCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesNonSportCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SINGLES | NON SPORT CARD SETS -->
+    <virtualType name="SinglesNonSportCardSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesNonSportCardSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesNonSportCardSetsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesNonSportCardSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER DATABASE | CARD GAMES -->
+    <virtualType name="SellerDatabaseCardGamesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerDatabaseCardGamesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerDatabaseCardGamesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerDatabaseCardGamesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SEALED PRODUCTS DATABASE | CARD GAMES -->
+    <virtualType name="SellerSealedProductsDatabaseCardGamesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSealedProductsDatabaseCardGamesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSealedProductsDatabaseCardGamesGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSealedProductsDatabaseCardGamesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | CARD GAMES -->
+    <virtualType name="SellerDatabaseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerDatabaseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerDatabaseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerDatabaseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | Sets / Release Database -->
+    <virtualType name="SellerSealedProductsDatabaseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSealedProductsDatabaseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSealedProductsDatabaseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSealedProductsDatabaseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SEALED PRODUCTS DATABASE -->
+    <virtualType name="SellerSealedProductsDatabaseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSealedProductsDatabaseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSealedProductsDatabaseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSealedProductsDatabaseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE -->
+    <virtualType name="SellerSinglesDatabaseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Action Toys -->
+    <virtualType name="SellerSinglesDatabaseActionToysGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseActionToysGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseActionToysGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseActionToysGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Dolls -->
+    <virtualType name="SellerSinglesDatabaseDollsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseDollsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseDollsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseDollsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Living Card Game -->
+    <virtualType name="SellerSinglesDatabaseLivingCardGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseLivingCardGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseLivingCardGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseLivingCardGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Miniature Game -->
+    <virtualType name="SellerSinglesDatabaseMiniatureGameGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseMiniatureGameGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseMiniatureGameGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseMiniatureGameGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Sport Cards -->
+    <virtualType name="SellerSinglesDatabaseSportCardsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseSportCardsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseSportCardsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseSportCardsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Non Sport Cards -->
+    <virtualType name="SellerSinglesDatabaseNonSportCardsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseNonSportCardsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseNonSportCardsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseNonSportCardsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Bricks -->
+    <virtualType name="SellerSinglesDatabaseBricksGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseBricksGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseBricksGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseBricksGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Trains -->
+    <virtualType name="SellerSinglesDatabaseTrainsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseTrainsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseTrainsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseTrainsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SELLER | SINGLES DATABASE | Diecast / Model Kits -->
+    <virtualType name="SellerSinglesDatabaseDiecastModelKitsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SellerSinglesDatabaseDiecastModelKitsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\Database\SellerSinglesDatabaseDiecastModelKitsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SellerSinglesDatabaseDiecastModelKitsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    
+
+    
+    
+    <virtualType name="CardGamesCardGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesCardGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesCardGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesCardGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CARD GAME | SEALED PRODUCTS | LISTING -->
+    <virtualType name="CardGamesSealedProductsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesSealedProductsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesSealedProductsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesSealedProductsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- SPORT CARDS | SEALED PRODUCTS | LISTING -->
+    <virtualType name="SportCardsSealedProductsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SportCardsSealedProductsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SportCardsSealedProductsGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">SportCardsSealedProductsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CARD GAME | DROP | LISTING -->
+    <virtualType name="CardGamesDropGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesDropGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesDropGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesDropGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CARD GAME | RELEASE | LISTING -->
+    <virtualType name="CardGamesReleaseGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesReleaseGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesReleaseGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesReleaseGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+
+    <virtualType name="CardGamesSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesSetsGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CardGamesSets\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CardGamesVariationsSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesVariationsSetsGridDataProvider" type="TCGCollective\MarketplaceConfigurableProduct\Ui\DataProvider\CardGamesVariationsSetsGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CardGamesSets\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesVariationsSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="SinglesCardGamesSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SinglesCardGamesSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\SinglesCardGamesSetsGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CardGamesSets\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">SinglesCardGamesSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MarketplaceCardGamesSetsGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MarketplaceCardGamesSetsGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\Marketplace\CardGamesSetsGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CardGamesSets\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MarketplaceCardGamesSetsGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CARD GAMES ATTRIBUTES -->
+    <virtualType name="CardGamesAttributesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CardGamesAttributesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CardGamesAttributesGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CardGamesAttributes\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CardGamesAttributesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    
+
+    <!-- CUSTOM ATTRIBUTES -->
+    <virtualType name="CustomAttributesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CustomAttributesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CustomAttributesGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CustomAttributes\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CustomAttributesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- CUSTOM ATTRIBUTES VALUES -->
+    <virtualType name="CustomAttributesValuesGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CustomAttributesValuesGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\CustomAttributesValuesGridDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">TCGCollective\ProductAttributesLink\Model\ResourceModel\CustomAttributesValues\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CustomAttributesValuesGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="AttributeOptionAttributesMappingGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AttributesBlockGridDataProvider" type="TCGCollective\ProductAttributesLink\Ui\DataProvider\AttributesBlockGridDataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">AttributesBlockGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- OVERRIDE -->
+    <preference for="Magento\Cms\Model\Wysiwyg\Images\Storage" type="TCGCollective\ProductAttributesLink\Model\Wysiwyg\Images\Storage" />
+</config>

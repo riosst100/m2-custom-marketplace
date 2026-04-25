@@ -1,0 +1,431 @@
+<?php
+//phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+//phpcs:disable Magento2.Security.XssTemplate.FoundUnescaped
+/**
+ * @var $block \TCGCollective\MarketPlace\Block\Payment\Methods
+ */
+$method = $this->getMethod();
+$seller = $block->getSeller();
+
+$account = $block->getPaymentAccount($method);
+$transaction = $block->getPaymentTestTransaction($method);
+$isSandboxMode = $block->isSandboxMode();
+?>
+<hr />
+<h2>Xendit Payment Setup</h2>
+<input type="hidden" name="payment_method" id="payment_method" value="<?= $method ?? 'xendit' ?>" />
+
+<div class="setup-container">
+    <div id="messages" class="page messages">
+        <div class="messages">
+            <!-- Error msg -->
+            <div class="alert alert-error error alert-dismissable" id="error_msg_container" style="display:none">
+                <div data-ui-id="messages-message-error">
+                    <span style="font-size: 14px;padding-right: 5px;">
+                        <i class="icon fa fa-ban"></i>
+                    </span>
+                    <span id="error_msg_text"></span>
+                </div>
+            </div>
+            <!-- Success msg -->
+            <div class="alert alert-success success alert-dismissable" id="success_msg_container" style="display:none">
+                <div data-ui-id="messages-message-success">
+                    <span style="font-size: 14px;padding-right: 5px;">
+                        <i class="icon fa fa-check"></i>
+                    </span>
+                    <span id="success_msg_text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    $steps = [
+        [
+            'label' => 'Create Account',
+            'status' => !$account || $account && $account->getStatus() == "INVITED" ? 'stp-active' : 'stp-done'
+        ],
+        [
+            'label' => 'Verification Process',
+            'status' => $account && $account->getStatus() == "LIVE" ? 'stp-done' : (
+                $account && $account->getStatus() == "REGISTERED" ? 'stp-active' : 'stp-upcoming'
+            )
+        ],
+        [
+            'label' => 'Testing Transaction',
+            'status' => $account && $account->getStatus() == "LIVE" && $account->getTestPaymentStatus() == "success" ? 'stp-done' : (
+                $account && $account->getStatus() == "LIVE" ? 'stp-active' : 'stp-upcoming'
+            )
+        ],
+        [
+            'label' => 'Finish',
+            'status' => $account && $account->getStatus() == "LIVE" && $account->getTestPaymentStatus() == "success" ? 'stp-done' : 'stp-upcoming'
+        ]
+    ];
+    ?>
+    <!-- STEP PAYMENTS -->
+    <div class="stp-wrapper">
+        <!-- LEFT SIDE (Steps) -->
+        <div class="stp-steps">
+            <?php foreach($steps as $index => $step) : ?>
+                    <div class="stp-step <?= $step['status'] ?>">
+                    <div class="stp-circle"><?= $step['status'] == "stp-done" ? '✓' : $index+1 ?></div>
+                    <div class="stp-label"><?= $step['label'] ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- RIGHT SIDE (Content for active step) -->
+        <div class="stp-content">
+            <div class="xendit-form">
+                    <div class="container">
+                        <?php if ($account) : ?>
+                            <input type="hidden" name="account_id" id="account_id" value="<?= $account['account_id'] ?? '' ?>" />
+                            <?php if ($account->getStatus() == "INVITED") : ?>
+                                <h2>Check your email</h2>
+                                <div>
+                                    <div class="xendit-msg__body">
+                                        We’ve sent an email to <strong><?= $account->getEmail() ?></strong> with a link to create your Xendit account. Please check your inbox and click the link in the email to register.
+                                    </div>
+                                    <div class="xendit-msg__note">
+                                        <strong>Note:</strong> If you don’t see the email, check your spam folder or wait a few minutes. If the link doesn’t work, try logging out of Xendit or opening the link in an incognito/private window.
+                                    </div>
+                                    <?php if ($isSandboxMode) : ?>
+                                        <div class="setup-container" style="padding:0 20px;margin-top:20px;background-color: #ffeaea;padding-top:20px;">
+                                            <button type="submit" class="testing_webhook_account_updated" data-status="REGISTERED">Complete Registration Process</button>
+                                            <p style="font-size: 12px; color: #666; margin-top:20px;">
+                                                <strong>Notes:</strong> Please make sure you already registered from link on email before click this button. This button is used to simulate the status update after the seller registers through the link sent to their email. In production, the system updates the status automatically.
+                                            </p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php elseif ($account->getStatus() == "REGISTERED") : ?>
+                                <h2>Verification Needed</h2>
+                                <div>
+                                    <div class="xendit-msg__body">
+                                        Your Xendit account has been successfully registered. To continue, please complete your document verification in your Xendit dashboard.
+                                    </div>
+                                    <div class="xendit-msg__note">
+                                        <strong>Note:</strong> The verification review may take some time. You’ll receive a notification from Xendit once your account has been verified.
+                                    </div>
+                                    <?php if ($isSandboxMode) : ?>
+                                        <div class="setup-container" style="padding:0 20px;margin-top:20px;background-color: #ffeaea;padding-top:20px;">
+                                            <button type="submit" class="testing_webhook_account_updated" data-status="LIVE">Complete Verification Process</button>
+                                            <p style="font-size: 12px; color: #666; margin-top:20px;">
+                                                <strong>Notes:</strong> This button is used to simulate the status update after the seller verified by Xendit. In production, the system updates the status automatically.
+                                            </p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php elseif ($account->getStatus() == "LIVE") : ?>
+                                <?php if ($account->getTestPaymentStatus() == "success") : ?>
+                                    <h2>Xendit Setup Completed</h2>
+                                    <div>
+                                        <div class="xendit-msg__body">
+                                            You’ve successfully completed your Xendit account setup and can now receive payments from buyers by clicking the Activate button below.
+                                        </div>
+                                        <div class="xendit-msg__note">
+                                            <strong>Note:</strong><br>
+                                            - A <strong>10% platform fee</strong> will be deducted from each transaction.<br>
+                                            - <strong>Xendit transaction fees</strong> may also apply depending on the selected payment method.
+                                        </div>
+                                        <a href="<?= $block->getUrl('catalog/payment/activate/id/xendit/confirmed/1') ?>" style="margin-top:15px;" class="btn btn-activate">Activate Now</a>
+                                    </div>
+                                <?php else: ?>
+                                    <?php if ($transaction) : ?>
+                                        <?php if ($transaction->getStatus() == "PAID") : ?>
+                                            <h2>Complete a Test Transaction</h2>
+                                            <div>
+                                                <div class="xendit-msg__body">
+                                                    To complete the process, please make pay your test transaction using the link below.
+                                                </div>
+                                                <div class="xendit-msg__note">
+                                                    <strong>Note:</strong> The funds will be credited to your Xendit account balance once the payment is successful. 
+                                                    After this, your account will be ready to smoothly receive payments from buyers.
+                                                    <br />
+                                                    <br />
+                                                    <strong>Additional Information:</strong> There is no platform fee deduction in this test transaction. Xendit transaction fees still apply.
+                                                </div>
+                                                <a href="<?= $transaction->getRedirectUrl() ?>" style="margin-top:15px;" class="btn btn-activate">Pay Test Transaction</a>
+                                            </div>
+                                        <?php else: ?>
+                                            <h2>Complete a Test Transaction</h2>
+                                            <div>
+                                                <div class="xendit-msg__body">
+                                                    To complete the process, please make pay your test transaction using the link below.
+                                                </div>
+                                                <div class="xendit-msg__note">
+                                                    <strong>Note:</strong> The funds will be credited to your Xendit account balance once the payment is successful. 
+                                                    After this, your account will be ready to smoothly receive payments from buyers.
+                                                    <br />
+                                                    <br />
+                                                    <strong>Additional Information:</strong> There is no platform fee deduction in this test transaction. Xendit transaction fees still apply.
+                                                </div>
+                                                <a href="<?= $transaction->getRedirectUrl() ?>" style="margin-top:15px;" class="btn btn-activate">Pay Test Transaction</a>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <h2>Make a Testing Payment</h2>
+                                        <div>
+                                            <div class="xendit-msg__body">
+                                                Your Xendit account is now active. Please make a 
+                                                test payment of <strong>Rp10.000</strong> 
+                                                to confirm that money from buyers goes directly into your Xendit balance.
+                                            </div>
+                                            <div class="xendit-msg__note">
+                                                <strong>Note:</strong> The funds will be credited to your Xendit account balance once the payment is successful. 
+                                                After this, your account will be ready to smoothly receive payments from buyers.
+                                                <br /><br />
+                                                <strong>Additional Information:</strong> There is no platform fee deduction in this test transaction. Xendit transaction fees still apply.
+                                            </div>
+                                            <hr />
+                                            <form method="post" data-mage-init='{"validation":{}}' class="xendit-form" style="margin-top:20px;">
+                                                <input type="hidden" name="method" value="xendit">
+                                                <!-- <label>Currency:</label> -->
+                                                <input type="hidden" id="currency" value="IDR" readonly>
+                                                <!-- <br /><br /> -->
+                                                <!-- <label>Amount:</label> -->
+                                                <input type="hidden" id="request_amount" value="10000" readonly required>
+                                                <button type="submit" id="proceed_payment">Proceed Test Payment</button>
+                                            </form>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php
+                            // dd($seller);
+                            ?>
+                            <h2>Create Xendit Account</h2>
+                            <div style="padding-bottom: 20px;">Please enter your email and business name to create a new Xendit account.</div>
+                            <form method="post" data-mage-init='{"validation":{}}'>
+                                <label>Email:</label>
+                                <input type="email"
+                                    name="email"
+                                    value="<?= $seller['email'] ?? '' ?>"
+                                    id="create_account_email"
+                                    class="required-entry validate-email"
+                                    data-validate="{required:true, 'validate-email':true}" required/>
+                                <label style="margin-top:20px">Business Name:</label>
+                                <input type="text"
+                                    name="business_name"
+                                    value="<?= $seller['company'] ? $seller['company'] : $seller['name'] ?>"
+                                    id="create_account_business_name"
+                                    class="required-entry"
+                                    data-validate="{required:true}" required/>
+
+                                <button type="submit" id="create_payment_account_btn">Create Account</button>
+
+                                <p style="font-size: 12px; color: #666; margin-top:20px;">
+                                    <strong>Notes:</strong> Please use an email that has never been registered with Xendit before,
+                                    and make sure the business name you enter is valid.
+                                </p>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        "jquery"
+    ], function ($) {
+        $('#proceed_payment').click(function(e){
+            e.preventDefault();
+            
+            var account_id = $('#account_id').val();
+            var method = $('#payment_method').val();
+            var request_amount = $('#request_amount').val();
+            var currency = $('#currency').val();
+
+            $.ajax({
+                url: '<?= $block->getUrl('catalog/payment/testpayment') ?>',
+                type: 'POST',
+                dataType: 'json',
+                showLoader: 'true',
+                data: {
+                    request_amount: request_amount,
+                    payment_method: method,
+                    currency: currency,
+                    account_id: account_id,
+                    form_key: window.FORM_KEY
+                },
+                success: function(response) {
+                    // alert('You have sent email to '+contactname);
+                    // location.reload();
+                    // console.log(response)
+                    if (response.html) {
+                        $('#activate-payment-container').html(response.html);
+                        // activate-payment-container
+                        $('html, body').animate({
+                            scrollTop: $('#activate-payment-container').offset().top
+                        }, 600); // durasi 600ms
+                    }
+
+                    if (response.error_message) {
+                        $('#error_msg_container').slideDown();
+                        $('#error_msg_text').text(response.error_message);
+                    } else {
+                        $('#error_msg_container').slideUp();
+                        $('#error_msg_text').text('');
+                    }
+
+                    if (response.success_message) {
+                        $('#success_msg_container').slideDown();
+                        $('#success_msg_text').text(response.success_message);
+                    } else {
+                        $('#success_msg_container').slideUp();
+                        $('#success_msg_text').text('');
+                    }
+                },
+                // error: function (xhr, status, errorThrown) {
+                //     alert('Error happens. Try again.');
+                // }
+            });
+        });
+
+        $('.testing_webhook_account_updated').click(function(e){
+            e.preventDefault();
+
+            var status = $(this).data('status');
+            var method = $('#payment_method').val();
+            var account_id = $('#account_id').val();
+
+            $.ajax({
+                url: '<?= $block->getUrl('catalog/payment_simulation/accountUpdatedWebhook') ?>',
+                type: 'POST',
+                dataType: 'json',
+                showLoader: 'true',
+                data: {
+                    status: status,
+                    payment_method: method,
+                    account_id: account_id,
+                    // form_key: window.FORM_KEY
+                },
+                success: function(response) {
+                    // alert('You have sent email to '+contactname);
+                    // location.reload();
+                    // console.log(response)
+                    if (response.html) {
+                        $('#activate-payment-container').html(response.html);
+                        // activate-payment-container
+                        $('html, body').animate({
+                            scrollTop: $('#activate-payment-container').offset().top
+                        }, 600); // durasi 600ms
+                    }
+
+                    if (response.error_message) {
+                        $('#error_msg_container').slideDown();
+                        $('#error_msg_text').text(response.error_message);
+                    } else {
+                        $('#error_msg_container').slideUp();
+                        $('#error_msg_text').text('');
+                    }
+
+                    if (response.success_message) {
+                        $('#success_msg_container').slideDown();
+                        $('#success_msg_text').text(response.success_message);
+                    } else {
+                        $('#success_msg_container').slideUp();
+                        $('#success_msg_text').text('');
+                    }
+                },
+                // error: function (xhr, status, errorThrown) {
+                //     alert('Error happens. Try again.');
+                // }
+            });
+        });
+
+        $('#create_payment_account_btn').click(function(e){
+            e.preventDefault();
+            // console.log($("[id*='test_success_payment_url']"))
+
+            var business_name = $('#create_account_business_name').val();
+            var email = $('#create_account_email').val();
+            var method = $('#payment_method').val();
+
+            $.ajax({
+                url: '<?= $block->getUrl('catalog/payment/createaccount') ?>',
+                type: 'POST',
+                dataType: 'json',
+                showLoader: 'true',
+                data: {
+                    email: email,
+                    business_name: business_name,
+                    payment_method: method,
+                    form_key: window.FORM_KEY
+                },
+                success: function(response) {
+                    // alert('You have sent email to '+contactname);
+                    // location.reload();
+                    // console.log(response)
+                    if (response.html) {
+                        $('#activate-payment-container').html(response.html);
+                        // activate-payment-container
+                        $('html, body').animate({
+                            scrollTop: $('#activate-payment-container').offset().top
+                        }, 600); // durasi 600ms
+                    }
+
+                    if (response.error_message) {
+                        $('#error_msg_container').slideDown();
+                        $('#error_msg_text').text(response.error_message);
+                    } else {
+                        $('#error_msg_container').slideUp();
+                        $('#error_msg_text').text('');
+                    }
+
+                    if (response.success_message) {
+                        $('#success_msg_container').slideDown();
+                        $('#success_msg_text').text(response.success_message);
+                    } else {
+                        $('#success_msg_container').slideUp();
+                        $('#success_msg_text').text('');
+                    }
+                },
+                // error: function (xhr, status, errorThrown) {
+                //     alert('Error happens. Try again.');
+                // }
+            });
+        });
+
+        $('#test_success_payment_btn').click(function(){
+            // console.log($("[id*='test_success_payment_url']"))
+            $.ajax({
+                url: $("[id*='test_success_payment_url']").val(),
+                type: 'POST',
+                dataType: 'json',
+                showLoader: 'true',
+                data: {
+                    form_key: window.FORM_KEY
+                },
+                success: function(response) {
+                    // alert('You have sent email to '+contactname);
+                    // location.reload();
+                    console.log(response)
+                },
+                // error: function (xhr, status, errorThrown) {
+                //     alert('Error happens. Try again.');
+                // }
+            });
+        });
+
+        $(".field-lofmpproductshipping-title").css('display', 'none');
+        $("#lofmpproductshipping-name").attr('placeholder', 'Standard Shipping');
+        $("#lofmpproductshipping-name").keyup(function (){
+            var methodName = $(this).val();
+            $("#lofmpproductshipping-title").val(methodName);
+        });
+        var methodName1 = $("#lofmpproductshipping-name").val();
+        $("#lofmpproductshipping-title").val(methodName1);
+        $('#lofmptablerateshipping-active option[value="1"]').attr('selected', false);
+        $('#lofmpflatrateshipping-active option[value="1"]').attr('selected', false);
+        $('#lofmpproductshipping-active option[value="1"]').attr('selected', false);
+        if ($("h2").length > 0) {
+            $("h2").addClass("lof_shipping");
+        }
+    });
+
+
+</script>

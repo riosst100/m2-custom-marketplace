@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Platform Database Config -->
+        <add id="TCGCollective_PlatformDatabase::platform_db_configurations" title="Platform Database" translate="title" module="TCGCollective_PlatformDatabase" sortOrder="10" parent="Magento_Backend::system" resource="Magento_Backend::system"/>
+        
+        <add id="TCGCollective_PlatformDatabase::main_categories_configurations" title="Main Categories Configurations" module="TCGCollective_PlatformDatabase" sortOrder="10" action="platformdatabase/maincategories/index" resource="Magento_Backend::system" parent="TCGCollective_PlatformDatabase::platform_db_configurations"/>
+    </menu>
+</config> 

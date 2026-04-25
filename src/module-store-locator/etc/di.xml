@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Lofmp\StoreLocator\Block\StoreLocator\Index" type="TCGCollective\StoreLocator\Block\StoreLocator\Index" />
+    <preference for="Lofmp\StoreLocator\Controller\MarketPlace\sellerlocator\Save" type="TCGCollective\StoreLocator\Controller\Marketplace\SellerLocator\Save" />
+    <preference for="Lofmp\StoreLocator\Model\StoreLocator" type="TCGCollective\StoreLocator\Model\StoreLocator" />
+</config>

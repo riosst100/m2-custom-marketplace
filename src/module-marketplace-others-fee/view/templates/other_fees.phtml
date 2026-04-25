@@ -1,0 +1,50 @@
+<?php
+//phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+//phpcs:disable Magento2.Security.XssTemplate.FoundUnescaped
+/**
+ * @var $block \TCGCollective\MarketPlace\Block\OtherFees
+ */
+?>
+<div class="row">
+    <div class="col-md-12" style="margin-top:10px;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="page messages">
+                    <div class="messages">
+                        <div class="alert alert-info notice alert-dismissable">
+                            <span style="font-size:14px" class="custom-message-info">
+                                Learn how to configure Other Fees on Seller Help Center. <a href="<?= str_replace("marketplace/", "", $block->getUrl('documentation/otherfees')) ?>" style="color:white;font-weight:bold;text-decoration:underline;">Other Fees</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <?= $this->getFormHtml(); ?>
+                <div class="buttons-set">
+                    <p class="required"><?= $block->escapeHtml(__('* Required Fields')) ?></p>
+                </div>
+                <div class="panel-heading col-md-12 uptransform" style="font-weight:bold;padding:4px 15px;">
+                    <div class="col-md-6 panel_product_heading" style="line-height:31px;font-size:17px;padding-left:0;"></div>
+                    <div class="buttons-set col-md-6 buttons_scb" style="text-align:right;padding-right:0;">
+                        <button class="btn button-seller-primary" title="Save" type="submit"
+                                onClick="jQuery('#form-validate').submit();" id="save_butn" style="float: none;">
+                            <span><?= $block->escapeHtml(__('Save Configurations')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    h2.legend.lof_shipping {
+        margin-left: 0;
+    }
+    .admin__control-select, .ui-datepicker .ui-datepicker-title select {
+        -moz-appearance: meterchunk !important;
+    }
+
+    .box-header .fa.fa-bars{
+        display: none;
+    }
+</style>

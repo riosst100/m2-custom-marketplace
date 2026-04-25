@@ -1,0 +1,868 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lof_MarketPlace
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Magento2.Security.XssTemplate.FoundUnescaped
+// phpcs:disable Generic.Files.LineLength.TooLong
+/**
+ * @var $block Lof\MarketPlace\Block\Product\Import
+ */
+$seller = $block->getSeller();
+?>
+<div class="clearfix"></div>
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-12">
+    <form enctype="multipart/form-data" method="post"
+                      action="<?= $block->escapeHtmlAttr($block->getUrl('*/*/validateimport/')) ?>" id="edit_form"
+                      novalidate="novalidate">
+        <div class="x_panel">
+            <div class="x_content import-product">
+                
+                    <input name="form_key" type="hidden" value="lenvCjnaOf6CBttF">
+                    <fieldset class="fieldset admin__fieldset fieldset_setting" id="category_fieldset">
+                        <legend class="admin__legend legend">
+                            <h2><?= $block->escapeHtml(__('Select categories')) ?></h2>
+                        </legend>
+                        <div class="admin__field field required">
+                            <label for="categories" class="label admin__field-label">
+                                <span><?= $block->escapeHtml(__('Categories')) ?></span>
+                            </label>
+                            <div class="admin__field-control control">
+                                <div class="admin__field">
+                                    <select style="width: 100%" title="Entity Type" name="categories" id="categories" class="admin__control-select"
+                                        data-validate="{required:true}" aria-required="true">
+                                        <option value="" selected hidden style="display: none;">--Please select category--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </fieldset>
+                    <fieldset id="sub_category_fieldset" class="fieldset admin__fieldset fieldset_setting"></fieldset>
+                    <input type="hidden" name="entity" id="entity" value="catalog_product"/>
+                    <input type="hidden" name="attribute_set_id" id="attribute_set_id" value=""/>
+                    <input type="hidden" name="mapping_priority" id="mapping_priority" value=""/>
+                    <input type="hidden" name="mapping_group_id" id="mapping_group_id" value=""/>
+                    <input type="hidden" name="mapping_group_name" id="mapping_group_name" value=""/>
+                    <input type="hidden" name="mapping_attribute_code" id="mapping_attribute_code" value=""/>
+                    <input type="hidden" name="source" id="source" value="<?= $block->getSource() ?>"/>
+                    <input type="hidden" name="_attribute_set" id="_attribute_set" value=""/>
+                    <input type="hidden" name="template_url" id="template_url" value=""/>
+                    <div id="no_template_found" style="display:none">No products found.</div>
+                    <button type="button" style="display:none" id="download_template_btn" class="action-default scalable save primary"
+                        title="<?= $block->escapeHtmlAttr(__('Download Products CSV')) ?>">
+                        <span><?= $block->escapeHtml(__('Download Products CSV')) ?></span>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .admin__field-error, label.mage-error {
+        text-align: left !important;
+    }
+    .required > .admin__field-label > span::after {
+        content: "";
+    }
+
+    #upload_button {
+        float: left;
+    }
+
+    .admin__fieldset > .admin__field {
+        clear: both;
+    }
+
+    .label {
+        color: #303030;
+        text-align: left;
+    }
+    
+    .data-grid {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .data-grid th, .data-grid td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #e3e3e3;
+    }
+
+    .file-icon::before {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2 2v12h12V2H2zm11 11H3V3h10v10z"/></svg>');
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .success-icon::before {
+        content: '✓';
+        color: #1ab394;
+        margin-right: 5px;
+    }
+
+    .error-icon::before {
+        content: '✕';
+        color: #ed5565;
+        margin-right: 5px;
+    }
+
+    .info-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #f0f0f0;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 16px;
+        margin-left: 5px;
+        cursor: help;
+    }
+
+    .info-icon::before {
+        content: 'i';
+        font-style: italic;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .paginator {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        /* margin-top: 15px; */
+    }
+
+    .page-size {
+        border-color: #d6d6d6;
+        padding: 5px;
+        margin: 0 10px;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pagination button {
+        padding: 5px 10px;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .current-page {
+        padding: 5px 10px;
+        background: #f76b1c;
+        color: white;
+    }
+    #progress-container {
+    width: 100%; /* Full width */
+    /* No background color */
+    border-radius: 10px; /* Rounded corners for the container */
+    overflow: hidden; /* Hide overflow to ensure rounded corners are visible */
+    margin-top: 5px; /* Space above the progress bar */
+    margin-bottom: 10px;
+}
+
+#progress-bar {
+    margin-top: 5px;
+    height: 5px; /* Height of the progress bar */
+    background: linear-gradient(to right, #4caf50, #81c784); /* Gradient color */
+    transition: width 0.5s ease, background-color 0.5s ease; /* Smooth transition for width and color */
+    border-radius: 35px; /* Rounded corners for the progress bar */
+    position: relative; /* Positioning for text */
+}
+
+#progress-text {
+    color: black; /* Text color */
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Center the text */
+    margin-bottom: 5px; /* Space between text and progress bar */
+    font-size: 14px; /* Font size */
+}
+</style>
+<script>
+    require([
+        "jquery",
+        "mage/mage",
+        "select2"
+    ], function ($) {
+        $(document).ready(function() {
+
+            var fileUrl = '';
+
+            // DOWNLOAD TEMPLATE
+            $('#download_template_btn').on('click', function() {
+                // var dataForm = $('#edit_form');
+                // dataForm.mage('validation', {});
+                if ($('#edit_form').valid()) {
+                    window.location.href = $('#template_url').val();
+                }
+            });
+
+            $('#categories').on('change', async function () {
+                // var exportDataRes = await startExportData();
+                // console.log(entityData);
+                // if (exportDataRes) {
+                    getEntityData();
+                // }
+            });
+
+            $('#subcategories').on('change', async function () {
+                // var exportData = await startExportData();
+                // console.log(releaseData);
+                // if (exportData) {
+                    getReleaseData();
+                // }
+            });
+
+            $('#sub_subcategories').on('change', async function () {
+                // var releaseData = await getReleaseData();
+                // console.log(releaseData);
+                // if (!releaseData) {
+                    // await startExportData();
+                // }
+            });
+
+            function getReleaseData() {
+                var formData = new FormData($('#edit_form')[0]);
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/import/getReleaseData')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: true,
+                        beforeSend: function () {},
+                        success: function (resp) {
+                            if (resp.data && resp.data.length) {
+                                resolve(true);
+
+                                $('#sub_subcategories_field').show();
+                                $('#sub_subcategories_attr_code').val(resp.attribute.code);
+                                $('#sub_subcategories_default_value').text('All ' + resp.attribute.label);
+                                $('#sub_subcategories_label').text(resp.attribute.label);
+                                $('#sub_subcategories').select2(
+                                    {
+                                        data: resp.data,
+                                        width: 'resolve'
+                                    }
+                                );
+                            } else {
+                                resolve(false);
+
+                                $('#sub_subcategories_field').hide();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            reject(error);
+                        }
+                    });
+                });
+            }
+
+            async function getEntityData() {
+                var formData = new FormData($('#edit_form')[0]);
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/import/getEntityData')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: true,
+                        beforeSend: function () {},
+                        success: function (resp) {
+                            if (resp.data && resp.data.length) {
+                                resolve(true);
+
+                                $('#subcategories_field').show();
+                                $('#subcategories_attr_code').val(resp.attribute.code);
+                                $('#subcategories_default_value').text('All ' + resp.attribute.label);
+                                $('#subcategories_label').text(resp.attribute.label);
+                                $('#subcategories').select2(
+                                    {
+                                        data: resp.data,
+                                        width: 'resolve'
+                                    }
+                                );
+                            } else {
+                                resolve(false);
+
+                                $('#subcategories_field').hide();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            reject(error);
+                        }
+                    });
+                });
+            }
+
+
+            // async function startExportData() {
+            //     var formData = new FormData($('#edit_form')[0]);
+            //     return new Promise((resolve, reject) => {
+            //         $.ajax({
+            //             type: "POST",
+            //             url: "<?= $block->escapeJs($block->getUrl('*/export/processExport')) ?>",
+            //             data: formData,
+            //             async: true,
+            //             cache: false,
+            //             contentType: false,
+            //             enctype: 'multipart/form-data',
+            //             processData: false,
+            //             showLoader: true,
+            //             beforeSend: function () {},
+            //             success: function (resp) {
+            //                 if (resp.success && resp.data.file) {
+            //                     resolve(true);
+
+            //                     $('#download_template_url').val(resp.data.file);
+            //                     $('#download_template_btn').show();
+            //                     $('#fieldset_upload_history').show();
+            //                     $('#no_product_stock').hide();
+            //                 } else {
+            //                     resolve(false);
+
+            //                     $('#download_template_url').val('');
+            //                     $('#download_template_btn').hide();
+            //                     $('#fieldset_upload_history').hide();
+            //                     $('#no_product_stock').show();
+            //                 }
+            //             },
+            //             error: function (xhr, status, error) {
+            //                 console.error(error);
+            //                 reject(error);
+            //             }
+            //         });
+            //     });
+            // }
+            
+            $(document).on('change', 'select', function() {
+                $('#template_url').val('');
+
+                var addedFields = 0;
+                var currentAttrCode = $(this).attr('id');
+
+                var formData = new FormData($('#edit_form')[0]);
+                if ($(this).attr('id') != "categories") {
+                    formData.append('code', $(this).attr('id'));
+                    formData.append('option_id', $(this).val());
+                }
+
+                if (this.name == "categories") {
+                    $('#sub_category_fieldset').html('');
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "<?= $block->escapeJs($block->getUrl('*/*/bulkimportdata/')) ?>",
+                    data: formData,
+                    async: true,
+                    cache: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    showLoader: true,
+                    beforeSend: function () { },
+                    success: function (response) {
+                        if (response._attribute_set) {
+                            $('#_attribute_set').val(response._attribute_set);
+                        }
+                        
+                        if (response.mapping_data) {
+                            var mapping_priority = response.mapping_data.mapping_priority;
+                            if (mapping_priority) {
+                                $('#mapping_priority').val(mapping_priority);
+                            }
+
+                            var attribute_set_id = response.mapping_data.attribute_set_id;
+                            if (attribute_set_id) {
+                                $('#attribute_set_id').val(attribute_set_id);
+                            }
+
+                            
+
+                            var mapping_group_id = response.mapping_data.mapping_group_id;
+                            if (mapping_group_id) {
+                                $('#mapping_group_id').val(mapping_group_id);
+                            }
+
+                            var mapping_group_name = response.mapping_data.mapping_group_name;
+                            if (mapping_group_name) {
+                                $('#mapping_group_name').val(mapping_group_name);
+                            }
+
+                            var mapping_attribute_code = response.mapping_data.mapping_attribute_code;
+                            if (mapping_attribute_code) {
+                                $('#mapping_attribute_code').val(mapping_attribute_code);
+                            }
+                        }
+                        if (response.category_details) {
+
+                            var code = response.code; 
+
+                            // const currentIndex = response.category_details.findIndex(item => item.attribute_code === code);
+                            var currentIndex = null;
+                            console.log(response.category_details)
+                            response.category_details.forEach((item, i) => {
+                                console.log(i + ' = ' + item.attribute_code)
+                                
+                                if (item.attribute_code == code) {
+                                    currentIndex = i;
+                                    console.log('set'+i)
+                                }
+                            });
+                            console.log('currentIndex '+currentIndex)
+                            if (currentIndex != null) {
+                                $('#sub_category_fieldset select').each(function(index, item) {
+                                    if (index > currentIndex) {
+                                    console.log('remove'+index)
+                                    // console.log('remove'+item)
+                                        $(this).closest('.admin__field.field.required').remove();
+                                    }
+                                });
+                            }
+                            
+                            var attrCodes = [];
+                            response.category_details.forEach(data => {
+                                attrCodes.push(data.attribute_code);
+                                if (!$('#'+data.attribute_code).length) {
+                                    var element = '<div class="admin__field field required">';
+                                    element += '<label for="categories" class="label admin__field-label">';
+                                    element += '<span>' + data.attribute_label + '</span>';
+                                    element += '</label>';
+                                    element += '<div class="admin__field-control control">';
+                                    element += '<div class="admin__field">';
+                                    element += '<select style="width: 100%" name="' + data.attribute_code + '" id="' + data.attribute_code + '" class="admin__control-select" data-validate="{required:true}" aria-required="true">';
+                                    element += '<option value="" selected hidden style="display: none;">--Please select--</option>';
+                                    element += '</select>';
+                                    element += '</div>';
+                                    element += '</div>';
+                                    element += '</div>';
+
+                                    $('#sub_category_fieldset').append(element);
+
+                                    $('#'+data.attribute_code).select2(
+                                        {
+                                            data: data.options,
+                                            width: 'resolve'
+                                        }
+                                    );
+
+                                    addedFields++;
+                                }
+                            });
+
+                            $('#sub_category_fieldset select').each(function() {
+                                // Get the name attribute of each select element
+                                var selectName = $(this).attr('name');
+                                // Check if the name is not in the attrCodes array
+                                if (!attrCodes.includes(selectName)) {
+                                    // Remove the element
+                                    $(this).closest('.admin__field.field.required').remove();
+                                }
+                            });
+
+                            var fieldset = $('#sub_category_fieldset');
+
+                            // Iterate over attrCodes and append matching elements in the correct order
+                            $.each(attrCodes, function(index, attrCode) {
+                                // Find the corresponding element based on its name attribute
+                                var fieldElement = fieldset.find(`select[name="${attrCode}"]`).closest('.admin__field.field.required');
+                                
+                                // If the element exists, append it at the end of the fieldset
+                                if (fieldElement.length) {
+                                    fieldset.append(fieldElement);
+                                }
+                            });
+
+                            var setIdField = fieldset.find('select[name="set_id"]').closest('.admin__field.field.required');
+                            if (setIdField.length) {
+                                fieldset.append(setIdField);
+                            }
+                        }
+
+                        if (response.template_url) {
+                            $('#template_url').val(response.template_url);
+
+                            $('#download_template_btn').show();
+                            $('#no_template_found').hide();
+
+                            if (response.fields_information_html) {
+                                $('#field_information_table').html(response.fields_information_html);
+                            }
+                        } else {
+                            $('#download_template_btn').hide();
+                            if (!addedFields) {
+                                $('#no_template_found').show();
+                            }
+                            $('#field_information_content').html(
+                                '<tr><td colspan="3" style="text-align:center;"><div>No product found.</div></td></tr>'
+                            );
+                        }
+
+                        if (!addedFields) {
+                            $('#upload_template_fieldset').show();
+                            $('#field_information_fieldset').show();
+                        }
+                        
+                        
+
+                        // const pageSize = parseInt($('#upload_history .paginator .page-size').text()) ?? null;
+                        // const currentPage = parseInt($('#upload_history .pagination .current-page').text()) ?? null;
+
+                        // MST.updateHistory(currentPage, pageSize, false, false, true);
+                        
+                        // var $message_valid_import = $('.messages_validate_import');
+                        // $message_valid_import.html('<p>Status</p>');
+                        // var returnedData = jQuery.parseJSON(html);
+                        // if (returnedData.error.length == 0) {
+                        //     var success = returnedData.success;
+                        //     for (i = 0; i < success.length; i++) {
+                        //         $message_valid_import.append('<div class="message message-success success"><div>' + returnedData.success + '</div></div>');
+                        //     }
+                        // } else {
+                        //     var notice = returnedData.notice;
+                        //     for (i = 0; i < notice.length; i++) {
+                        //         $message_valid_import.append('<div class="message message-error error"><div>' + returnedData.notice + '</div></div>');
+                        //     }
+                        // }
+                    }
+                });
+            });
+            function showHistory() {
+                $('#upload_history').slideDown(1000);
+                $('#hide_upload_history').show();
+
+                var targetRow = $('#upload_history');
+                if (targetRow.length) {
+                    var offset = targetRow.offset().top;
+                    $('html, body').animate({
+                        scrollTop: offset-200
+                    }, 500); 
+                }
+            }
+
+            function hideHistory() {
+                $('#upload_history').slideUp();
+                $('#show_upload_history').show();
+
+                var targetRow = $('#upload_history');
+                if (targetRow.length) {
+                    var offset = targetRow.offset().top;
+                    $('html, body').animate({
+                        scrollTop: offset-200
+                    }, 500); 
+                }
+            }
+
+            $('#show_upload_history').click(function(){
+                showHistory();
+                $(this).hide();
+            });
+
+            $('#hide_upload_history').click(function(){
+                hideHistory();
+                $(this).hide();
+            });
+
+            var data = <?= $block->getCategoriesData() ?>;
+
+            $('#categories').select2(
+                {
+                    data: data,
+                    width: 'resolve'
+                }
+            );
+        });
+        
+        var dataForm = $('#edit_form');
+        dataForm.mage('validation', {});
+        var _action = dataForm.attr('action');
+        $('#entity').change(function () {
+            if ($(this).val() == 'catalog_product') {
+                $('.fieldset_behavior,.fieldset_import').show();
+            } else {
+                $('.fieldset_behavior,.fieldset_import').hide();
+            }
+        });
+        
+        MST = {
+            changePage: function(page) {
+                const pageSize = document.querySelector('.page-size').value;
+                MST.updateHistory(page, pageSize);
+            },
+            changePageSize: function(size) {
+                const currentPage = parseInt($('.pagination .current-page').text());
+                MST.updateHistory(currentPage, size);
+            },
+            updateHistory: function (currentPage = 1, pageSize = 5, showLoader = true, startImport = false, afterUpload = false) {
+                $.ajax({
+                    type: "GET",
+                    cache: false,
+                    showLoader:showLoader,
+                    url: "<?= $block->escapeJs($block->getUrl('*/*/updateImportHistory')) ?>",
+                    data: {
+                        page: currentPage,
+                        size: pageSize
+                    },
+                    beforeSend: function () {},
+                    error: function(e) {
+                        $('#import_file').val('');
+
+                        $('#error_data_validation').slideDown();
+
+                        $('#progress-container').slideUp();
+                    },
+                    success: function (html) {
+                        // Hide the progress bar on success
+                        $('#progress-container').slideUp();
+                        
+                        $('#upload_history').html(html);
+                        $('#upload_history').slideDown(1000);
+                        $('#hide_upload_history').show();
+                        $('#show_upload_history').hide();
+
+                        var targetRow = $('#upload_history');
+                        if (targetRow.length) {
+                            var offset = targetRow.offset().top;
+                            $('html, body').animate({
+                                scrollTop: offset-200
+                            }, 500); 
+                        }
+
+                        // Get all tr elements in tbody
+                        if (afterUpload) {
+                            $('#upload_history tbody tr:first').find('td').each(function() {
+                                // For each td in the first tr, set background color
+                                $(this).css('background-color', '#e5f7fe');
+
+                                setTimeout(() => {
+                                    $(this).css('background-color', 'white');
+                                }, 2000);
+                            });
+                        }
+
+                        if (startImport) {
+                            MST.startImport();
+                        }
+
+                        // $("a#trigger").trigger('mouseenter');
+                    }
+                });
+            },
+            validateImport: function () {
+                if ($('#edit_form').valid()) {
+                    var fileInput = document.getElementById('import_file');
+                    var filePath = fileInput.value;
+                    var allowedExtensions = /(\.csv)$/i;
+
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Only CSV files allowed.');
+                        fileInput.value = ''; // Clear the input
+                        return false;
+                    }
+                    //grab all form data
+                    var formData = new FormData($('#edit_form')[0]);
+                    
+                    // Show the progress bar
+                    $('#progress-bar').css('width', '0%');
+                    $('#progress-container').slideDown();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/*/validateimport/')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: false,
+                        beforeSend: function () {},
+                        xhr: function() {
+                            var xhr = new window.XMLHttpRequest();
+                            var lastPercentComplete = 0; // Track the last percentage to throttle updates
+                            var updateDelay = 100; // Delay in milliseconds for updates
+                            var updateInterval = 500; // Interval to check progress in milliseconds
+
+                            // Function to update the progress bar
+                            function updateProgressBar(percentComplete) {
+                                $('#progress-bar').css('width', percentComplete + '%');
+                                lastPercentComplete = percentComplete; // Update the last tracked percentage
+                            }
+
+                            // Set initial width to 0% and show the progress container
+                            // $('#progress-bar').css('width', '0%');
+                            // $('#progress-container').show();
+
+                            $('#progress-bar').css('width', '0%');
+                            lastPercentComplete = 0; // Reset the last percent complete tracker
+                            $('#progress-container').show();
+
+                            // Upload progress
+                            xhr.upload.addEventListener("progress", function(evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                    if (percentComplete - lastPercentComplete >= 20) {
+                                        setTimeout(function() {
+                                            updateProgressBar(percentComplete);
+                                        }, updateDelay);
+                                    }
+                                }
+                            }, false);
+
+                            // Use a timer to check progress every updateInterval milliseconds
+                            setInterval(function() {
+                                if (lastPercentComplete < 100) {
+                                    updateProgressBar(lastPercentComplete); // Ensure the progress bar is updated
+                                }
+                            }, updateInterval);
+
+                            return xhr;
+                        },
+                        error: function(e) {
+                            $('#import_file').val('');
+
+                            $('#error_data_validation').slideDown();
+
+                            $('#progress-container').slideUp();
+                        },
+                        success: function (html) {
+                            const pageSize = parseInt($('#upload_history .paginator .page-size').text()) ?? null;
+                            const currentPage = parseInt($('#upload_history .pagination .current-page').text()) ?? null;
+
+                            $('#error_data_validation').slideUp();
+
+                            
+
+                            // var $message_valid_import = $('.messages_validate_import');
+                            // $message_valid_import.html('<p>Validation Results</p>');
+                            var returnedData = jQuery.parseJSON(html);
+                            // $message_valid_import.html(html.innerHTML);
+
+                            // if ((returnedData.error.length) == 0) {
+                            //     var text = returnedData.success;
+                            //     var notice = returnedData.notice;
+                            //     //if(text.length == 2){
+                            //     $message_valid_import.append('<div class="message message-notice notice"><div>' + notice + '</div></div>');
+                            //     $message_valid_import.append('<div class="message message-success success"><div>' + text + '&nbsp; &nbsp; &nbsp;<button class="scalable save" type="button" onclick="MST.startImport()"><span><span><span>Import</span></span></span></button></div></div>');
+                            //     // }else{
+
+                            //     // }
+                            // } else {
+                            //     var notice = returnedData.notice;
+                                var startImport = false;
+                                
+                                var error = returnedData.error;
+                                if (!error.length) {
+                                    startImport = true;
+                                } else {
+                                    // $('#import_file').val('');
+                                }
+                                
+                                MST.updateHistory(currentPage, pageSize, false, startImport);
+
+                            //     for (i = 0; i < error.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-error error"><div>' + error[i] + '</div></div>');
+                            //     }
+
+                            //     for (i = 0; i < notice.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-notice notice"><div>' + notice[i] + '</div></div>');
+                            //     }
+
+                            // }
+                        }
+                    });
+                }
+            },
+            startImport: function () {
+                if ($('#edit_form').valid()) {
+                    $('#upload_history tbody tr:first').find('td[class="upload_status"]').each(function() {
+                        // For each td in the first tr, set background color
+                        $(this).html('<img style="width: 16px;" src="<?= $block->getViewFileUrl("Lof_MarketPlace/images/loader-1.gif") ?>" alt="Loading..." style="vertical-align: middle; margin-right: 5px;" /> Uploading products...');
+                    });
+                    
+                    //grab all form data
+                    var formData = new FormData($('#edit_form')[0]);
+                    $.ajax({
+                        type: "POST",
+                        url: "<?= $block->escapeJs($block->getUrl('*/*/processimport/')) ?>",
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        showLoader: false,
+                        beforeSend: function () {
+
+                        },
+                        success: function (html) {
+                            
+                            $('#import_file').val('');
+
+                            const pageSize = parseInt($('#upload_history .paginator .page-size').text()) ?? null;
+                            const currentPage = parseInt($('#upload_history .pagination .current-page').text()) ?? null;
+
+                            MST.updateHistory(currentPage, pageSize, false, false, true);
+                            
+                            // var $message_valid_import = $('.messages_validate_import');
+                            // $message_valid_import.html('<p>Status</p>');
+                            // var returnedData = jQuery.parseJSON(html);
+                            // if (returnedData.error.length == 0) {
+                            //     var success = returnedData.success;
+                            //     for (i = 0; i < success.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-success success"><div>' + returnedData.success + '</div></div>');
+                            //     }
+                            // } else {
+                            //     var notice = returnedData.notice;
+                            //     for (i = 0; i < notice.length; i++) {
+                            //         $message_valid_import.append('<div class="message message-error error"><div>' + returnedData.notice + '</div></div>');
+                            //     }
+                            // }
+                        }
+                    });
+                }
+            }
+        }
+    });
+</script>

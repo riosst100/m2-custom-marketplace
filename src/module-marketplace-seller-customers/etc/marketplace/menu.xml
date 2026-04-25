@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <remove id="Lofmp_FavoriteSeller::favorite_seller"/>
+
+        <add id="TCGCollective_MarketplaceSellerCustomers::customers" title="Customers / Followers" module="TCGCollective_MarketplaceSellerCustomers" sortOrder="45" resource="TCGCollective_MarketplaceSellerCustomers::customers" icon="fa fa-users" />
+
+        <add id="TCGCollective_MarketplaceSellerCustomers::seller_customers" title="Customers" module="TCGCollective_MarketplaceSellerCustomers" sortOrder="10" resource="TCGCollective_MarketplaceSellerCustomers::customers" parent="TCGCollective_MarketplaceSellerCustomers::customers" />
+        <add id="TCGCollective_MarketplaceSellerCustomers::manage_customers" title="Manage Customers" module="TCGCollective_MarketplaceSellerCustomers" action="customers/index/index" sortOrder="10" parent="TCGCollective_MarketplaceSellerCustomers::seller_customers" resource="TCGCollective_MarketplaceSellerCustomers::manage_customers" translate="title"/>
+
+        <add id="TCGCollective_MarketplaceSellerCustomers::subscribers" title="Followers" module="TCGCollective_MarketplaceSellerCustomers" sortOrder="20" 
+        parent="TCGCollective_MarketplaceSellerCustomers::customers" 
+        resource="TCGCollective_MarketplaceSellerCustomers::customers" />
+        <add id="TCGCollective_MarketplaceSellerCustomers::manage_subscribers" title="Manage Followers" module="TCGCollective_MarketplaceSellerCustomers" action="favoriteseller/index/index" sortOrder="10" parent="TCGCollective_MarketplaceSellerCustomers::subscribers" resource="TCGCollective_MarketplaceSellerCustomers::manage_subscribers" dependsOnConfig="favoriteseller_config/general/enable" translate="title"/>
+    </menu>
+</config>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">new_card_form.new_card_form_data_source</item>
+            <item name="namespace" xsi:type="string">new_card_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="TCGCollective\ProductAttributesLink\Block\Product\Edit\Button\CreateNewCard"/>
+        </buttons>
+        <ajaxSaveType>simple</ajaxSaveType>
+        <deps>
+            <dep>new_card_form.new_card_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="new_card_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="productattributeslink/card/save"/>
+        </settings>
+        <dataProvider class="TCGCollective\ProductAttributesLink\Ui\DataProvider\Form\CardGamesMappingDataProvider" name="new_card_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="data">
+        <settings>
+            <collapsible>false</collapsible>
+            <label/>
+        </settings>
+        <container name="messages" component="Magento_Catalog/js/components/messages">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string"/>
+                </item>
+            </argument>
+        </container>
+        <field name="card_name" sortOrder="10" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Name</label>
+                <dataScope>data.card_name</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_feature" sortOrder="44" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Print Version</label>
+                <dataScope>data.card_feature</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_manufacturer" sortOrder="45" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Manufacturer</label>
+                <dataScope>data.card_manufacturer</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="language" sortOrder="46" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Language</label>
+                <dataScope>data.language</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_rarity" sortOrder="47" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Rarity</label>
+                <dataScope>data.card_rarity</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_type" sortOrder="48" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Type</label>
+                <dataScope>data.card_type</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_number" sortOrder="49" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Number</label>
+                <dataScope>data.card_number</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <field name="card_artist" sortOrder="50" formElement="input">
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Card Artist</label>
+                <dataScope>data.card_artist</dataScope>
+                <componentType>field</componentType>
+            </settings>
+        </field>
+        <!-- <field name="parent" component="Magento_Catalog/js/components/new-category" sortOrder="20" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <label translate="true">Parent Category</label>
+                <dataScope>data.parent</dataScope>
+                <componentType>field</componentType>
+                <listens>
+                    <link name="${ $.namespace }.${ $.namespace }:responseData">setParsed</link>
+                </listens>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Catalog\Ui\Component\Product\Form\Categories\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field> -->
+    </fieldset>
+</form>

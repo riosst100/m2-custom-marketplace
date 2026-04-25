@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\ActionToyMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/actiontoy-wizard-ajax.phtml" as="actiontoy.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">actiontoy.setsModal</item>
+                    <item name="nameStepWizard" xsi:type="string">select-actiontoy-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormActionToySets</item>
+                </argument>
+            </arguments>
+            <block class="TCGCollective\MarketPlace\Block\Component\ActionToyStepsWizard" name="select-actiontoy-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">actiontoy.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormActionToySets</item>
+                    </argument>
+                </arguments>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\ActionToySelectSets" name="step1" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_actiontoy_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">actiontoy.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">actiontoy_sets_listing.actiontoy_sets_listing.actiontoy_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">actiontoy_sets_listing.actiontoy_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormActionToySets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="actiontoy_sets_listing"/>
+                </block>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\ActionToySelectSingles" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_actiontoy_singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">actiontoy.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">actiontoy_singles_listing.actiontoy_singles_listing.actiontoy_singles_columns.ids</item>
+                            <item name="providerName" xsi:type="string">actiontoy_singles_listing.actiontoy_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormActionToySets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="actiontoy_singles_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

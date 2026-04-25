@@ -1,0 +1,40 @@
+<form id="send-mail-form-<%- entityid %>" method="post" enctype="multipart/form-data" action="<%- formaction %>" data-hasrequired="* Required Fields" data-mage-init='{"validation":{}}'>
+   <div class="modal-body">
+      <table class="listing_country_list">
+         <tr>
+            <th>Stores</th>
+            <th>Status</th>
+            <th></th>
+         </tr>
+         <% publishData.forEach(function(website) { %>
+            <tr>
+               <td class="text-left"><%= website.name %></td>
+               <td class="text-left"><%= website.status %></td>
+               <td class="text-left">
+                  <% if (website.is_enabled) { %>
+                     <% if (website.status == "Published") { %>
+                        <% if (!website.is_default_country_published && !website.is_default) { %>
+                           <span class="not_available">Please publish to default country first</span>
+                        <% } else { %>
+                           <a class="website-container" href="<%= website.publish_link %>">Edit Listing</a>
+                           <a class="website-container-disabled" href="<%= website.unpublish_link %>">Unpublish</a>
+                        <% } %>
+                     <% } else { %>
+                        <% if (!website.is_default_country_published && !website.is_default) { %>
+                           <span class="not_available">Please publish to default country first</span>
+                        <% } else { %>
+                           <a class="website-container" href="<%= website.publish_link %>">Publish</a>
+                        <% } %>
+                     <% } %>
+                  <% } else { %>
+                     <span class="not_available">Please buy additional membership for this country</span>
+                     <!-- <span class="not_available">Standard/Premium plan only</span> -->
+                  <% } %>
+               </td>
+            </tr>
+         <% }) %>
+      </table>
+      <br />
+   </div>
+   <br />
+</form>

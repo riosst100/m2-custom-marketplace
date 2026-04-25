@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">lego_sets_form.lego_sets_form_data_source</item>
+            <item name="deps" xsi:type="string">lego_sets_form.lego_sets_form_data_source</item>
+        </item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">lego_sets_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\Back</item>
+            <item name="delete" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\DeleteButton</item>
+            <item name="save" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\Save</item>
+        </item>
+    </argument>
+    <dataSource name="lego_sets_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">TCGCollective\ProductAttributesLink\Ui\DataProvider\Form\LegoSetsDataProvider</argument>
+            <argument name="name" xsi:type="string">lego_sets_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/*/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="bricks_sets">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true"></item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Name</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="supplier_sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Seller SKU</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">supplier_sku</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="bricks_brand">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">TCGCollective\ProductAttributesLink\Model\Source\Bricks\BricksBrand</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">import_singles_fieldset</item>
+                    <item name="label" xsi:type="string" translate="true">Brand</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="component" xsi:type="string">Magento_Catalog/js/components/new-category</item>
+                    <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">true</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="listens" xsi:type="array">
+                        <item name="${ $.namespace }.${ $.namespace }:responseData" xsi:type="string">setParsed</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <dataScope>bricks_brand</dataScope>
+            </settings>
+        </field>
+
+        <field name="bricks_categories">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Categories</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_categories</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_interest">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Interest</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_interest</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_packaging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Packaging</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_packaging</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_set_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Set Name</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_set_name</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_set_item_number">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Set Item Number</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_set_item_number</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_singles_names">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Singles Names</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_singles_names</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_singles_item_number">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Singles Item Number</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_singles_item_number</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_theme">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Theme</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_theme</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_subtheme">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Subtheme</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">bricks_subtheme</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="bricks_parts_name">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Parts Name</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_parts_name</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_parts_number">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Parts Number</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_parts_number</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_parts_design_number">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Parts Design Number</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_parts_design_number</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_parts_categories">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Parts Categories</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_parts_categories</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_manufacturer">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Manufacturer</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_manufacturer</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_colour">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Colour</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_colour</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bricks_supplies">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Supplies</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bricks_supplies</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="number_of_pieces">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Number of Pieces</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">number_of_pieces</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="number_of_minifigures">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Number of Minifigures</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">number_of_minifigures</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="release_year">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Release Year</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">release_year</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="release_date">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Release Date</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">release_date</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="material">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Material</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">material</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="weight">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Weight</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">weight</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="dimension">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Dimension</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">dimension</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="item_height">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Item Height</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">item_height</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bar_code">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Bar Code</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bar_code</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="bar_code_no">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Bar Code No</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">bar_code_no</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="features">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Features</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">features</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="includes">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Includes</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">includes</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="edition">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Edition</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">edition</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="edition_size">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Edition Size</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">edition_size</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="assembly_required">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Assembly Required</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">assembly_required</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+<field name="age_level">
+    <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+            <item name="label" xsi:type="string">Age Level</item>
+            <item name="visible" xsi:type="boolean">true</item>
+            <item name="dataType" xsi:type="string">text</item>
+            <item name="formElement" xsi:type="string">input</item>
+            <item name="source" xsi:type="string">age_level</item>
+            <item name="required" xsi:type="boolean">false</item>
+            <item name="validation" xsi:type="array">
+                <item name="required-entry" xsi:type="boolean">false</item>
+            </item>
+        </item>
+    </argument>
+</field>
+
+    </fieldset>
+</form>

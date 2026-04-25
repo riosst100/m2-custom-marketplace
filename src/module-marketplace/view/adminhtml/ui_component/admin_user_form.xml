@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * TCGCollective_MarketPlace
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <fieldset name="base_fieldset">
+        <field name="website_id" sortOrder="85">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Website Access</item>
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="source" xsi:type="string">user</item>
+                    <item name="dataScope" xsi:type="string">website_id</item>
+                    <item name="default" xsi:type="number">0</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="required" xsi:type="boolean">false</item>
+
+                    <item name="options" xsi:type="object">
+                        TCGCollective\MarketPlace\Model\Source\WebsiteOptions
+                    </item>
+
+                    <item name="notice" xsi:type="string" translate="true">
+                        Select which website this admin user can access. Choose "All Websites" for full access.
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+</form>

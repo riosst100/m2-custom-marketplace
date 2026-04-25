@@ -1,0 +1,68 @@
+<?php
+/** @var $block \TCGCollective\ProductAttributesLink\Block\Adminhtml\Listing\Helper\Form\Gallery\Content */
+$elementName = $block->getElement()->getName() . '[images]';
+$formName = $block->getFormName();
+?>
+<?php if ($block->getImagesJson() != '[]') : ?>
+    <div id="<?= $block->getHtmlId() ?>"
+        class="gallery"
+        data-mage-init='{"TCGCollective_ProductAttributesLink/js/post-gallery":{"template":"#<?= $block->getHtmlId() ?>-template"}}'data-parent-component="<?= $block->escapeHtml($block->getData('config/parentComponent')) ?>"
+        data-images="<?= $block->escapeHtml($block->getImagesJson()) ?>"
+        data-types="{}"
+        >
+
+        <script id="<?= $block->getHtmlId() ?>-template" type="text/x-magento-template">
+            <div class="image item<% if (data.disabled == 1) { %> hidden-for-front<% } %>"
+                data-role="image">
+                <div class="product-image-wrapper">
+                    <img class="product-image"
+                        data-role="image-element"
+                        src="<%- data.url %>"
+                        alt="<%- data.label %>"/>
+                    <div class="image-fade">
+                        <span><?= $block->escapeHtml(__('Hidden')) ?></span>
+                    </div>
+                </div>
+
+                <div class="item-description">
+                    <div class="item-title" data-role="img-title"><%- data.label %></div>
+                </div>
+            </div>
+        </script>
+        <script data-role="img-dialog-container-tmpl" type="text/x-magento-template">
+        <div class="image-panel" data-role="dialog">
+        </div>
+        </script>
+
+        <script data-role="img-dialog-tmpl" type="text/x-magento-template">
+                <div class="image-panel-preview">
+                    <img src="<%- data.url %>" alt="<%- data.label %>" />
+                </div>
+                <div class="image-panel-controls">
+                    <strong class="image-name"><%- data.label %></strong>
+                    <fieldset class="admin__fieldset fieldset-image-panel">
+                        <div class="admin__field field-image-description">
+                            <label class="admin__field-label" for="image-description">
+                                <span><?php /* @escapeNotVerified */ echo __('Image Path')?></span>
+                            </label>
+
+                            <div class="admin__field-control">
+                                <textarea data-role="image-description"
+                                        rows="3"
+                                        class="admin__control-textarea"
+                                        name="<?php /* @escapeNotVerified */
+                                        echo $elementName
+                                        ?>[<%- data.file_id %>][file]"><%- data.file %></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+        </script>
+    </div>
+
+    <script>
+        jQuery('body').trigger('contentUpdated');
+    </script>
+<?php else: ?>
+    <div>No images available.</div>
+<?php endif; ?>

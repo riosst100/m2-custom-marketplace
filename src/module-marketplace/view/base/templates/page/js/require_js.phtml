@@ -1,0 +1,17 @@
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Magento2.Security.XssTemplate.FoundNotAllowed
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+<script>
+    var ATTRIBUTE_SET_MAPPING_FIELDS = '<?= $block->getAttributeSetMappingFields() ?>';
+    var MAPPING_FIELDS_PRIORITY = '<?= $block->getMappingFieldsPriority() ?>';
+    var CARD_GAMES_MAPPING_FIELDS = '<?= $block->getCardGamesMappingFields() ?>';
+    var LEGO_SETS_FIELDS = '<?= $block->getLegoSetsFields() ?>';
+    var BASE_URL = '<?= $block->getUrl('') ?>';
+    var ADMIN_BASE_URL = '<?= $block->getAdminBaseUrl('') ?>';
+    var FORM_KEY = '<?= $block->getFormKey() ?>';
+    var require = {
+            "baseUrl": "<?= $block->getViewFileUrl('/') ?>"
+        };
+</script>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <!-- <resource id="TCGCollective_ProductAttributesLink::marketplace" title="Marketplace" translate="title" sortOrder="10">
+                    <resource id="TCGCollective_ProductAttributesLink::product_attributes_link" title="Product Attributes Link" translate="title" sortOrder="10" />
+                </resource> -->
+                <!-- <resource id="Magento_Sales::sales">
+
+                    <resource id="Magento_Sales::sales_operation">
+
+                        <resource id="TCGCollective_ProductAttributesLink::braintree_virtual_terminal"
+                                  title="Braintree Virtual Terminal"
+                                  sortOrder="100"/>
+
+                    </resource>
+                </resource> -->
+                <!-- ROOT: PLATFORM DATABASE -->
+                <resource id="TCGCollective_ProductAttributesLink::sets_cards"
+                            title="Platform Database"
+                            sortOrder="20">
+
+                    <!-- IMPORT / UPLOAD -->
+                    <resource id="TCGCollective_ProductAttributesLink::import"
+                                title="Upload Data">
+
+                        <resource id="TCGCollective_ProductAttributesLink::upload_images"
+                                    title="Upload Images"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::import_sets"
+                                    title="Upload Sets / Release"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::import_sealed_products"
+                                    title="Upload Sealed Products"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::import_singles"
+                                    title="Upload Singles"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::import_attributes"
+                                    title="Upload Attributes"/>
+                    </resource>
+
+                    <!-- MANAGE PRODUCTS (ALL CATEGORY LISTINGS) -->
+                    <resource id="TCGCollective_ProductAttributesLink::manage_products"
+                                title="Manage Products"/>
+                </resource>
+            
+                <resource id="TCGCollective_ProductAttributesLink::product_attributes_link"
+                            title="Attributes Mapping"
+                            sortOrder="10">
+
+                    <!-- ATTRIBUTE SET MAPPING -->
+                    <resource id="TCGCollective_ProductAttributesLink::attribute_set_mapping"
+                                title="Attribute Set Mapping">
+
+                        <resource id="TCGCollective_ProductAttributesLink::product_attributes_link_mapping"
+                                    title="Upload Mapping"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::product_attributes_link_category"
+                                    title="Manage By Category"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::product_attributes_link_attribute"
+                                    title="Manage By Attribute Option"/>
+                    </resource>
+
+                    <!-- VARIATIONS ATTRIBUTES MAPPING -->
+                    <resource id="TCGCollective_ProductAttributesLink::configurable_attributes_mapping"
+                                title="Variations Attributes Mapping">
+
+                        <resource id="TCGCollective_ProductAttributesLink::product_attributes_link_variations_attributes"
+                                    title="Upload Variations Attributes Mapping"/>
+
+                        <resource id="TCGCollective_ProductAttributesLink::product_attributes_link_variations_mapping"
+                                    title="Manage Variations Attributes Mapping"/>
+                    </resource>
+
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

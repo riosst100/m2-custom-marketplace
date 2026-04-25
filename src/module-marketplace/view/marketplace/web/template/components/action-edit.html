@@ -1,0 +1,20 @@
+<div data-bind="style: { width: '330px' }">
+    <button class="button-primary edit_product_btn" data-bind="
+        id: $record().index,
+        disable: disabled() ? true : false,
+        visible: editingFlag() ? false : true
+        text: buttonLabel(),
+    click: $data.editProductData.bind($data, $record().index, $record())
+    ">Edit Listing Data</button>
+    <button class="button-primary finish_edit_btn" data-bind="
+        id: $record().index,
+        visible: editingFlag() ? true : false,
+    click: $data.finishEditingAction.bind($data, $record().index, $record())
+    ">Finish Editing</button>
+    <span class="not_saved_info" data-bind="
+        visible: changesNotSaved() ? true : false
+    ">Note: Changes is not saved yet.</span>
+    <span class="editing_info" data-bind="
+        visible: editingFlag() ? true : false
+    ">Editing data on this country.</span>
+</div>

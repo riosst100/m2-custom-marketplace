@@ -1,0 +1,13 @@
+<div>
+    <button class="button-primary unpublish_product_btn" data-bind="
+        id: $record().index,
+        visible: value() == 1 ? true : false,
+    click: $data.publish.bind($data, $record().index, $record())
+    ">Unpublish</button>
+    <button class="button-primary publish_product_btn" data-bind="
+        id: $record().index,
+        disable: disabled() ? true : false,
+        visible: value() == 1 ? false : true,
+    click: $data.publish.bind($data, $record().index, $record())
+    ">Publish</button>
+</div>

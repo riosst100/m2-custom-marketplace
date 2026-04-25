@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<type name="Magento\StoreGraphQl\Model\Resolver\Store\StoreConfigDataProvider">
+    <arguments>
+        <argument name="extendedConfigData">
+            <item name="custommarketplace_plp_filters_virtualcategory" xsi:type="string">plp_configuration/filters/virtual_category</item>
+            <item name="marketplace_menu_topfilters_attributes" xsi:type="string">marketplace_categories/subcategories_configuration/subcategories</item>
+        </argument>
+    </arguments>
+</type>
+</config>

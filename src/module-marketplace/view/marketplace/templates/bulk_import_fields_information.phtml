@@ -1,0 +1,54 @@
+<?php
+$attributesData = $this->getData('attributes_data');
+?>
+<table class="data-grid">
+    <thead>
+        <tr>
+            <th class="data-grid-th" style="width: 150px;"><?= $block->escapeHtml(__('Field Name')) ?></th>
+            <th class="data-grid-th" style="width: 300px;"><?= $block->escapeHtml(__('Description')) ?></th>
+            <th class="data-grid-th" style="width: 400px;"><?= $block->escapeHtml(__('Available Options')) ?></th>
+        </tr>
+    </thead>
+    <tbody id="field_information_content">
+        <?php
+        $currentPage = $this->getRequest()->getParam('page') ?? 1;
+        $pageSize = $this->getRequest()->getParam('size') ?? 5;
+        $totalCount = count($attributesData);
+        $totalPages = ceil($totalCount / $pageSize);
+        // $attributesData = $block->getImportHistory($currentPage, $pageSize);
+        ?>
+        <?php if ($attributesData): ?>
+            <?php foreach ($attributesData as $data): ?>
+                <tr>
+                    <td><?= $block->escapeHtml($data['attribute_code']) ?></td>
+                    <td>
+                        <?= $block->escapeHtml($data['description']) ?>
+                    </td>
+                    <td>
+                        <?= $block->escapeHtml($data['options']) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="3" style="text-align:center;">
+                    <div>No fields found.</div>
+                </td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+<div class="paginator">
+    <span class="total"><?= __('Total %1', $totalCount) ?></span>
+    <select class="page-size" onchange="MST.changePageSize(this.value)">
+        <option value="5" <?= $pageSize == 5 ? 'selected' : '' ?>>5</option>
+        <option value="10" <?= $pageSize == 10 ? 'selected' : '' ?>>10</option>
+        <option value="20" <?= $pageSize == 20 ? 'selected' : '' ?>>20</option>
+        <option value="50" <?= $pageSize == 50 ? 'selected' : '' ?>>50</option>
+    </select>
+    <div class="pagination">
+        <button class="prev-page" type="button" onclick="MST.changePage(<?= $currentPage - 1 ?>)" <?= $currentPage == 1 ? 'disabled' : '' ?>><span class="fa fa-chevron-left" style="margin-right: 5px;"></span><?= __('Previous') ?></button>
+        <span class="current-page"><?= $currentPage ?></span>
+        <button class="next-page" type="button" onclick="MST.changePage(<?= $currentPage + 1 ?>)" <?= $currentPage == $totalPages ? 'disabled' : '' ?>><?= __('Next') ?><span class="fa fa-chevron-right" style="margin-left: 5px;"></span></button>
+    </div>
+</div>

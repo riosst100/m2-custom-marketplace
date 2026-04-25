@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_invoice_save_after">
+        <observer name="lofmp_sellermembership_invoice_save_after" disabled="true" />
+        <observer name="coremarketplace_sellermembership_invoice_save_after" instance="TCGCollective\SellerMembership\Observer\InvoiceSaveAfterObserver" />
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="lofmp_sellership_checkout_success_action" disabled="true" />
+        <observer name="coremarketplace_sellership_checkout_success_action" instance="TCGCollective\SellerMembership\Observer\InitMembershipSubscription" />
+    </event>
+    <event name="sales_quote_collect_totals_before">
+        <observer name="coremarketplace_sellership_sales_quote_collect_totals_before" instance="TCGCollective\SellerMembership\Observer\QuoteCollectTotalsBefore" />
+    </event>
+    <event name="checkout_submit_before">
+        <observer name="force_membership_currency_submit" instance="TCGCollective\SellerMembership\Observer\ForceCurrencySubmit" />
+    </event>
+</config>

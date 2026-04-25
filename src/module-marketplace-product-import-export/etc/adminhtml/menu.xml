@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Attribute Set Mapping -->
+        <!-- <add id="TCGCollective_MarketplaceProductImportExport::bulk_add_update" title="Bulk Add/Update Products" translate="title" module="TCGCollective_MarketplaceProductImportExport" sortOrder="10" parent="Magento_Catalog::catalog" resource="TCGCollective_MarketplaceProductImportExport::bulk_add_update"/>
+
+        <add id="TCGCollective_MarketplaceProductImportExport::manage_import_templates" title="Manage Template" module="TCGCollective_MarketplaceProductImportExport" sortOrder="11" action="importexport/template/index" resource="TCGCollective_MarketplaceProductImportExport::manage_import_templates" parent="TCGCollective_MarketplaceProductImportExport::bulk_add_update"/> -->
+    </menu>
+</config>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\SportCardMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/sportcard-wizard-ajax.phtml" as="sportcard.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                    <item name="nameStepWizard" xsi:type="string">select-sportcard-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormSportCardSets</item>
+                </argument>
+            </arguments>
+            <block class="TCGCollective\MarketPlace\Block\Component\SportCardStepsWizard" name="select-sportcard-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormSportCardSets</item>
+                    </argument>
+                </arguments>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SportCardSelectRelease" name="step1" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_sportcard_release.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">sportcard_release_listing.sportcard_release_listing.sportcard_release_columns.ids</item>
+                            <item name="providerName" xsi:type="string">sportcard_release_listing.sportcard_release_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="sportcard_release_listing"/>
+                </block>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SportCardSelectSets" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/platform-db-select-sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">sportcard_sets_listing.sportcard_sets_listing.sportcard_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">sportcard_sets_listing.sportcard_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSportCardSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="sportcard_sets_listing"/>
+                </block>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SportCardSelectSingles" name="step3" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_sportcard_singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">sportcard.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">sportcard_singles_listing.sportcard_singles_listing.sportcard_singles_columns.ids</item>
+                            <item name="providerName" xsi:type="string">sportcard_singles_listing.sportcard_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSportCardSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="sportcard_singles_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

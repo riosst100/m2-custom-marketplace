@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ConfigurableProductGraphQl\Model\Resolver\Product\Price\Provider" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Product\Price\Provider" />
+    <preference for="Magento\CustomerGraphQl\Model\Resolver\CreateCustomer" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\CreateCustomer" />
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Category\Breadcrumbs" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Category\Breadcrumbs" />
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Category\DataProvider\Breadcrumbs" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Category\DataProvider\Breadcrumbs" />
+    <preference for="Magento\CatalogGraphQlAux\Model\Resolver\CustomAttributes" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\CustomAttributes" />
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Aggregations" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Aggregations"/>
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Products" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Products"/>
+    <preference for="Lof\MarketplaceGraphQl\Model\Resolver\BecomeSeller" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\BecomeSeller"/>
+    <preference for="Lof\MarketplaceGraphQl\Model\Resolver\SellerByUrl" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\SellerByUrl" />
+    <preference for="Magento\QuoteGraphQl\Model\Resolver\CartItems" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\CartItems" />
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\ExtractDataFromCategoryTree" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Products\DataProvider\ExtractDataFromCategoryTree" />
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\CategoryTree\Wrapper\NodeWrapper" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\Products\DataProvider\CategoryTree\Wrapper\NodeWrapper" />
+    <preference for="Magento\SalesGraphQl\Model\Order\OrderAddress" type="TCGCollective\MarketplaceGraphQl\Model\Order\OrderAddress"/>
+    <preference for="Magento\QuoteGraphQl\Model\Resolver\PlaceOrder" type="TCGCollective\MarketplaceGraphQl\Model\Resolver\PlaceOrder"/>
+    <type name="TCGCollective\MarketplaceGraphQl\Model\Resolver\DeleteAccount">
+        <arguments>
+            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+            <argument name="helper" xsi:type="object">Lof\Gdpr\Helper\Data</argument>
+            <argument name="eventManager" xsi:type="object">Magento\Framework\Event\ManagerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Integration\Model\Oauth\Token\RequestThrottler">
+        <plugin name="signin_custom_message_plugin" type="TCGCollective\MarketplaceGraphQl\Plugin\RequestThrottlerPlugin" />
+    </type>
+    <type name="Magento\Framework\Mail\Template\TransportBuilder">
+        <plugin name="coremarketplace_add_pwa_base_url"
+                type="TCGCollective\MarketplaceGraphQl\Plugin\AddPwaUrlToEmailVariables" />
+    </type>
+</config>

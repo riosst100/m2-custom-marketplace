@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ConfigurableProduct\Ui\DataProvider\Product\Form\Modifier\ConfigurablePanel" type="TCGCollective\MarketplaceConfigurableProduct\Ui\DataProvider\Product\Form\Modifier\ConfigurablePanel" />
+    <preference for="Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\AttributeValues" type="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\AttributeValues" />
+    <preference for="Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\Bulk" type="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\Bulk" />
+    <preference for="Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes" type="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes" />
+    <preference for="Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\Summary" type="TCGCollective\MarketplaceConfigurableProduct\Block\Adminhtml\Product\Steps\Summary" />
+    <preference for="Magento\ConfigurableProduct\Ui\Component\Listing\AssociatedProduct\Columns\Attributes" type="TCGCollective\MarketplaceConfigurableProduct\Ui\Component\Listing\AssociatedProduct\Columns\Attributes" />
+    <preference for="Magento\ConfigurableProduct\Ui\DataProvider\Attributes" type="TCGCollective\MarketplaceConfigurableProduct\Ui\DataProvider\Attributes" />
+    <preference for="Magento\ConfigurableProduct\Ui\DataProvider\Product\Form\Modifier\Data\AssociatedProducts" type="TCGCollective\MarketplaceConfigurableProduct\Ui\DataProvider\Product\Form\Modifier\Data\AssociatedProducts" />
+</config>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <lofmp_shipping>
+            <shipping>
+                <methods>
+                    <rajaongkir>
+                        <model>TCGCollective\MarketplaceRajaOngkir\Model\Config\Shipping\Methods\RajaOngkir</model>
+                        <config_path>carriers/rajaongkir/active</config_path>
+                    </rajaongkir>
+                </methods>
+            </shipping>
+        </lofmp_shipping>
+        <carriers>
+            <rajaongkir>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>TCGCollective\MarketplaceRajaOngkir\Model\Carrier</model>
+                <name>MarketPlace Raja Ongkir Shipping</name>
+                <title>MarketPlace Raja Ongkir</title>
+                <specificerrmsg>This shipping method is currently unavailable. If
+                  you would like to ship using this shipping method, please contact
+                  us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+                <testingmode>1</testingmode>
+            </rajaongkir>
+        </carriers>
+    </default>
+</config>

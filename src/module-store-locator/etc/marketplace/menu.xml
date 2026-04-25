@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Lofmp_StoreLocator::seller_locator" icon="fas fa-store" title="Physical Store" module="Lofmp_StoreLocator" sortOrder="9979" resource="Lofmp_StoreLocator::locator"/>
+    	<add id="Lofmp_StoreLocator::manage_locator" title="Manage Physical Store" module="Lofmp_StoreLocator" action="catalog/sellerlocator/grid" sortOrder="21" parent="Lofmp_StoreLocator::seller_locator" resource="Lofmp_StoreLocator::manager"/>
+        <!-- <add id="Lofmp_StoreLocator::tag_locator" title="Add Tag" module="Lofmp_StoreLocator" action="catalog/tag" sortOrder="21" parent="Lofmp_StoreLocator::seller_locator" resource="Lofmp_StoreLocator::tag"/> -->
+    </menu>
+</config>

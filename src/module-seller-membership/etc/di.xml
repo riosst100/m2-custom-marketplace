@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Lofmp\SellerMembership\Block\Membership\Index" type="TCGCollective\SellerMembership\Block\Membership\Index" />
+    <preference for="Lofmp\SellerMembership\Controller\Marketplace\Membership\Index" type="TCGCollective\SellerMembership\Controller\Marketplace\Membership\Index" />
+    <preference for="Lofmp\SellerMembership\Ui\DataProvider\Product\Form\Modifier\SellerMembershipValue" type="TCGCollective\SellerMembership\Ui\DataProvider\Product\Form\Modifier\SellerMembershipValue" />
+    <preference for="Lofmp\SellerMembership\Block\Membership\Product\ListProduct" type="TCGCollective\SellerMembership\Block\Membership\Product\ListProduct" />
+    <preference for="Lofmp\SellerMembership\Helper\Data" type="TCGCollective\SellerMembership\Helper\Data" />
+    <preference for="Lofmp\SellerMembership\Model\Product\Type\SellerMembership" type="TCGCollective\SellerMembership\Model\Product\Type\SellerMembership" />
+    <preference for="Lofmp\SellerMembership\Model\Product\Type\Membership\Price" type="TCGCollective\SellerMembership\Model\Product\Type\Membership\Price" />
+    <preference for="Lofmp\SellerMembership\Model\ResourceModel\Transaction\Grid\Collection" type="TCGCollective\SellerMembership\Model\ResourceModel\Transaction\Grid\Collection" />
+    <preference for="Magento\Checkout\Controller\Onepage\Success" type="TCGCollective\SellerMembership\Controller\Onepage\Success" />
+    <!-- <type name="Magento\Directory\Model\Currency">
+        <plugin name="membership_total_currency_bypass"
+                type="TCGCollective\SellerMembership\Plugin\CustomCurrencyConvert" />
+    </type> -->
+    <type name="Magento\Framework\Pricing\PriceCurrencyInterface">
+        <plugin name="skip_membership_conversion" type="TCGCollective\SellerMembership\Plugin\PriceCurrencyPlugin" />
+    </type>
+    <type name="Magento\Store\Model\Store">
+        <plugin name="membership_base_currency" type="TCGCollective\SellerMembership\Plugin\StorePlugin" />
+    </type>
+</config>

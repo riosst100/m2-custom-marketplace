@@ -1,0 +1,743 @@
+define([
+    'jquery',
+    'uiRegistry',
+    'mage/url'
+], function ($, uiRegistry, urlBuilder) {
+    'use strict';
+
+    return function (Select) {
+        return Select.extend({
+            setCaption: function () {
+                var length, caption = '';
+    
+                if (!_.isArray(this.value()) && this.value()) {
+                    length = 1;
+                } else if (this.value()) {
+                    length = this.value().length;
+                } else {
+                    this.value([]);
+                    length = 0;
+                }
+                this.warn(caption);
+    
+                //check if option was removed
+                if (this.isDisplayMissingValuePlaceholder && length && !this.getSelected().length) {
+                    caption = this.missingValuePlaceholder.replace('%s', this.value());
+                    this.placeholder(caption);
+                    this.warn(caption);
+    
+                    return this.placeholder();
+                }
+    
+                if (length > 1 && this.multiple) {
+                    this.placeholder(length + ' ' + this.selectedPlaceholders.lotPlaceholders);
+                } else if (length && this.getSelected().length) {
+                    this.placeholder(this.getSelected()[0].label);
+                } else {
+                    this.placeholder(this.selectedPlaceholders.defaultPlaceholder);
+                }
+    
+                return this.placeholder();
+            },
+            getSelected: function () {
+                var selected = this.value();
+                var inputName = this.inputName;
+
+                if (this.ns == "productattributeslink_cardgames_card_form") {
+                    this.singlesForm(this);
+                }
+
+                // Handle form
+                if (this.ns == "import_sets_form" || this.ns == "import_singles_form") {
+                    this.importSetsForm(this);
+                }
+
+                if (inputName && inputName == "attribute_code" || inputName && inputName == "target_attribute_code") {
+                    this.populateAttributeOptions(this.value._latestValue, inputName, this.parentName, false);
+                }
+    
+                return this.cacheOptions.plain.filter(function (opt) {
+                    return _.isArray(selected) ?
+                        _.contains(selected, opt.value) :
+                    selected == opt.value;//eslint-disable-line eqeqeq
+                });
+            },
+            populateSetsOptions: function(inputName, inputVal, parentName, currentField, isEdit = false) {
+                $('body').trigger('processStart');
+                $.ajax({
+                    url: '/backoffice/productattributeslink/form/getSetsOptions',
+                    data: {
+                        form_key: window.FORM_KEY,
+                        code: inputName,
+                        val: inputVal
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.data) {
+                            var options = resp.data;
+                            
+                            
+                            // if (options) {
+                            //     if (inputName == "attribute_code") {
+                                    var field = uiRegistry.get(parentName + ".set_id");
+                            //     } else {
+                            //         var field = uiRegistry.get(parentName + ".target_attribute_options");
+                            //     }
+                                if (field) {
+                                    field.options(options);
+                                    field.cacheOptions.plain = options;
+                                    field.cacheOptions.tree = options;
+                                    field.isDisplayMissingValuePlaceholder = false;
+                                    
+                                    if (field.multiple) {
+                                        field.toggleOptionSelected(field.value());
+                                    }
+
+                                    if (!options.length) {
+                                        currentField.error('No sets found. Please upload the sets first.')
+                                        field.disabled(true)
+                                    } else {
+                                        field.disabled(false)
+                                    }
+                                }
+
+                                if (field && isEdit) {
+                                    field.disabled(true)
+                                }
+                            // } 
+                        }
+                    },
+                    complete: function () {
+                        $('body').trigger('processStop');
+                    }
+                });
+            },
+            toggleFieldsetVisible: function(namespace, fieldsetName, isVisible) {
+                var fieldset = uiRegistry.get(namespace + '.' + namespace + '.'+fieldsetName);
+                if (fieldset) {
+                    fieldset.visible(isVisible)
+                }
+            },
+            importSinglesForm: function(field) {
+                var inputName = field.inputName;
+                var inputVal = field.value._latestValue;
+                var parentName = field.parentName;
+                var namespace = field.ns;
+                
+                if (inputName) {
+
+                    // Main Categories Field
+                    if (inputName == "categories" || inputName == "release") {
+
+                        var categories = '';
+                        
+                        // Hide field
+                        if (inputName == "categories") {
+                            var releaseYearField = uiRegistry.get(parentName + ".release_year");
+                            if (releaseYearField) {
+                                releaseYearField.value('');
+                                releaseYearField.visible(false);
+                            }
+                            var releaseField = uiRegistry.get(parentName + ".release");
+                            if (releaseField) {
+                                releaseField.visible(false);
+                                releaseField.value('');
+                                
+                            }
+
+                            categories = inputVal;
+                        }
+
+                        var release = '';
+
+                        if (inputName == "release") {
+                            var releaseField = uiRegistry.get(parentName + ".release");
+                            if (releaseField) {
+                                release = releaseField.value._latestValue;
+                            }
+                            var categoriesField = uiRegistry.get(parentName + ".categories");
+                            if (categoriesField) {
+                                categories = categoriesField.value._latestValue;
+                            }
+                        }
+                        
+                        var entity = '';
+                        var entityField = uiRegistry.get(parentName + ".entity");
+                        if (entityField) {
+                            entity = entityField.value._latestValue;
+                        }
+                        $.ajax({
+                            url: '/backoffice/productattributeslink/import/getSetsData',
+                            data: {
+                                form_key: window.FORM_KEY,
+                                entity: entity,
+                                categories:categories,
+                                release: release
+                            },
+                            showLoader: true,
+                            dataType: 'json',
+                            success: function (resp) {
+                                if (resp.data.length) {
+                                    var attributesData = resp.data;
+                                    if (attributesData) {
+                                        $.each(attributesData, function(index, data) {
+                                            console.log(data)
+                                            var options = data.options;
+                                            var attribute = data.attribute;
+                                            var code = attribute.code;
+                                            var label = attribute.label;
+
+                                            $("div[data-index='"+code+"'] .admin__field-label span").text(label);
+                                            
+                                            var field = uiRegistry.get(parentName + "." + code);
+                                            if (field) {
+                                                // field.filterInputValue('');
+                                                field.isDisplayMissingValuePlaceholder = false;
+                                                if (!field.value && field.multiple) {
+                                                    field.value(['']);
+                                                }
+        
+                                                field.renderPath = false;
+                                                
+                                                field.options(options);
+                                                    field.cacheOptions.plain = options;
+                                                    field.cacheOptions.tree = options;
+                                                field.isDisplayMissingValuePlaceholder = false;
+                                                field.visible(true);
+                                            }
+                                        })
+                                    }
+                                }
+                            },
+                            complete: function () {
+                                $('body').trigger('processStop');
+                            }
+                        });
+                    }
+
+                    if (inputName == "release_year") {
+                        // Hide field
+                        var releaseField = uiRegistry.get(parentName + ".release");
+                        if (releaseField) {
+                            releaseField.visible(false);
+                            releaseField.value('');
+                        }
+                        
+                        var entity = '';
+                        var entityField = uiRegistry.get(parentName + ".entity");
+                        if (entityField) {
+                            entity = entityField.value._latestValue;
+                        }
+                        var categories = '';
+                        var categoriesField = uiRegistry.get(parentName + ".categories");
+                        if (categoriesField) {
+                            categories = categoriesField.value._latestValue;
+                        }
+                        $.ajax({
+                            url: '/backoffice/productattributeslink/import/getReleaseData',
+                            data: {
+                                form_key: window.FORM_KEY,
+                                entity: entity,
+                                categories:categories,
+                                release_year:inputVal
+                            },
+                            showLoader: true,
+                            dataType: 'json',
+                            success: function (resp) {
+                                if (resp && resp.data.length) {
+                                    var attributesData = resp.data;
+                                    if (attributesData) {
+                                        $.each(attributesData, function(index, data) {
+                                            console.log(data)
+                                            var options = data.options;
+                                            var attribute = data.attribute;
+                                            var code = attribute.code;
+                                            var label = attribute.label;
+
+                                            $("div[data-index='"+code+"'] .admin__field-label span").text(label);
+                                            
+                                            var field = uiRegistry.get(parentName + "." + code);
+                                            if (field) {
+                                                // field.filterInputValue('');
+                                                field.isDisplayMissingValuePlaceholder = false;
+                                                if (!field.value && field.multiple) {
+                                                    field.value(['']);
+                                                }
+        
+                                                field.renderPath = false;
+                                                
+                                                field.options(options);
+                                                    field.cacheOptions.plain = options;
+                                                    field.cacheOptions.tree = options;
+                                                field.isDisplayMissingValuePlaceholder = false;
+                                                field.visible(true);
+                                            }
+                                        })
+                                    }
+                                }
+                            },
+                            complete: function () {
+                                $('body').trigger('processStop');
+                            }
+                        });
+                    }
+                }
+            },
+            importSetsForm: function(field) {
+                var inputName = field.inputName;
+                var inputVal = field.value._latestValue;
+                var parentName = field.parentName;
+                var namespace = field.ns;
+                
+                if (inputName) {
+
+                    // Categories Field
+                    if (inputName == "entity") {
+                        // Hide field
+                        var releaseYearField = uiRegistry.get(parentName + ".release_year");
+                        if (releaseYearField) {
+                            releaseYearField.visible(false);
+                            releaseYearField.value('');
+                        }
+                        var releaseField = uiRegistry.get(parentName + ".release");
+                        if (releaseField) {
+                            releaseField.visible(false);
+                            releaseField.value('');
+                        }
+                        var categoriesField = uiRegistry.get(parentName + ".categories");
+                        if (categoriesField) {
+                            categoriesField.visible(false);
+                            categoriesField.value('');
+                        }
+                        var setsField = uiRegistry.get(parentName + ".set_id");
+                        if (setsField) {
+                            setsField.visible(false);
+                            setsField.value('');
+                        }
+                        
+                        $.ajax({
+                            url: '/backoffice/productattributeslink/import/getEntityData',
+                            data: {
+                                form_key: window.FORM_KEY,
+                                entity: inputVal
+                            },
+                            showLoader: true,
+                            dataType: 'json',
+                            success: function (resp) {
+                                if (resp.data.length) {
+                                    var mappingData = resp.data;
+                                    if (mappingData) {
+                                        var categoriesField = uiRegistry.get(parentName + ".categories");
+                                        if (categoriesField) {           
+                                            categoriesField.options(mappingData);
+                                            categoriesField.cacheOptions.plain = mappingData;
+                                            categoriesField.cacheOptions.tree = mappingData;
+                                            categoriesField.isDisplayMissingValuePlaceholder = false;
+                                            $("div[data-index='categories'] .admin__field-label span").text(resp.attribute.label);
+                                            categoriesField.visible(true);
+                                        }
+                                    }
+                                }
+                            },
+                            complete: function () {
+                                $('body').trigger('processStop');
+                            }
+                        });
+                    }
+                }
+            },
+            singlesForm: function(field) {
+                var inputName = field.inputName;
+                var inputVal = field.value._latestValue;
+                var parentName = field.parentName;
+                var namespace = field.ns;
+                
+                var fieldset = uiRegistry.get(namespace + '.' + namespace);
+
+                var entityId = fieldset.source.data.entity_id;
+                
+                
+                if (inputName) {
+                    if (inputName == "card_game") {
+                        this.populateSetsOptions(inputName, inputVal, parentName, field, entityId ? true : false);
+                        this.toggleFieldsetVisible(namespace, "singles_section", false);
+                        if (entityId) {
+                            field.disabled(true)
+                        }
+                    }
+
+                    if (inputName == "set_id") {
+                        this.toggleFieldsetVisible(namespace, "singles_section", inputVal ? true : false);
+                    }
+                }
+            },
+            handleResetValue: function(field) {
+                var code = field.code;
+                if (code == "card_game") {
+                    var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                    var attribute_set_id = attributeSetField.value;
+console.log(attributeSetField)
+                    var categoryIdsField = uiRegistry.get('product_form.product_form.product-details.container_category_ids.category_ids');
+                    var category_id = categoryIdsField.value._latestValue;
+                    
+                    var form = uiRegistry.get('product_form.product_form');
+                    form.reset();
+
+                    if (attribute_set_id) {
+                        // attributeSetField.value(attribute_set_id);
+                    }
+
+                    if (category_id) {
+                        categoryIdsField.value(category_id);
+                    }
+                }
+            },
+            toggleOptionSelected: function (data) {
+                if (data.disabled_select && data.disabled_select == true && data.optgroup.length) {
+                    this.openChildLevel(data);
+                    
+                    return false;
+                }
+                if (this.code == "category_ids") {
+                    var form = uiRegistry.get('product_form.product_form');
+                    form.reset();
+                }
+                this._super();
+
+                var code = this.code;
+
+                // HANDLE RESET value
+                this.handleResetValue(this);
+
+                // ADMIN - SETS & CARD - SINGLES FORM
+                if (this.ns == "productattributeslink_cardgames_card_form") {
+                    this.singlesForm(this);
+                }
+
+                // Handle form
+                if (this.ns == "import_sets_form" || this.ns == "import_singles_form") {
+                    this.importSetsForm(this);
+                }
+
+                if (this.ns == "import_singles_form") {
+                    this.importSinglesForm(this);
+                }
+
+                var option_id = this.value._latestValue;
+
+                var inputName = this.inputName;
+                if (inputName && inputName == "attribute_code" || inputName && inputName == "target_attribute_code") {
+                    this.populateAttributeOptions(this.value._latestValue, inputName, this.parentName, true);
+                }
+
+                // Lego Sets
+                var legoSetsFields = JSON.parse(LEGO_SETS_FIELDS);
+                if($.inArray(code, legoSetsFields) !== -1) {
+                    this.getAttributeOptionsMapping(code, option_id);
+                }
+
+                // Attribute option mapping
+                var cardGamesMappingFields = JSON.parse(CARD_GAMES_MAPPING_FIELDS);
+                if($.inArray(code, cardGamesMappingFields) !== -1) {
+                    this.getAttributeOptionsMapping(code, option_id);
+                }
+                
+                var mappingFields = JSON.parse(ATTRIBUTE_SET_MAPPING_FIELDS);
+                if ($.inArray(code, mappingFields) !== -1) {
+                    var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                    var attribute_set_id = attributeSetField.value._latestValue;
+    
+                    // var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                    var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                    // attributeSetField.value('');
+                    
+                    var categoryIdsField = uiRegistry.get('product_form.product_form.product-details.container_category_ids.category_ids');
+                    var category_id = categoryIdsField.value._latestValue;
+                   
+                    var mappingGroupIdField = uiRegistry.get('product_form.product_form.product-details.mapping_group_id');
+                    var mapping_group_id = mappingGroupIdField.value;
+                    var mappingPriorityField = uiRegistry.get('product_form.product_form.product-details.mapping_priority');
+                    var mapping_priority = mappingPriorityField.value;
+                    console.log(option_id)
+                    this.getAttributesMapping(option_id, category_id, attribute_set_id, code, mapping_group_id, mapping_priority);
+                }
+
+                if (this.code == "category_ids") {
+                    var category_id = this.value._latestValue;
+                    var mappingGroupIdField = uiRegistry.get('product_form.product_form.product-details.mapping_group_id');
+                    var mapping_group_id = mappingGroupIdField.value;
+                    var mappingPriorityField = uiRegistry.get('product_form.product_form.product-details.mapping_priority');
+                    var mapping_priority = mappingPriorityField.value;
+                    
+                    this.getCategoryAttributeSetLink(category_id, mapping_group_id, mapping_priority);
+                }
+
+                // SELLER PRODUCT CREATION
+                // this.populateCustomTableOptions(this);
+            },
+            populateCustomTableOptions: function(field) {
+                if (field.code) {
+                    var namespace = field.ns;
+                    var fieldset = uiRegistry.get(namespace + '.' + namespace);
+                    var data = fieldset.source.data;
+
+                    console.log(field)
+
+                    urlBuilder.setBaseUrl(BASE_URL);
+                    var url = urlBuilder.build("marketplace/productattributeslink/mappingdata/getCustomTableOptions");
+                    if (data) {
+                        $.ajax({
+                            url: url,
+                            showLoader: true,
+                            data: {
+                                form_key: window.FORM_KEY,
+                                attribute: {
+                                    code: field.code,
+                                    value: field.value._latestValue
+                                },
+                                data: data
+                            },
+                            dataType: 'json',
+                            success: function (resp) {
+                                if (resp.data) {
+                                    if (resp.data.length) {
+                                        var attributesData = resp.data;
+                                        if (attributesData) {
+                                            $.each(attributesData, function(index, data) {
+                                                var options = data.options;
+                                                var attribute = data.attribute;
+                                                var code = attribute.code;
+                                                
+                                                var field = uiRegistry.get("product_form.product_form.product-details.container_" + code + "." + code);
+                                                if (field) {
+                                                    field.isDisplayMissingValuePlaceholder = false;
+                                                    if (!field.value && field.multiple) {
+                                                        field.value(['']);
+                                                    }
+
+                                                    field.renderPath = false;
+
+                                                    field.options(options);
+                                                    field.cacheOptions.plain = options;
+                                                    field.cacheOptions.tree = options;
+                                                    field.visible(true);
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            },
+            populateAttributeOptions: function(attribute_code, inputName, parentName, changedAttribute = false) {
+                // $('body').trigger('processStart');
+
+                // urlBuilder.setBaseUrl(ADMIN_BASE_URL);
+                // var url = urlBuilder.build("productattributeslink/attributeSet/getAttributeOptions");
+
+                if (inputName == "attribute_code") {
+                    var field = uiRegistry.get(parentName + ".attribute_option_id");
+                } else {
+                    var field = uiRegistry.get(parentName + ".target_attribute_options");
+                }
+                var mappingData = [];
+                field.options(mappingData);
+                field.cacheOptions.plain = mappingData;
+                field.cacheOptions.tree = mappingData;
+                field.filterInputValue('');
+                field.isDisplayMissingValuePlaceholder = false;
+                if (!field.value && field.multiple || changedAttribute && field.multiple) {
+                    field.value(['']);
+                }
+                
+                $.ajax({
+                    url: '/backoffice/productattributeslink/attributeSet/getAttributeOptions',
+                    data: {
+                        form_key: window.FORM_KEY,
+                        code: attribute_code
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.data) {
+                            var mappingData = resp.data;
+                            if (mappingData) {
+                                if (inputName == "attribute_code") {
+                                    var field = uiRegistry.get(parentName + ".attribute_option_id");
+                                } else {
+                                    var field = uiRegistry.get(parentName + ".target_attribute_options");
+                                }
+                                if (field) {            
+                                    field.options(mappingData);
+                                    field.cacheOptions.plain = mappingData;
+                                    field.cacheOptions.tree = mappingData;
+                                    field.isDisplayMissingValuePlaceholder = false;
+                                    
+                                    if (field.multiple) {
+                                        field.toggleOptionSelected(field.value());
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    complete: function () {
+                        // $('body').trigger('processStop');
+                    }
+                });
+            },
+            getAttributeOptionsMapping: function (code, option_id) {
+                $('body').trigger('processStart');
+
+                urlBuilder.setBaseUrl(BASE_URL);
+                var url = urlBuilder.build("marketplace/productattributeslink/mappingdata/attributeOptions");
+                
+                $.ajax({
+                    url: url,
+                    data: {
+                        form_key: window.FORM_KEY,
+                        option_id: option_id,
+                        code: code
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.data) {
+                            var mappingData = resp.data;
+
+                            if (mappingData) {
+                                $.each(mappingData, function(code, options) {
+                                    var field = uiRegistry.get("product_form.product_form.product-details.container_" + code + "." + code);
+                                    if (field) {
+                                        if (field.formElement == "input") {
+                                            field.value(options);
+                                        } else {
+                                            // field.filterInputValue('');
+                                            field.isDisplayMissingValuePlaceholder = false;
+                                            if (!field.value && field.multiple) {
+                                                field.value(['']);
+                                            }
+    
+                                            field.renderPath = false;
+                                            
+                                            field.options(options);
+                                            if (field.multiple) {
+                                                field.cacheOptions.plain = options;
+                                                field.cacheOptions.tree = options;
+                                            }
+                                            field.isDisplayMissingValuePlaceholder = false;
+                                            
+                                            if (field.multiple) {
+                                                field.toggleOptionSelected(field.value());
+                                            } else if (options.length == 1) {
+                                                field.value(options[0].value);
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    complete: function () {
+                        $('body').trigger('processStop');
+                    }
+                });
+        
+                return true;
+            },
+            getAttributesMapping: function (option_id, category_id, attribute_set_id, code, mapping_group_id, mapping_priority) {
+                // $('body').trigger('processStart');
+
+                console.log(option_id)
+
+                console.log('OKEs')
+
+                urlBuilder.setBaseUrl(BASE_URL);
+                var url = urlBuilder.build("marketplace/productattributeslink/mappingdata/attributes");
+                
+                $.ajax({
+                    url: url,
+                    data: {
+                        form_key: window.FORM_KEY,
+                        category_id: category_id,
+                        option_id: option_id,
+                        attribute_set_id: attribute_set_id,
+                        code: code,
+                        mapping_group_id: mapping_group_id,
+                        mapping_priority: mapping_priority
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.data) {
+                            var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                            if (resp.data.attribute_set_id && resp.data.attribute_set_id != null) {
+                                
+                                attributeSetField.toggleOptionSelected({value: resp.data.attribute_set_id});
+                            } else {
+                                var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                                attributeSetField.value('');
+                            }
+
+                            if (resp.data.mapping_group_id && resp.data.mapping_group_id != null) {
+                                var mappingGroupIdField = uiRegistry.get('product_form.product_form.product-details.mapping_group_id');
+                                mappingGroupIdField.value(resp.data.mapping_group_id);
+                            }
+
+                            if (resp.data.mapping_priority && resp.data.mapping_priority != null) {
+                                var mappingPriorityField = uiRegistry.get('product_form.product_form.product-details.mapping_priority');
+                                mappingPriorityField.value(resp.data.mapping_priority);
+                            }
+                        }
+                    },
+                    complete: function () {
+                        // $('body').trigger('processStop');
+                    }
+                });
+        
+                return true;
+            },
+            getCategoryAttributeSetLink: function (category_id, mapping_group_id, mapping_priority) {
+        
+                // $('body').trigger('processStart');
+
+                var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                attributeSetField.toggleOptionSelected({value: ""});
+
+                urlBuilder.setBaseUrl(BASE_URL);
+                var url = urlBuilder.build("marketplace/productattributeslink/mappingdata/categories");
+                $.ajax({
+                    url: url,
+                    data: {
+                        form_key: window.FORM_KEY,
+                        category_id: category_id,
+                        mapping_group_id: mapping_group_id,
+                        mapping_priority: mapping_priority
+                    },
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.data) {
+                            if (resp.data.attribute_set_id) {
+                                var attributeSetField = uiRegistry.get('product_form.product_form.product-details.attribute_set_id');
+                                attributeSetField.toggleOptionSelected({value: resp.data.attribute_set_id});
+                            }
+
+                            if (resp.data.mapping_group_id) {
+                                var mappingGroupIdField = uiRegistry.get('product_form.product_form.product-details.mapping_group_id');
+                                mappingGroupIdField.value(resp.data.mapping_group_id);
+                            }
+
+                            if (resp.data.mapping_priority) {
+                                var mappingPriorityField = uiRegistry.get('product_form.product_form.product-details.mapping_priority');
+                                mappingPriorityField.value(resp.data.mapping_priority);
+                            }
+                        }
+                    },
+                    complete: function () {
+                        // $('body').trigger('processStop');
+                    }
+                });
+        
+                return true;
+            }
+        });
+    }
+});

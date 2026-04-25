@@ -1,0 +1,9 @@
+type PaymentFeePart {
+    title: String
+    value: Float
+    currency: String
+}
+
+extend type Cart {
+    payment_fees: [PaymentFeePart] @resolver(class: "TCGCollective\\MarketplaceOthersFee\\Model\\Resolver\\Cart\\PaymentFees")
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\CardgameMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/cardgame-wizard-ajax.phtml" as="cardgame.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                    <item name="nameStepWizard" xsi:type="string">select-cardgame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormSets</item>
+                </argument>
+            </arguments>
+            <block class="Magento\Ui\Block\Component\StepsWizard" name="select-cardgame-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormSets</item>
+                    </argument>
+                </arguments>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SelectSets" name="step1" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_sets_listing.cardgame_sets_listing.cardgame_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_sets_listing.cardgame_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_sets_listing"/>
+                </block>
+                <!-- <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SelectSubSets" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_sub_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_sub_sets_listing.cardgame_sub_sets_listing.cardgame_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_sub_sets_listing.cardgame_sub_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_sub_sets_listing"/>
+                </block> -->
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\SelectSingles" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">cardgame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">cardgame_singles_listing.cardgame_singles_listing.cardgame_singles_columns.ids</item>
+                            <item name="providerName" xsi:type="string">cardgame_singles_listing.cardgame_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="cardgame_singles_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <lofmp_payment>
+            <payment>
+                <methods>
+                    <xendit>
+                        <model>TCGCollective\MarketplacePaymentXendit\Model\Config\Payment\Methods\Xendit</model>
+                        <config_path>carriers/xendit/active</config_path>
+                    </xendit>
+                </methods>
+            </payment>
+        </lofmp_payment>
+        <carriers>
+            <xendit>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>TCGCollective\MarketplacePaymentXendit\Model\Carrier</model>
+                <name>MarketPlace Xendit Payment</name>
+                <title>MarketPlace Xendit</title>
+                <specificerrmsg>This shipping method is currently unavailable. If
+                  you would like to ship using this shipping method, please contact
+                  us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </xendit>
+        </carriers>
+    </default>
+</config>

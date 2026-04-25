@@ -1,0 +1,26 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<span style="font-size:14px" class="custom-message-info">
+    <?= __('If your product data is not listed or you want to create the product information manually, you can go to <b>ADD PRODUCT</b> menu > <a href="/marketplace/catalog/product/new/set/4/type/simple/">Add Product</a>.'); ?>
+</span>
+<style>
+    .custom-message-info a {
+        text-decoration: underline;
+        color: #31708f !important;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .custom-modal-class {
+        max-width: 600px;
+        border-radius: 8px;
+    }
+    .custom-modal-class .modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .custom-modal-class .modal-content {
+        font-size: 14px;
+        color: #333;
+    }
+</style>

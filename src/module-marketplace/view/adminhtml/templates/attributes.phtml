@@ -1,0 +1,117 @@
+<?php
+$attributes = $block->getAttributes();
+$selected   = $block->getSelectedValues();
+?>
+
+<link rel="stylesheet" type="text/css"
+      href="<?= $block->getViewFileUrl('TCGCollective_MarketPlace::css/select2.min.css') ?>" />
+<table class="admin__control-table" id="marketplace_categories_subcategories_configuration_subcategories">
+            <thead>
+            <tr class="ui-sortable-handle">
+                                    <th>Product Attribute</th>
+                                <th class="col-actions" colspan="1">Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="ui-sortable-handle">
+                <td colspan="4" class="col-actions-add">
+                    <button type="button"
+            id="add-attribute"
+            class="action-default scalable">
+        <span>Add Attribute</span>
+    </button>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody id="attribute-container">
+                <?php foreach ($selected as $row): ?>
+                    <tr class="ui-sortable-handle">
+                    <td>
+                        <select name="product_attributes[]" id="" class="" title="">
+                            <?php foreach ($attributes as $attribute): ?>
+                                <option value="<?= $attribute->getAttributeCode(); ?>"
+                                    <?= $attribute->getAttributeCode() == $row ? 'selected' : '' ?>>
+                                    <?= $attribute->getFrontendLabel() ?: $attribute->getAttributeCode(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td class="col-actions"><button class="action-delete remove-row" type="button"><span>Delete</span></button></td></tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+<div class="admin__field-control">
+    <div >
+        <?php foreach ($selected as $row): ?>
+            <div class="attribute-row admin__control-grouped">
+                <select class="admin__control-select attribute-select"
+                        name="product_attributes[]">
+                    <?php foreach ($attributes as $attribute): ?>
+                        <option value="<?= $attribute->getAttributeCode(); ?>"
+                            <?= $attribute->getAttributeCode() == $row ? 'selected' : '' ?>>
+                            <?= $attribute->getFrontendLabel() ?: $attribute->getAttributeCode(); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    
+</div>
+
+<script>
+require([
+    'jquery',
+    'select2'
+], function ($) {
+
+    function initSelect2(element) {
+        element.select2({
+            placeholder: 'Search attribute...',
+            allowClear: true,
+            width: 'resolve'
+        });
+    }
+
+    // init existing
+    $('.attribute-select').each(function () {
+        initSelect2($(this));
+    });
+
+    $('#add-attribute').click(function () {
+
+        let row = `
+            <tr class="ui-sortable-handle attribute-row">
+                <td>
+                    <select class="attribute-select"
+                            name="product_attributes[]">
+                        <option></option>
+                        <?php foreach ($attributes as $attribute): ?>
+                            <option value="<?= $attribute->getAttributeCode(); ?>">
+                                <?= $attribute->getAttributeCode() ?: $attribute->getAttributeCode(); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+                <td class="col-actions"><button class="action-delete remove-row" type="button"><span>Delete</span></button></td></tr>
+        `;
+
+        let newRow = $(row);
+        $('#attribute-container').append(newRow);
+
+        initSelect2(newRow.find('.attribute-select'));
+    });
+
+    $(document).on('click', '.remove-row', function () {
+
+        let select = $(this).closest('.attribute-row').find('select');
+
+        if (select.hasClass("select2-hidden-accessible")) {
+            select.select2('destroy');
+        }
+
+        $(this).closest('.attribute-row').remove();
+    });
+});
+</script>

@@ -1,0 +1,340 @@
+<?php
+//phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+//phpcs:disable Magento2.Security.XssTemplate.FoundUnescaped
+/**
+ * @var $block \TCGCollective\MarketPlace\Block\OtherFees
+ */
+?>
+<div class="row">
+  <div class="col-md-12" style="margin-top:10px;">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <!-- Info message
+        <div class="page messages">
+          <div class="messages">
+            <div class="alert alert-info notice alert-dismissable" style="margin-bottom:20px;">
+              <span class="custom-message-info" style="font-size:14px;">
+                Learn how to configure Other Fees on Seller Help Center.
+                <a href="<?= str_replace('marketplace/', '', $block->getUrl('documentation/otherfees')) ?>"
+                   style="color:#f76b1c;font-weight:bold;text-decoration:underline;">Other Fees</a>
+              </span>
+            </div>
+          </div>
+        </div> -->
+
+        <?= $this->getFormHtml(); ?>
+
+        <!-- Dynamic Other Fees UI -->
+        <script type="text/javascript">
+        require(['jquery'], function($) {
+          $(function() {
+            var form = $('#form-validate');
+            if (!form.length) return;
+
+            // Hidden JSON input
+            var jsonInput = $('#other_fees-json-data');
+            if (!jsonInput.length) {
+              jsonInput = $('<input>', {
+                type: 'hidden',
+                id: 'other_fees-json-data',
+                name: 'groups[other_fees][json_data]'
+              }).appendTo(form);
+            }
+
+            // Container for dynamic fee rows
+            var container = $('#dynamic-other-fees');
+            if (!container.length) {
+              container = $('<div>', {id: 'dynamic-other-fees', class: 'dynamic-fee-container'});
+              form.append(container);
+            }
+
+            // Hide original static fields
+            $('#other_fees-json_data, #other_fees-title, #other_fees-amount, #other_fees-no_fees_minimum_subtotal')
+              .closest('.admin__field').hide();
+
+            // Add button
+            var addBtn = $('<button>', {
+              type:'button',
+              class:'action-default add-fee-btn',
+              id:'add-fee'
+            }).html('<span>Add New Fee</span>');
+            container.before(addBtn);
+
+            // Create a row
+            function createRow(data) {
+              data = data || {};
+              var row = $('<div>', {
+                class:'fee-row',
+              }).append(
+                $('<div>', {class:'admin__field field'}).append(
+                  $('<label>', {class:'label'}).append(
+                    $('<span>').text('Title'),
+                    $('<span>', {
+                      class: 'required-asterisk',
+                      title: 'Required'
+                    }).text('*')
+                  ),
+                  $('<div>', {class:'control'}).append($('<input>', {
+                    type:'text',
+                    class:'admin__control-text fee-title',
+                    placeholder:'Enter fee title',
+                    value:data.title||''
+                  }))
+                ),
+                $('<div>', {class:'admin__field field'}).append(
+                  $('<label>', {class:'label'}).append(
+                    $('<span>').text('Fee Amount'),
+                    $('<span>', {
+                      class: 'required-asterisk',
+                      title: 'Required'
+                    }).text('*')
+                  ),
+                  $('<div>', {class:'control'}).append($('<input>', {
+                    type:'number',
+                    min:'0',
+                    step:'any',
+                    class:'admin__control-text fee-amount',
+                    placeholder:'0.00',
+                    value:data.amount||''
+                  }))
+                ),
+                $('<div>', {class:'admin__field field'}).append(
+                  $('<label>', {class:'label'}).append(
+                    $('<span>').text('Minimum Subtotal (for no fees)'),
+                    $('<span>', {
+                      class: 'required-asterisk',
+                      title: 'Required'
+                    }).text('*')
+                  ),
+                  $('<div>', {class:'control'}).append($('<input>', {
+                    type:'number',
+                    min:'0',
+                    step:'any',
+                    class:'admin__control-text fee-min',
+                    placeholder:'0.00',
+                    value:data.no_fees_minimum_subtotal||''
+                  }))
+                ),
+                $('<button>', {
+                  type:'button',
+                  class:'remove-fee',
+                  title:'Remove Fee',
+                  'aria-label':'Remove fee'
+                }).html(
+                  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">\
+                    <path d="M19 7l-1 12a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7m3 0V5a2 2 0 012-2h4a2 2 0 012 2v2m-9 0h10"/>\
+                  </svg>'
+                )
+              );
+              container.append(row);
+            }
+
+            // Add and remove row actions
+            addBtn.on('click', function(){ createRow({}); });
+            container.on('click', '.remove-fee', function(){ $(this).closest('.fee-row').remove(); });
+
+
+            // Validation and build JSON on submit
+            form.on('submit', function(e) {
+              var fees = [];
+              var hasError = false;
+              // Remove previous errors
+              container.find('.fee-row').removeClass('fee-row-error');
+              container.find('.fee-error-msg').remove();
+
+              container.find('.fee-row').each(function() {
+                var $r = $(this);
+                var title = $r.find('.fee-title').val().trim();
+                var amount = $r.find('.fee-amount').val().trim();
+                var min = $r.find('.fee-min').val().trim();
+                if (!title || !amount || !min) {
+                  hasError = true;
+                  $r.addClass('fee-row-error');
+                  if ($r.find('.fee-error-msg').length === 0) {
+                    $r.append('<div class="fee-error-msg" style="color:#d32f2f;font-size:13px;margin-top:8px;width:100%;grid-column:1/-1;">All fields are required.</div>');
+                  }
+                } else {
+                  fees.push({
+                    title: title,
+                    amount: amount,
+                    no_fees_minimum_subtotal: min
+                  });
+                }
+              });
+              if (hasError) {
+                e.preventDefault();
+                // Scroll to first error
+                var firstErr = container.find('.fee-row-error').first();
+                if (firstErr.length) {
+                  $('html,body').animate({scrollTop: firstErr.offset().top - 80}, 300);
+                }
+                return false;
+              }
+              jsonInput.val(JSON.stringify(fees));
+            });
+
+            // Prefill from saved JSON
+            var existing = form.find('input[name="groups[other_fees][json_data]"], textarea[name="groups[other_fees][json_data]"]').val();
+            if (existing) {
+              try {
+                var arr = JSON.parse(existing);
+                if (arr.length) {
+                  if (Array.isArray(arr)) arr.forEach(createRow);
+                } else {
+                  createRow({});
+                }
+              } catch(e) { console.warn('Invalid JSON', e); }
+            }
+          });
+        });
+        </script>
+
+        <div class="buttons-set">
+          <p class="required"><?= $block->escapeHtml(__('* Required Fields')) ?></p>
+        </div>
+
+        <div class="panel-heading col-md-12 uptransform" style="font-weight:bold;padding:4px 15px;">
+          <div class="col-md-6 panel_product_heading" style="line-height:31px;font-size:17px;padding-left:0;"></div>
+          <div class="buttons-set col-md-6 buttons_scb" style="text-align:right;padding-right:0;">
+            <button class="btn button-seller-primary" title="Save" type="submit"
+                    onClick="jQuery('#form-validate').submit();" id="save_butn" style="float:none;">
+              <span><?= $block->escapeHtml(__('Save Configurations')) ?></span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.button-seller-primary{
+  border-radius: 6px;
+}
+.required-asterisk {
+  color: #d32f2f;
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 12px;
+  vertical-align: middle;
+}
+.dynamic-fee-container {
+  margin-top: 18px;
+  clear: both;
+}
+.fee-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 18px 16px 12px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: box-shadow 0.2s, border 0.2s;
+}
+.fee-row-error {
+  border: 1.5px solid #d32f2f !important;
+}
+.fee-row:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+.fee-row .admin__field {
+  flex: 1 1 180px;
+  min-width: 160px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.fee-row .admin__field .label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+  padding: 5px;
+}
+.fee-row .admin__field .control input {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background: #f9f9f9;
+  transition: border 0.2s;
+}
+.fee-row .admin__field .control input:focus {
+  border: 1.5px solid #f76b1c;
+  background: #fff;
+}
+.add-fee-btn {
+  margin-bottom: 12px !important;
+  background: #f76b1c;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  float: left;
+  font-size: 15px;
+  box-shadow: 0 2px 6px rgba(247,107,28,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.add-fee-btn:hover {
+  background: #ff7b2f;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(247,107,28,0.13);
+}
+.remove-fee {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #f76b1c;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+  margin-left: 8px;
+  align-self: flex-start;
+  margin-top: 23px;
+  transition: color 0.2s, transform 0.15s ease-out;
+}
+.remove-fee:hover {
+  color: #ff7b2f;
+  transform: scale(1.08);
+}
+.remove-fee:focus {
+  outline: none;
+}
+.remove-fee svg {
+  width: 50px;
+  height: 50px;
+}
+.fee-error-msg {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 8px;
+  width: 100%;
+  grid-column: 1/-1;
+}
+@media (max-width: 900px) {
+  .fee-row {
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 8px 10px 8px;
+  }
+  .remove-fee {
+    margin-top: 0;
+  }
+  .add-fee-btn {
+    width: 100%;
+    float: none;
+    margin-bottom: 10px;
+  }
+}
+</style>

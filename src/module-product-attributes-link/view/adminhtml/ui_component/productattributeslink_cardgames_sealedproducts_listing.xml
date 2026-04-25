@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing_data_source</item>
+            <item name="deps" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">productattributeslink_cardgames_sealedproducts_column</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Generic\Back</item>
+            <item name="exportcsv" xsi:type="array">
+                <item name="name" xsi:type="string">exportcsv</item>
+                <item name="label" xsi:type="string" translate="true">Download as CSV</item>
+                <item name="class" xsi:type="string">secondary</item>
+                <item name="url" xsi:type="string">*/platformDatabase/download</item>
+            </item>
+            <item name="import" xsi:type="array">
+                <item name="name" xsi:type="string">import</item>
+                <item name="label" xsi:type="string" translate="true">Upload Sealed Products</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/import/sealedproducts/entity/card_game</item>
+            </item>
+            <item name="add" xsi:type="string">TCGCollective\ProductAttributesLink\Block\Adminhtml\Listing\NewSealedProductsButton</item>
+        </item>
+    </argument>
+    <dataSource name="productattributeslink_cardgames_sealedproducts_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">TCGCollective\ProductAttributesLink\Ui\DataProvider\PlatformDatabaseGridDataProvider</argument>
+            <argument name="name" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="filter_url_params" xsi:type="array">
+                        <item name="card_release" xsi:type="string">*</item>
+                        <item name="card_game" xsi:type="string">*</item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">entity_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="namespace" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_column</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string"></item>
+                        <item name="namespace" xsi:type="string"></item>
+                    </item>
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_column.${ $.index }:visible</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <filterSelect name="language" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\ProductAttributesLink\Model\Source\Language"/>
+                    <caption translate="true">Filter by Language...</caption>
+                    <label translate="true">Language</label>
+                    <dataScope>language</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+            <filterSelect name="release_year" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\ProductAttributesLink\Model\Source\ReleaseYear"/>
+                    <caption translate="true">Filter by Release Year...</caption>
+                    <label translate="true">Release Year</label>
+                    <dataScope>release_year</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+            <filterSelect name="card_series" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\ProductAttributesLink\Model\Source\CardSeries"/>
+                    <caption translate="true">Filter by Series...</caption>
+                    <label translate="true">Series</label>
+                    <dataScope>card_series</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+            <filterSelect name="card_release" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\ProductAttributesLink\Model\Source\CardRelease"/>
+                    <caption translate="true">Filter by Release...</caption>
+                    <label translate="true">Release</label>
+                    <dataScope>card_release</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+            <filterSelect name="card_set" provider="${ $.parentName }">
+                <settings>
+                    <options class="TCGCollective\ProductAttributesLink\Model\Source\CardSet"/>
+                    <caption translate="true">Filter by Set...</caption>
+                    <label translate="true">Set</label>
+                    <dataScope>card_set</dataScope>
+                    <imports>
+                        <link name="visible">componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_column.ids</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="type" xsi:type="string">delete</item>
+                    <item name="label" xsi:type="string" translate="true">Delete</item>
+                    <item name="url" xsi:type="url" path="*/*/massDelete"/>
+                    <item name="confirm" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Delete items?</item>
+                        <item name="message" xsi:type="string" translate="true">Are you sure you want to delete the selected items?</item>
+                    </item>
+                </item>
+                </argument>
+            </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_column.ids</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                </item>
+            </argument>
+        </paging>
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="namespace" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+    </listingToolbar>
+    <columns name="productattributeslink_cardgames_sealedproducts_column">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">productattributeslink_cardgames_sealedproducts_listing.productattributeslink_cardgames_sealedproducts_listing.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current</item>
+                </item>
+                <item name="resizeConfig" xsi:type="array">
+                    <item name="enabled" xsi:type="boolean">true</item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="entity_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Entity ID</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="componentDisabled" xsi:type="boolean">false</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">80</item>
+                </item>
+            </argument>
+        </column>
+        <column name="images" class="TCGCollective\ProductAttributesLink\Ui\Component\Listing\Columns\Image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Images</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
+                    <item name="sortOrder" xsi:type="number">2</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                </item>
+            </argument>
+        </column>
+        <column name="language">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Language</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </column>
+        <column name="release_year">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Release Year</item>
+                    <item name="sortOrder" xsi:type="number">25</item>
+                </item>
+            </argument>
+        </column>
+        <column name="card_series">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Series</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+        <column name="card_release">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Release</item>
+                    <item name="sortOrder" xsi:type="number">35</item>
+                </item>
+            </argument>
+        </column>
+        <!-- <column name="card_set">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Set</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                </item>
+            </argument>
+        </column> -->
+        <column name="sealed_products">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Sealed Products</item>
+                    <item name="sortOrder" xsi:type="number">45</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="TCGCollective\ProductAttributesLink\Ui\Component\Listing\Columns\PlatformDatabaseActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

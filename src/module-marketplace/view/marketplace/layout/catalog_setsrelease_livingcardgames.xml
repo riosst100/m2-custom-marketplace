@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\PlatformDbMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/platform-db-wizard-ajax.phtml" as="livingcardgame.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                    <item name="scope" xsi:type="string">livingcardgame</item>
+                    <item name="nameStepWizard" xsi:type="string">select-livingcardgame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                </argument>
+            </arguments>
+            <!-- STEPS -->
+            <block class="TCGCollective\MarketPlace\Block\Component\PlatformDbStepsWizard" name="select-livingcardgame-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                    </argument>
+                </arguments>
+                <!-- STEP SETS -->
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\PlatformDbSelectSets" name="step.sets" template="TCGCollective_MarketPlace::platform-db/platform-db-select-sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="scope" xsi:type="string">livingcardgame</item>
+                            <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">seller_database_livingcardgame_sets_listing.seller_database_livingcardgame_sets_listing.columns.ids</item>
+                            <item name="providerName" xsi:type="string">seller_database_livingcardgame_sets_listing.seller_database_livingcardgame_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="seller_database_livingcardgame_sets_listing"/>
+                </block>
+                <!-- STEP SINGLES -->
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\PlatformDbSelectSingles" name="step.singles" template="TCGCollective_MarketPlace::platform-db/platform-db-select-singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                            <item name="scope" xsi:type="string">livingcardgame</item>
+                            <item name="multiselectName" xsi:type="string">seller_database_livingcardgame_singles_listing.seller_database_livingcardgame_singles_listing.columns.ids</item>
+                            <item name="providerName" xsi:type="string">seller_database_livingcardgame_singles_listing.seller_database_livingcardgame_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="seller_database_livingcardgame_singles_listing"/>
+                </block>
+                <!-- STEP SEALED PRODUCTS -->
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\PlatformDbSelectSealedProducts" name="step.sealedproducts" template="TCGCollective_MarketPlace::platform-db/platform-db-select-sealedproducts.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">livingcardgame.setsModal</item>
+                            <item name="scope" xsi:type="string">livingcardgame</item>
+                            <item name="multiselectName" xsi:type="string">seller_database_livingcardgame_sealedproducts_listing.seller_database_livingcardgame_sealedproducts_listing.columns.ids</item>
+                            <item name="providerName" xsi:type="string">seller_database_livingcardgame_sealedproducts_listing.seller_database_livingcardgame_sealedproducts_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormLivingCardGameSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="seller_database_livingcardgame_sealedproducts_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\User\Block\Role\Tab\Edit" type="TCGCollective\MarketPlace\Block\Role\Tab\Edit" />
+    <preference for="Magento\Catalog\Controller\Adminhtml\Category\Save" type="TCGCollective\MarketPlace\Controller\Adminhtml\Category\Save" />
+    <preference for="Lof\MarketPlace\Controller\Adminhtml\Seller\Save" type="TCGCollective\MarketPlace\Controller\Adminhtml\Seller\Save" />
+    <preference for="Lof\MarketPlace\Block\Adminhtml\Notifications\Message" type="TCGCollective\MarketPlace\Block\Adminhtml\Notifications\Message" />
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Back" type="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Button\AdminBack" />
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Save" type="TCGCollective\MarketPlace\Controller\Adminhtml\Product\Save" />
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="hide_attributes" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\AdminHideAttributes</item>
+                    <item name="sortOrder" xsi:type="number">999</item>
+                </item>
+                <!-- <item name="disable_edit" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\DisableEdit</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+                <item name="sets-selection" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\SetsSelection</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+                <item name="listing-country" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\ListingCountry</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                </item>
+                <item name="product-details" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\ProductDetails</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+                <item name="multiwebsite-pricing" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\MultiWebsitePricing</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item> -->
+            </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\Email\Block\Adminhtml\Template\Edit\Form" type="TCGCollective\MarketPlace\Block\Adminhtml\Template\Edit\Form" />
+    <type name="Magento\Email\Controller\Adminhtml\Email\Template\Save">
+        <plugin
+            name="coremarketplace_email_receiver_save"
+            type="TCGCollective\MarketPlace\Plugin\EmailTemplateSavePlugin"
+            sortOrder="10"/>
+    </type>
+    <type name="Magento\Email\Model\ResourceModel\Template">
+        <plugin
+            name="coremarketplace_email_receiver_save"
+            type="TCGCollective\MarketPlace\Plugin\EmailTemplateResourcePlugin"/>
+    </type>
+    
+    <type name="Magento\Sales\Model\ResourceModel\Order\Collection">
+        <plugin name="restrict_orders_by_website"
+                type="TCGCollective\MarketPlace\Plugin\Order\OrderCollectionPlugin"/>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin name="restrict_products_by_website"
+                type="TCGCollective\MarketPlace\Plugin\Product\ProductCollectionPlugin"/>
+    </type>
+
+    <preference for="Magento\Sales\Model\ResourceModel\Order\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\Order\Collection"/>
+    <preference for="Magento\Sales\Model\ResourceModel\Order\Grid\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\Order\Grid\Collection"/>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <plugin name="coremarketplace_invoice_grid_website_filter"
+                type="TCGCollective\MarketPlace\Plugin\Invoice\InvoiceGridPlugin"/>
+    </type>
+    <preference for="Magento\Sales\Model\ResourceModel\Transaction\Grid\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\Transaction\Grid\Collection"/>
+    <!-- <preference for="Magento\Catalog\Model\ResourceModel\Product\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\Product\Collection"/> -->
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin
+            name="coremarketplace_product_grid_website_filter"
+            type="TCGCollective\MarketPlace\Plugin\Product\ProductCollectionPlugin"            
+        />
+    </type>
+    <preference for="Magento\Customer\Model\ResourceModel\Grid\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\Customer\Grid\Collection"/>
+    <type name="Magento\Email\Model\ResourceModel\Template\Collection">
+        <plugin
+            name="coremarketplace_email_template_website_filter"
+            type="TCGCollective\MarketPlace\Plugin\Email\TemplateCollectionPlugin"
+            sortOrder="10"/>
+    </type>
+
+    <!-- <type name="Magento\CatalogRule\Model\ResourceModel\Rule\Collection">
+        <plugin
+            name="coremarketplace_catalogrule_website_filter"
+            type="TCGCollective\MarketPlace\Plugin\CatalogRule\RuleCollectionPlugin"
+            sortOrder="10"/>
+    </type> -->
+    <!-- <type name="Magento\CatalogRule\Model\ResourceModel\Grid\Collection">
+        <arguments>
+            <argument name="instance" xsi:type="string">
+                TCGCollective\MarketPlace\Model\ResourceModel\CatalogRule\Grid\Collection
+            </argument>
+        </arguments>
+    </type> -->
+    <preference for="Magento\CatalogRule\Model\ResourceModel\Grid\Collection"
+                type="TCGCollective\MarketPlace\Model\ResourceModel\CatalogRule\Grid\Collection"/>
+    <preference
+        for="Magento\SalesRule\Model\ResourceModel\Rule\Quote\Collection"
+        type="TCGCollective\MarketPlace\Model\ResourceModel\SalesRule\Grid\Collection"
+    />
+    <preference
+        for="Lofmp\Rma\Model\ResourceModel\Rma\Collection"
+        type="TCGCollective\MarketPlace\Model\ResourceModel\Rma\Collection"/>
+    <preference
+        for="Lof\MarketPlace\Model\ResourceModel\Seller\Collection"
+        type="TCGCollective\MarketPlace\Model\ResourceModel\Seller\Grid\Collection"/>
+    <preference
+        for="Lof\MarketPlace\Model\ResourceModel\Commission\Collection"
+        type="TCGCollective\MarketPlace\Model\ResourceModel\Commission\Grid\Collection"/>
+    
+    <type name="Magento\Backend\Block\Store\Switcher">
+        <plugin
+            name="restrict_admin_store_switcher_by_website"
+            type="TCGCollective\MarketPlace\Plugin\Adminhtml\Store\RestrictSwitcher"/>
+    </type>
+
+    <type name="Magento\Backend\App\AbstractAction">
+        <plugin
+            name="coremarketplace_auto_select_website"
+            type="TCGCollective\MarketPlace\Plugin\Adminhtml\AutoSelectWebsite"/>
+    </type>
+    <preference for="Magento\Customer\Block\Adminhtml\Group\Edit\Form"
+                type="TCGCollective\MarketPlace\Block\Customer\Group\Edit\Form"/>
+    <preference
+    for="Lof\MarketPlace\Model\ResourceModel\Order\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\OrderSeller\Collection"/>
+
+    <preference
+    for="Lof\MarketPlace\Model\ResourceModel\Invoice\Grid\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\InvoiceSeller\Collection"/>
+
+    <preference
+    for="Lof\MarketPlace\Model\ResourceModel\Orderitems\Grid\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\Orderitems\Grid\Collection"/>
+
+    <preference
+    for="Lof\MarketPlace\Model\ResourceModel\Refund\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\Refund\Grid\Collection"/>
+
+    <preference
+    for="Lof\Quickrfq\Model\ResourceModel\Quickrfq\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\Quickrfq\Grid\Collection"/>
+    
+    <preference
+    for="Lof\MarketPlace\Model\ResourceModel\SellerProduct\Collection"
+    type="TCGCollective\MarketPlace\Model\ResourceModel\SellerProduct\Collection"/>
+</config>

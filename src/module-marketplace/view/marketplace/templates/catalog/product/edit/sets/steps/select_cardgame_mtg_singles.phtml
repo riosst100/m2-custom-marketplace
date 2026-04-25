@@ -1,0 +1,48 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes */
+?>
+<div class="select-cardgamemtg-singles-block <?= /* @noEscape */ $block->getData('config/dataScope') ?>" data-role="select-cardgamemtg-singles-step">
+    <div class="select-attributes-actions" data-type="skipKO">
+        <?= /* @noEscape */  $block->getAddNewSinglesButton() ?>
+    </div>
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Select Singles')
+        ); ?></h2>
+    <div class="selected-singles" data-bind="scope: '<?= /* @noEscape */  $block->getComponentName()?>'">
+        <?php echo $block->escapeHtml(
+            __('Selected Singles:')
+        ); ?>
+        <span data-bind="text: selectedSingles() || '--'"></span>
+    </div>
+</div>
+<div class="productFormSingles">
+    <?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "<?= /* @noEscape */  $block->getComponentName()?>": {
+                        "component": "TCGCollective_MarketPlace/js/sets/steps/select_cardgamemtg_singles",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "setsAndSinglesComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.setsAndSingles",
+                        "modalComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.cardgamemtg.setsModal",
+                        "appendTo": "<?= /* @noEscape */  $block->getParentComponentName()?>",
+                        "matrixGridComponent": "<?= /* @noEscape */ $block->getData('config/form')
+                        ?>.sets.sets-matrix"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function ($) {
+        $('.<?= /* @noEscape */ $block->getData('config/dataScope') ?>[data-role=select-cardgamemtg-singles-step]').applyBindings();
+        $('body').trigger('contentUpdated');
+    })
+</script>

@@ -1,0 +1,79 @@
+<table class="data-grid">
+    <thead>
+        <tr>
+            <th class="data-grid-th" style="width: 15%;"><?= $block->escapeHtml(__('Date')) ?></th>
+            <th class="data-grid-th" style="width: 45%;"><?= $block->escapeHtml(__('File Name')) ?></th>
+            <th class="data-grid-th" style="width: 30%;"><?= $block->escapeHtml(__('Upload Status')) ?></th>
+            <th class="data-grid-th" style="width: 15%;"></th>
+        </tr>
+    </thead>
+    <tbody id="upload_history_content">
+        <?php
+        $currentPage = $this->getRequest()->getParam('page') ?? 1;
+        $pageSize = $this->getRequest()->getParam('size') ?? 5;
+        $totalCount = $block->getTotalImportHistoryCount();
+        $totalPages = ceil($totalCount / $pageSize);
+        $importHistory = $block->getImportHistory($currentPage, $pageSize);
+        ?>
+        <?php if ($importHistory): ?>
+            <?php foreach ($importHistory as $history): ?>
+                <tr>
+                    <td><?= $block->formatDateTime($history->getStartedAt()) ?></td>
+                    <td>
+                        <i class="fa fa-file-text-o" style="margin-right: 4px;"></i>
+                        <?= $block->escapeHtml($history->getImportedFile()) ?>
+                    </td>
+                    <td class="upload_status">
+                        <?php
+                        $uploadStatus = $block->getUploadStatus($history->getSummary(), $history->getValidationSummary());
+                        ?>
+                        <?php if ($uploadStatus): ?>
+                            <?php foreach ($uploadStatus as $status => $value): ?>
+                                <?php if ($status == "created" && $value > 0) : ?>
+                                    <div>
+                                        <i class="fa fa-check-circle" style="font-size: 16px;color: #00b600;vertical-align: middle;margin-right: 4px;"></i>
+                                        <?= $block->escapeHtml(__('%1 products successfully added', $value)) ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($status == "updated" && $value > 0) : ?>
+                                    <div>
+                                    <i class="fa fa-check-circle" style="font-size: 16px;color: #00b600;vertical-align: middle;margin-right: 4px;"></i>
+                                    <?= $block->escapeHtml(__('%1 products successfully updated', $value)) ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($status == "error" && $value > 0) : ?>
+                                    <div>
+                                    <i class="fa fa-times-circle" style="font-size: 16px;color: #f10000;vertical-align: middle;margin-right: 4px;"></i>
+                                    <?= $block->escapeHtml(__('%1 products couldn\'t be added', $value)) ?>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <i class="fa fa-check-circle" style="font-size: 16px;color: #00b600;vertical-align: middle;margin-right: 4px;"></i>
+                            <?= $block->escapeHtml(__('In Upload Queue')) ?>
+                        <?php endif; ?>
+                        </td>
+                        <td>
+                        <?php if ($uploadStatus && $history->getErrorFile()): ?>
+                            <div style="text-align: center;"><a href="<?= $block->createDownloadUrlImportHistoryFile($history->getErrorFile()) ?>"><?= $block->escapeHtml(__('Download Report')) ?></a></div>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>
+<div class="paginator">
+    <span class="total"><?= __('Total %1', $totalCount) ?></span>
+    <select class="page-size" onchange="MST.changePageSize(this.value)">
+        <option value="5" <?= $pageSize == 5 ? 'selected' : '' ?>>5</option>
+        <option value="10" <?= $pageSize == 10 ? 'selected' : '' ?>>10</option>
+        <option value="20" <?= $pageSize == 20 ? 'selected' : '' ?>>20</option>
+        <option value="50" <?= $pageSize == 50 ? 'selected' : '' ?>>50</option>
+    </select>
+    <div class="pagination">
+        <button class="prev-page" type="button" onclick="MST.changePage(<?= $currentPage - 1 ?>)" <?= $currentPage == 1 ? 'disabled' : '' ?>><span class="fa fa-chevron-left" style="margin-right: 5px;"></span><?= __('Previous') ?></button>
+        <span class="current-page"><?= $currentPage ?></span>
+        <button class="next-page" type="button" onclick="MST.changePage(<?= $currentPage + 1 ?>)" <?= $currentPage == $totalPages ? 'disabled' : '' ?>><?= __('Next') ?><span class="fa fa-chevron-right" style="margin-left: 5px;"></span></button>
+    </div>
+</div>

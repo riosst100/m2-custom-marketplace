@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="term_and_conditions" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\TermAndConditions</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="select_with_search" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\SelectWithSearch</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="set_default_value" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\SetDefaultValue</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="disable_wysiwyg" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\DisableWysiwyg</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="hide_attributes" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\HideAttributes</item>
+                    <item name="sortOrder" xsi:type="number">999</item>
+                </item>
+                <item name="disable_edit" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\DisableEdit</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+                <item name="sets-selection" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\SetsSelection</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+                <!-- <item name="listing-country" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\ListingCountry</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                </item> -->
+                <item name="product-details" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\ProductDetails</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+                <item name="multiwebsite-pricing" xsi:type="array">
+                    <item name="class" xsi:type="string">TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\MultiWebsitePricing</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="TCGCollective\MarketPlace\Ui\DataProvider\Product\Form\Modifier\SetsSelection">
+        <arguments>
+            <argument name="formName" xsi:type="string">product_form</argument>
+            <argument name="dataScopeName" xsi:type="string">product_form.product_form</argument>
+            <argument name="dataSourceName" xsi:type="string">product_form.product_form_data_source</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Backend\Model\Menu\Builder" type="TCGCollective\MarketPlace\Model\Menu\Builder" />
+</config>

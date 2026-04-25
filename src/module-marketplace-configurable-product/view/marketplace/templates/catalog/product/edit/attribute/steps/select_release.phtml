@@ -1,0 +1,57 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Steps\SelectAttributes */
+?>
+<div class="select-release-block <?= /* @noEscape */ $block->getData('config/dataScope') ?>" data-role="select-release-step">
+    <h2 class="steps-wizard-title"><?php echo $block->escapeHtml(
+            __('Select Release')
+        ); ?></h2>
+    <div class="selected-release" data-bind="scope: '<?= /* @noEscape */  $block->getComponentName()?>'">
+        <?php echo $block->escapeHtml(
+            __('Selected Release:')
+        ); ?>
+        <span data-bind="text: selectedRelease() || '--'"></span>
+    </div>
+</div>
+<?= $block->getChildHtml(); ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "<?= /* @noEscape */  $block->getComponentName()?>": {
+                        "component": "TCGCollective_MarketplaceConfigurableProduct/js/variations/steps/select_release",
+                        "multiselectName": "<?= /* @noEscape */ $block->getData('config/multiselectName') ?>",
+                        "providerName": "<?= /* @noEscape */ $block->getData('config/providerName') ?>",
+                        "appendTo": "<?= /* @noEscape */  $block->getParentComponentName()?>",
+                        "variationsComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.configurableVariations",
+                        "modalComponent": "<?= /* @noEscape */ $block->getData('config/form') ?>.configurableModal",
+                        "autoRender": false,
+                        "componentType": "insertListing",
+                        "dataScope": "configurable_associated_product_listing",
+                        "externalProvider": "configurable_associated_product_listing.data_source",
+                        "selectionsProvider": "configurable_associated_product_listing.product_columns.ids",
+                        "ns": "configurable_associated_product_listing",
+                        "render_url": "<?= /* @noEscape */ $block->getUrl('mui/index/render') ?>",
+                        "realTimeLink": true,
+                        "behaviourType": "simple",
+                        "externalFilterMode": false,
+                        "dataLinks": {
+                            "imports": false,
+                            "exports": true
+                        },
+                        "optionsUrl": "<?= /* @noEscape */  $block->getUrl('catalog/product_attribute/getAttributes')?>",
+                        "changeProductProvider": "change_product"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function ($) {
+        $('.<?= /* @noEscape */ $block->getData('config/dataScope') ?>[data-role=select-release-step]').applyBindings();
+        $('body').trigger('contentUpdated');
+    })
+</script>

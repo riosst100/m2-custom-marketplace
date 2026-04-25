@@ -1,0 +1,12 @@
+<?php
+$buttons = $block->getTabsButton();
+?>
+<?php if ($buttons) : ?>
+    <div class="custom-data-grid-filters-actions-wrap">
+        <div class="custom-data-grid-filters-action-wrap">
+            <?php foreach($buttons as $button) : ?>
+                <a href="<?= $button['href'] ?>" class="action-default <?= $button['is_active'] ? '_active' : '_inactive' ?>" data-action="grid-filter-expand" ><?= $button['label'] ?></a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>

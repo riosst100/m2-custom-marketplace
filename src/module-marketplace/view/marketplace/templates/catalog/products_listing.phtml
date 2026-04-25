@@ -1,0 +1,1995 @@
+<?php
+$productListingColumnAttributes = $block->getProductListingColumnAttributes();
+$tabs = $block->getProductListingTabs();
+$defaultColumns = $block->getProductListingDefaultColumns();
+?>
+
+<link rel="stylesheet" href="//cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css">
+
+<!-- TABS -->
+<?php if ($tabs) : ?>
+    <div class="top-tabs">
+        <?php foreach ($tabs as $key => $tab) : ?>
+            <button class="switch-tab <?= $key == 0 ? 'active' : '' ?>" data-code="<?= $tab['tab_value'] ?>"><?= $tab['label'] ?></button>
+        <?php endforeach; ?>
+    </div>
+    <hr />
+<?php endif; ?>
+
+<!-- ACTIVE FILTERS -->
+<div id="active-filters-bar" style="display:none; margin-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div id="active-filters-list">
+            <span>Active filters:</span>
+        </div>
+        <a href="javascript:void(0);" id="clear-all-filters" 
+           style="color:#007bff; text-decoration:none; font-weight:500;">
+           Clear all
+        </a>
+    </div>
+    <hr>
+</div>
+
+<!-- FILTER SECTION -->
+<div class="filters-container">
+    <div class="filters-grid">
+        <?php if ($productListingColumnAttributes) : ?>
+            <?php foreach ($productListingColumnAttributes as $column) : ?>
+                <?php 
+                $attrCode = $column['attribute_code'] ?? null;
+                $attribute = $block->getProductAttribute($attrCode); 
+                ?>
+                <?php if ($attribute) : ?>
+                    <div class="filter-group">
+                        <label><?= $attribute->getFrontendLabel() ?></label>
+                        <?php if ($attribute->getFrontendInput() == "text") : ?>
+                            <input type="text" class="filter-input" data-field="<?= $attrCode ?>" />
+                        <?php endif; ?>
+                        <?php if ($attribute->getFrontendInput() == "select") : ?>
+                            <select class="select2-filter filter-select" data-field="<?= $attrCode ?>">
+                                <option value="" selected><?= __('Filter By %1', $attribute->getFrontendLabel()) ?>...</option>
+                                <?php $options = $attribute->getOptions(); ?>
+                                <?php if ($options) : ?>
+                                    <?php foreach($options as $option) : ?>
+                                        <?php if ($option->getLabel() && $option->getValue()) : ?>
+                                            <option value="<?= $option->getValue() ?>"><?= $option->getLabel() ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <!-- Default Columns like name, sku,etc -->
+        <?php if ($defaultColumns) : ?>
+            <?php foreach ($defaultColumns as $column) : ?>
+                <?php if ($column && $column['filter']) : ?>
+                    <div class="filter-group">
+                        <label><?= $column['label'] ?></label>
+                        <?php if ($column['filter'] == "text") : ?>
+                            <input type="text" class="filter-input" data-field="<?= $column['attr_code'] ?>" />
+                        <?php endif; ?>
+                        <?php if ($column['filter'] == "select") : ?>
+                            <?php if ($column['options']) : ?>
+                                <select class="select2-filter filter-select" data-field="<?= $column['attr_code'] ?>">
+                                    <option value="" selected><?= __('Filter By %1', $column['label']) ?>...</option>
+                                    <?php foreach($column['options'] as $option) : ?>
+                                        <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <div style="
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    float: right;
+    margin-top: 10px;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+
+">
+            <button id="apply_filters">Apply Filter</button>
+        </div>
+</div>
+<hr />
+
+<!-- GRID TABLES -->
+<table id="seller-table" class="display" style="width:100%;background: white;">
+    <thead>
+        <tr>
+           <th>
+                <div class="bulk-select">
+                    <label class="custom-check">
+                        <input type="checkbox" id="select-page">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="custom-dropdown" id="bulkDropdown">
+                        <div class="dropdown-trigger">▾</div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item" data-value="all">Select all</div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th>Images</th>
+            <?php 
+            if ($productListingColumnAttributes) {
+                foreach ($productListingColumnAttributes as $column) {
+                    $attrCode = $column['attribute_code'] ?? null;
+                    $attribute = $block->getProductAttribute($attrCode);
+                    if ($attribute) {
+                        echo '<th>' . $attribute->getFrontendLabel() . '</th>';
+                    }
+                }
+            }
+            ?>
+
+            <!-- Default Columns like name, sku,etc -->
+            <?php 
+            if ($defaultColumns) {
+                foreach ($defaultColumns as $column) {
+                    if ($column) {
+                        echo '<th>' . $column['label'] . '</th>';
+                    }
+                }
+            }
+            ?>
+            <th>Edit</th>
+            <th>Duplicate</th>
+            <th>Publish</th>
+        </tr>
+    </thead>
+</table>
+<style>
+    hr {
+        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+    }
+    
+    /* ===== ACTIVE FILTERS ===== */
+    .active-filter-tag {
+        display:inline-block;
+        background:#f2f2f2;
+        border:1px solid #ccc;
+        padding:4px 10px;
+        margin:0 6px;
+        border-radius:3px;
+        font-size:13px;
+    }
+
+    .active-filter-tag .remove-filter {
+        margin-left:6px;
+        cursor:pointer;
+        font-weight:bold;
+        color:#999;
+    }
+
+    .active-filter-tag .remove-filter:hover {
+        color:#000;
+    }
+
+    .default-filter {
+    background: #eef3f7;
+    border: 1px solid #cdd9e5;
+    cursor: pointer;
+}
+
+.default-filter:hover {
+    background: #dde7f0;
+}
+
+.default-edit {
+    margin-left: 6px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.default-filter:hover .default-edit {
+    opacity: 1;
+}
+
+    /* ===== SEARCH ===== */
+    .dt-search {
+        position: relative;
+    }
+    .dt-search input {
+        height: 34px;
+        width: 300px !important;
+        border-radius:0px !important;
+        padding: 6px 35px 6px 10px !important;
+        border: 1px solid #ccc !important;
+        background:white !important;
+        margin: 0px !important;
+    }
+    .dt-search::after {
+        content: '\e60c';
+        font-family: 'Admin Icons';
+        position: absolute;
+        right: 10px;
+        top: 7px;
+        font-size: 14px;
+        opacity: .6;
+    }
+
+    /* ===== DATATABLES ===== */
+    .listing-product-price {
+        /* color: #f76b1c; */
+        font-weight: 500;
+    }
+    .listing-product-countries {
+        margin-bottom: -5px;
+    }
+    .dt-length select {
+        margin-right:10px;
+    }
+    .dt-left, 
+    .dt-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+    hr {
+        border-top: 1px solid #ccc;
+    }
+    .dt-top {
+        flex-direction: row-reverse;
+    }
+    .dt-top, .dt-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+        margin-bottom: 5px;
+    }
+    .dt-length select {
+        height: 34px;
+        padding: 6px 30px 6px 10px;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+    .dt-length label {
+        font-weight: normal;
+    }
+    table.dataTable {
+        font-size: 13px;
+        border-collapse: collapse !important;
+    }
+    table.dataTable thead th {
+        border-bottom: 1px solid #ccc !important;
+    }
+    .dataTable th {
+        background: #2a3f54;
+    }
+
+    .dataTable .dt-button-col {
+        text-align:center;
+    }
+    .dataTable .dt-type-numeric {
+        text-align:center !important;
+    }
+    .dataTable .dt-column-title {
+        color: white;
+    }
+    .dataTable .dt-column-order {
+        color:white;
+    }
+    div.dt-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+    table.dataTable {
+        width: 100% !important;
+    }
+    /* Jangan wrap isi kolom */
+    #seller-table {
+        margin: 0 !important;
+        /* white-space: nowrap; */
+    }
+
+    /* Paksa table bisa lebih lebar dari container */
+    div.dt-container {
+        overflow-x: auto !important;
+    }
+
+    /* Supaya table tidak dipaksa 100% */
+    table.dataTable {
+        width: 100% !important;
+        table-layout: auto;   /* 🔥 penting */
+    }
+
+    #seller-table td.wrap-col {
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    /* Header jangan wrap */
+    #seller-table thead th {
+        white-space: nowrap !important;
+    }
+
+    /* Optional: biar lebarnya mengikuti isi */
+    #seller-table thead th {
+        width: auto !important;
+    }
+
+    /* ===== PAGINATION ===== */
+    .dt-pagination .paginate_button {
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        background: #fff;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .dt-pagination .paginate_button.current {
+        background: #514943;
+        color: #fff !important;
+        border-color: #514943;
+    }
+    .dt-pagination .paginate_button:hover {
+        background: #f4f4f4;
+    }
+    .dt-bottom {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    /* ========== TABS ========== */
+    .top-tabs {
+        display: flex;
+        gap: 10px;
+    }
+    .top-tabs button {
+        background: #2f4156;
+        color: #fff;
+        border: none;
+        padding: 6px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    .top-tabs button:hover {
+        opacity: 0.9;
+    }
+    .top-tabs button.active {
+        background: #f7f7f7;
+        color: inherit;
+        border: 1px solid #ccc;
+        border-top: 3px solid #2f4156;
+        border-bottom: none;
+        margin-bottom: -11px !important;
+        border-radius: 0px;
+            padding-bottom: 15px;
+    }
+
+    /* ========== FILTERS ========== */
+    .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+    .filter-group label {
+        display: block;
+        font-weight: 500;
+        text-align: left;
+        margin-bottom: 6px;
+    }
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+    }
+    input, select {
+        padding: 8.7px;
+        border: 1px solid #cccccc;
+    }
+    .filter-group input:focus,
+    .filter-group select:focus {
+        outline: none;
+        border-color: #2f4156;
+    }
+
+    /* ========== CHECKBOX ========== */
+    .custom-check {
+        margin:0px;
+    }
+    .custom-check .checkmark {
+        width: 18px;
+        height: 18px;
+        border: 1px solid #acacac;
+        border-radius: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: #fff;
+        transition: all 0.2s ease;
+    }
+    .custom-check .checkmark::after {
+        content: "";
+        width: 5px;
+        height: 7px;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        opacity: 0;                /* 🔥 bukan display:none */
+        transition: opacity 0.15s ease;
+    }
+    .custom-check input:checked + .checkmark::after {
+        opacity: 1;
+    }
+    .custom-check input {
+        display: none;
+    }
+    .bulk-select {
+        display: inline-flex;
+        align-items: center;
+    }
+    th.dt-checkbox-col .dt-column-order {
+        display: none !important;
+    }
+    th.dt-checkbox-col .dt-column-header {
+        justify-content: center !important;
+    }
+    th.dt-checkbox-col {
+        cursor: default !important;
+    }
+    td.dt-checkbox-col {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .custom-dropdown {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #acacac;
+        color: #41362f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: -0.5px;
+        cursor: pointer;
+        background: #ececec;
+    }
+    .custom-dropdown:hover {
+        background: #eee;
+    }
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: -1px;
+        min-width: 140px;
+        background: white;
+        border: 1px solid #eb5202;
+        box-shadow: 2px 2px 5px 0px rgb(0 0 0 / 19%);
+        border-radius: 0px !important;
+        display: none;
+        z-index: 999;
+    }
+    .dropdown-item {
+        font-weight: normal;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+    .dropdown-item:hover {
+        background: #f7f7f7;
+    }
+    .publish-button {
+        padding: 7px 12px !important;
+    }
+    
+    /* PUBLISH MODAL */
+    /* ================= WEBSITE CARD ================= */
+    .website-card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        border-top: 2px solid #ddd;
+    margin-top: 20px;
+    }
+
+    .website-card {
+        border-bottom: 1px solid #ddd;
+        /* border-top: 1px solid #ddd; */
+        /* border-radius: 6px; */
+        padding: 10px 5px 10px 5px;
+        transition: 0.2s ease;
+        background: #fff;
+    }
+
+    .website-card.active {
+        border-color: #2a3f54;
+        background: #f9fbfc;
+    }
+
+    .website-card.locked {
+        background: #f7f7f7;
+        /* opacity: 0.6; */
+    }
+
+    .website-card-header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .website-card-title {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .website-card-price {
+        margin-top: 10px;
+    }
+
+    .website-card-price input {
+        width: 100%;
+    }
+
+    .locked-label {
+        color: #e22626;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .publish-input-container {
+            display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    }
+
+    .input-label {
+    margin-bottom: 2px;
+    }
+
+    /* Input Price */
+    .input-currency {
+        display: inline-block;
+        margin-left: 15px;
+    }
+    .price-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+.publish-info-country-list {
+    margin: 0;
+    padding-left: 25px;
+    padding-top: 5px;
+}
+
+.price-wrapper::before {
+    content: attr(data-currency);
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: grey;
+    /* font-weight: 500; */
+}
+
+.price-wrapper input {
+    padding-left: 45px;
+}
+.price-wrapper input[disabled] {
+    cursor: not-allowed;
+    background-color: #e7e7e7;
+}
+.select2-container--default.select2-container--disabled .select2-selection--single{
+    background-color: #e7e7e7;
+
+}
+/* MODAL PUBLISH */
+/* Force modal to center */
+.custom-centered-modal.modal-slide {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+.custom-centered-modal .modal-inner-wrap {
+    margin: 0 auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    position: fixed !important;
+}
+.custom-centered-modal .modal-content {
+    padding-bottom: 0 !important;
+}
+/* .modal-inner-wrap {
+    width: 40% !important;
+        margin: 0 auto;
+    top: 5% auto;
+    bottom: 5% auto;
+}
+.modal-content {
+    padding-top: 0px !important;
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+    padding-bottom: 0px !important;
+}
+ */
+.modal-footer {
+    padding: 30px !important;
+    border-radius: 10px !important;
+}
+.modal-slide._inner-scroll .modal-footer{
+    margin-left: 0px;
+}
+.btn-primary {
+    background-color: orange !important;
+    border: none !important;
+    color: white !important;
+    text-shadow: none !important;
+    font-weight: normal !important;
+    padding: 10px 20px !important;
+}
+.btn-secondary {
+    border: 1px solid orange !important;
+    background-color: white !important;
+    color: orange !important;
+    margin-right: 10px !important;
+    text-shadow: none !important;
+    font-weight: normal !important;
+    padding: 10px 20px !important;
+}
+.currency-info {
+    font-size: 12px;
+    color: grey;
+    margin-left: 2px;
+    font-weight: normal;
+}
+/* ================= AVAILABILITY INFO ================= */
+
+.publish-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.publish-info .info-icon {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ✅ Already available */
+.info-available {
+    color: #1b7f3b;
+}
+
+/* ⏳ Will be available */
+.info-will-available {
+    color: #cc7a00;
+}
+
+/* ❌ Will be removed */
+.info-will-removed {
+    color: #b42318;
+}
+
+/* ⚪ Not available */
+.info-not-available {
+    color: #555;
+}
+/* ================= GLOBAL SELLER INFO ================= */
+
+.seller-global-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 10px;
+    margin: 0px;
+    border-radius: 6px;
+    background: #e7f3ff;
+    border-left: 4px solid #2f6fad;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.seller-global-info .info-icon {
+    font-size: 18px;
+    color: #2f6fad;
+    margin-top: 2px;
+}
+
+.seller-global-info strong {
+    font-weight: 600;
+}
+
+.seller-global-info .info-content div {
+    margin-top: 4px;
+    color: #333;
+}
+.price-loading {
+    position: relative;
+}
+
+.price-loading input {
+    background: #f5f5f5;
+}
+
+.price-loading::after {
+    content: "Calculating...";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #999;
+}
+
+.price-loading::before {
+    content: "";
+    position: absolute;
+    right: 90px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ccc;
+    border-top-color: #f76b1c;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-loading::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 0.6s linear infinite;
+}
+
+.modal-inner-wrap .modal-footer button.btn-primary {
+    border-radius: 6px;
+    background-color: #f76b1c !important;
+    border-color: #f76b1c !important;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+.modal-inner-wrap .modal-footer button:hover,
+.modal-inner-wrap .modal-footer button:focus,
+.modal-inner-wrap .modal-footer button:active {
+    border-color: #f76b1c !important;
+    box-shadow: none;
+    opacity: 0.9;
+}
+@keyframes spin {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* ================= ERROR MESSAGES ================= */
+.error-message {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.price-error {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #d32f2f;
+}
+
+.price-input.error {
+    border-color: #d32f2f !important;
+    background-color: #fff5f5 !important;
+}
+
+.modal-error-box {
+    background: #fee;
+    /* border: 1px solid #f5a623; */
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 15px;
+    /* margin-top: 15px; */
+    color: #d32f2f;
+    display: none;
+    width: 100%;
+    text-align: left;
+}
+
+.modal-error-box.show {
+    display: block;
+}
+
+.modal-error-box ul {
+    margin: 0;
+    padding-left: 20px;
+    list-style: none;
+}
+
+.modal-error-box li {
+    margin: 4px 0;
+}
+
+/* ================= TOAST NOTIFICATION ================= */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4caf50;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-notification.success {
+    background: #4caf50;
+}
+
+.toast-notification.error {
+    background: #f44336;
+}
+
+.toast-notification.warning {
+    background: #ff9800;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%) translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-50%) translateY(100px);
+        opacity: 0;
+    }
+}
+
+.toast-notification.closing {
+    animation: slideOut 0.3s ease-out;
+}
+</style>
+<div id="publish-modal" style="display:none;">
+    <div class="publish-modal-content">
+
+        <div class="seller-global-info">
+            <div class="info-icon">ℹ</div>
+            <div class="info-content">
+                <div>
+                    Set the status to <b>Published</b> to make the product available in a country. You can set the price for each country based on the system's currency conversion or enter your own price. Change the status to <b>Draft</b> to remove the product from that country.
+                </div>
+            </div>
+        </div>
+
+         
+
+        <div id="website-card-container" class="website-card-container">
+            <!-- Website cards injected by JS -->
+        </div>
+
+    </div>
+    
+    <!-- Error box untuk validasi website selection - akan ditampilkan di footer area -->
+    <div class="modal-error-box" id="modal-error-box">
+        <ul id="modal-error-list"></ul>
+    </div>
+</div>
+<script>
+require([
+    'jquery', 
+    'datatables', 
+    'select2',
+    'Magento_Ui/js/modal/modal'
+], function ($, DataTable, select2, modal) {
+
+// ================= DUMMY WEBSITE DATA =================
+// Nanti bisa diganti AJAX dari backend
+let websiteData = [];
+
+let currentProductId = null;
+let initiallyPublished = [];
+
+// ================= INIT MODAL =================
+var options = {
+    type: 'popup',
+    modalClass: 'custom-centered-modal',
+    responsive: true,
+    innerScroll: true,
+    title: 'Publish Product',
+    buttons: [{
+        text: $.mage.__('Cancel'),
+        class: 'btn-secondary',
+        click: function () {
+            this.closeModal();
+        }
+    }, {
+        text: $.mage.__('Publish Product'),
+        class: 'btn-primary',
+        click: function () {
+            submitPublish();
+        }
+    }]
+};
+
+var publishModal = modal(options, $('#publish-modal'));
+
+// ================= CLEAR ERRORS ON MODAL CLOSE =================
+$('#publish-modal').on('modalclosed', function() {
+    clearModalErrors();
+    $('.price-error').removeClass('show');
+});
+
+
+
+// ================= OPEN MODAL =================
+
+$(document).on('click', '.open-publish-modal', function(){
+
+    const productId = $(this).data('id');
+    const websiteIds = $(this).data('websites');
+
+    $.ajax({
+        url: '<?= $block->getUrl("catalog/products_grid/getPublishData") ?>',
+        type: 'GET',
+        data: { product_id: productId, website_ids: websiteIds },
+        success: function(response){
+
+            if(response.success) {
+                websiteData = response.websites;
+                currentProductId = productId;
+                generateWebsiteCards();
+                $('#publish-modal').modal('openModal');
+                
+                // ================= PINDAHKAN ERROR BOX KE MODAL FOOTER =================
+                setTimeout(() => {
+                    const errorBox = $('#modal-error-box');
+                    const modalFooter = $('.modal-footer');
+                    
+                    if(errorBox.length && modalFooter.length) {
+                        errorBox.prependTo(modalFooter);
+                    }
+                }, 100);
+            }
+        }
+    });
+});
+
+function getAvailabilityHtml(status, initialStatus, isDefaultCountryPublished = true) {
+
+    if (status == 1 && initialStatus == 1) {
+        return `
+            <div class="publish-info info-available">
+                This product is published and available in this country.
+            </div>
+        `;
+    }
+
+    if (status == 1 && initialStatus != 1) {
+        return `
+            <div class="publish-info info-will-available">
+                This product will be published and available in this country after saving the changes.
+            </div>
+        `;
+    }
+
+    if (status != 1 && initialStatus == 1) {
+        return `
+            <div class="publish-info info-will-removed">
+                This product will be unpublished and no longer available in this country after saving the changes.
+            </div>
+        `;
+    }
+
+    if (!isDefaultCountryPublished) {
+        return `
+            <div class="publish-info info-not-available">
+                Please set the Default Country status to Published and enter the product price first.
+            </div>
+        `;
+    }
+
+    return `
+        <div class="publish-info info-not-available">
+            This product is currently unpublished and not available in this country.
+        </div>
+    `;
+}
+
+function generateWebsiteCards() {
+
+    const container = $('#website-card-container');
+    container.empty();
+
+    const samePrice = $('#same-price-toggle').is(':checked');
+    initiallyPublished = [];
+
+    websiteData.forEach(site => {
+        if (!site.allowed) {
+            return;
+        }
+        const checkedAttr = site.published ? 'checked' : '';
+        const disabledAttr = site.allowed ? '' : 'disabled';
+        const priceValue = site.price ? site.price : '';
+        const lockedClass = site.is_default_country_published || site.is_default ? '' : 'locked';
+        // const lockedClass = false;
+
+        const isPublished = site.published == 1;
+        const isDefaultCountryPublished = site.is_default_country_published || site.is_default ? true : false;        
+
+        if (site.published == 1) {
+            initiallyPublished.push(site.name);
+        }
+
+        const initialStatus = isPublished ? 1 : 2;
+
+const availabilityHtml = getAvailabilityHtml(initialStatus, initialStatus, isDefaultCountryPublished);
+
+
+const card = `
+    <div class="website-card ${lockedClass}" data-id="${site.id}" data-initial-status="${initialStatus}">
+        <div class="website-card-header">
+            <div class="website-card-title">
+                ${site.name}
+                <span class="currency-info">(${site.currency})${site.is_default ? ' - Default Country' : ''}</span>
+            </div>
+        </div>
+
+        <div class="website-card-price">
+            <div class="publish-input-container">
+
+                <!-- STATUS -->
+                <div>
+                    <div class="input-label">Status:</div>
+                    <select class="select2-without-search status-select" 
+                            data-id="${site.id}" ${lockedClass ? 'disabled' : ''}>
+                        <option value="2" ${!isPublished ? 'selected' : ''}>Draft</option>
+                        <option value="1" ${isPublished ? 'selected' : ''}>Published</option>
+                    </select>
+                </div>
+
+                <!-- PRICE -->
+                <div class="price-container" 
+                     data-id="${site.id}" 
+                     style="width:100%;">
+                    <div class="input-label">Price:</div>
+                    <div class="price-wrapper" data-currency="${site.currency}">
+                        <input 
+                            type="text"
+                            class="price-input"
+                            data-id="${site.id}"
+                            value="${priceValue}"
+                            ${!isPublished ? 'disabled' : ''}
+                        />
+                    </div>
+                    <div class="error-message price-error" data-id="${site.id}">
+                        Price is required for published products.
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+        ${availabilityHtml}
+    </div>
+`;
+
+        container.append(card);
+    });
+
+    $('.select2-without-search').select2({
+        allowClear: false,
+        minimumResultsForSearch: Infinity,
+        width: 'resolve'
+    });
+
+    togglePriceMode();
+    updatePublishInfo();
+}
+
+// Toast notification function
+function showToast(message, type = 'success', duration = 3000) {
+    const toast = $(`
+        <div class="toast-notification ${type}">${message}</div>
+    `);
+    
+    $('body').append(toast);
+    
+    setTimeout(() => {
+        toast.addClass('closing');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, duration);
+}
+
+// Clear modal errors
+function clearModalErrors() {
+    $('#modal-error-box').removeClass('show');
+    $('#modal-error-list').empty();
+}
+
+// Show modal errors
+function showModalErrors(errors) {
+    const errorList = $('#modal-error-list');
+    errorList.empty();
+    
+    errors.forEach(error => {
+        errorList.append(`<li>${error}</li>`);
+    });
+    
+    $('#modal-error-box').addClass('show');
+}
+
+// Validate prices before submit
+function validatePublishData() {
+    const errors = [];
+    let hasPublishedWebsites = false;
+    
+    $('.website-card').each(function () {
+        const siteId = $(this).data('id');
+        const status = $(`.status-select[data-id="${siteId}"]`).val();
+        const price  = $(`.price-input[data-id="${siteId}"]`).val();
+        const priceError = $(this).find(`.price-error[data-id="${siteId}"]`);
+        const $priceInput = $(this).find(`.price-input[data-id="${siteId}"]`);
+        
+        if (status == 1) {
+            hasPublishedWebsites = true;
+            if (!price) {
+                // Tampilkan error di bawah input field
+                priceError.text('Price is required for published website.').addClass('show');
+                $priceInput.addClass('error');
+            } else {
+                priceError.removeClass('show');
+                $priceInput.removeClass('error');
+            }
+        } else {
+            priceError.removeClass('show');
+            $priceInput.removeClass('error');
+        }
+    });
+    
+    // Hanya validasi untuk "select at least one country" di banner
+    if (!hasPublishedWebsites) {
+        errors.push('Please select at least one country with Published status.');
+    }
+    
+    return {
+        valid: errors.length === 0 && $('.price-error.show').length === 0,
+        errors: errors
+    };
+}
+
+let convertTimer;
+
+$(document).on('input', '.price-input', function(){
+
+    clearTimeout(convertTimer);
+
+    const card = $(this).closest('.website-card');
+
+    const isDefault = card.find('.currency-info').text().includes('Default Country');
+
+    if(!isDefault){
+        return;
+    }
+
+    const price = $(this).val();
+
+    if(!price){
+        return;
+    }
+
+    convertTimer = setTimeout(function(){
+
+        const baseCurrency = card.find('.price-wrapper').data('currency');
+
+        let targetCurrencies = [];
+
+        $('.website-card').each(function(){
+
+            const currency = $(this).find('.price-wrapper').data('currency');
+
+            if(currency !== baseCurrency){
+                targetCurrencies.push(currency);
+            }
+
+        });
+
+        convertCurrency(price, baseCurrency, targetCurrencies);
+
+    }, 400);
+
+});
+
+function convertCurrency(price, baseCurrency, targetCurrencies){
+
+    // show loader
+    $('.website-card').each(function(){
+
+        const currency = $(this).find('.price-wrapper').data('currency');
+
+        if(currency !== baseCurrency){
+            $(this).find('.price-wrapper').addClass('price-loading');
+        }
+
+    });
+
+    $.ajax({
+        url: '<?= $block->getUrl("catalog/products_grid/convertCurrency") ?>',
+        type: 'POST',
+        data: {
+            price: price,
+            base_currency: baseCurrency,
+            currencies: targetCurrencies
+        },
+        success: function(response){
+
+            if(!response.success){
+                return;
+            }
+
+            const prices = response.prices;
+
+            $('.website-card').each(function(){
+
+                const currency = $(this).find('.price-wrapper').data('currency');
+
+                if(prices[currency]){
+
+                    $(this).find('.price-input').val(prices[currency]);
+
+                    // 🔓 UNLOCK COUNTRY
+                    $(this).removeClass('locked');
+
+                    $(this).find('.status-select').prop('disabled', false);
+
+                    // price tetap disabled kalau status Draft
+                    if($(this).find('.status-select').val() == 1){
+                        $(this).find('.price-input').prop('disabled', false);
+                    }
+
+                }
+
+            });
+
+        },
+        complete: function(){
+
+            // remove loader
+            $('.price-wrapper').removeClass('price-loading');
+
+        }
+    });
+}
+
+function updatePublishInfo() {
+
+    let currentPublished = [];
+
+    $('.website-card').each(function () {
+
+        const siteId = $(this).data('id');
+        const status = $(`.status-select[data-id="${siteId}"]`).val();
+        const siteName = $(this)
+            .find('.website-card-title')
+            .clone()
+            .children()
+            .remove()
+            .end()
+            .text()
+            .trim();
+
+        if (status == 1) {
+            currentPublished.push(siteName);
+        }
+    });
+
+    const existingBox = $('.publish-existing');
+    const newBox = $('.publish-new');
+
+    const existingMessage = $('.publish-existing-message');
+    const newMessage = $('.publish-new-message');
+
+    // =============================
+    // 1️⃣ EXISTING (SUDAH PUBLISH)
+    // =============================
+    if (initiallyPublished.length > 0) {
+
+        existingMessage.html(`
+            Saat ini produk ini sudah publish dan tersedia di countries:
+            ${initiallyPublished.join(', ')}
+        `);
+
+        existingBox.show();
+
+    } else {
+        existingBox.hide();
+    }
+
+    // =============================
+    // 2️⃣ NEWLY PUBLISHED
+    // =============================
+
+    const newlyPublished = currentPublished.filter(
+        country => !initiallyPublished.includes(country)
+    );
+
+    if (newlyPublished.length > 0) {
+
+        newMessage.html(`
+            Produk ini akan dipublish ke countries:
+            ${newlyPublished.join(', ')}
+        `);
+
+        newBox.show();
+
+    } else {
+        newBox.hide();
+    }
+}
+
+// Toggle price when status changed
+$(document).on('change', '.status-select', function () {
+
+    const siteId = $(this).data('id');
+    const status = $(this).val();
+
+    const card = $(`.website-card[data-id="${siteId}"]`);
+    const initialStatus = card.data('initial-status');
+    const priceContainer = card.find('.price-input');
+    const priceError = card.find(`.price-error[data-id="${siteId}"]`);
+
+    const infoHtml = getAvailabilityHtml(status, initialStatus);
+
+    card.find('.publish-info').replaceWith(infoHtml);
+
+    if (status == 1) {
+        priceContainer.prop('disabled', false);
+    } else {
+        priceContainer.prop('disabled', true);
+        priceError.removeClass('show');
+    }
+});
+
+// Validate price on input change
+$(document).on('input', '.price-input', function(){
+    
+    const siteId = $(this).data('id');
+    const card = $(`.website-card[data-id="${siteId}"]`);
+    const status = card.find(`.status-select[data-id="${siteId}"]`).val();
+    const priceError = card.find(`.price-error[data-id="${siteId}"]`);
+    const $priceInput = $(this);
+    const value = $priceInput.val();
+    
+    if (status == 1 && !value) {
+        priceError.addClass('show');
+        $priceInput.addClass('error');
+    } else {
+        priceError.removeClass('show');
+        $priceInput.removeClass('error');
+    }
+});
+
+$('#same-price-toggle').on('change', function(){
+    togglePriceMode();
+});
+
+function togglePriceMode() {
+
+    const samePrice = $('#same-price-toggle').is(':checked');
+
+    if (samePrice) {
+        const firstPrice = $('.website-price').first();
+
+        $('.website-price').not(firstPrice).prop('disabled', true);
+
+        firstPrice.on('input', function(){
+            const val = $(this).val();
+            $('.website-price').val(val);
+        });
+    } else {
+        $('.website-price').prop('disabled', false);
+        $('.website-price').off('input');
+    }
+}
+
+
+// SUBMIT PUBLISH
+function submitPublish() {
+
+    clearModalErrors();
+    
+    // Validate
+    const validation = validatePublishData();
+    
+    if (!validation.valid) {
+        // Hanya tampilkan modal errors jika ada error yang perlu ditampilkan di banner
+        // (error "Please select at least one country" bukan price error)
+        if (validation.errors.length > 0) {
+            showModalErrors(validation.errors);
+        }
+        return;
+    }
+
+    let publishData = [];
+
+    $('.website-card').each(function () {
+
+        const siteId = $(this).data('id');
+        const status = $(`.status-select[data-id="${siteId}"]`).val();
+        const price  = $(`.price-input[data-id="${siteId}"]`).val();
+
+        // HANYA ambil yg status = Published (1)
+        if (status == 1) {
+            publishData.push({
+                website_id: siteId,
+                status: 1,
+                price: price
+            });
+        }
+
+    });
+
+    // START LOADING
+    const publishBtn = $('.modal-footer .btn-primary');
+    publishBtn.addClass('btn-loading');
+    publishBtn.text('Publishing...');
+
+    $.ajax({
+        url: '<?= $block->getUrl("catalog/products_grid/savePublish") ?>',
+        type: 'POST',
+        data: {
+            product_id: currentProductId,
+            websites: publishData
+        },
+        success: function (response) {
+            if (response.success) {
+                showToast('Product published successfully!', 'success');
+                table.ajax.reload();
+                $('#publish-modal').modal('closeModal');
+            } else {
+                showToast('Error: ' + response.message, 'error');
+            }
+        },
+        error: function() {
+            showToast('An error occurred while publishing the product.', 'error');
+        },
+        complete: function(){
+
+            // STOP LOADING
+            publishBtn.removeClass('btn-loading');
+            publishBtn.text('Publish Product');
+
+        }
+    });
+}
+    
+    // Ubah Filter Select ke Select2
+    $(document).ready(function() {
+        $('.select2-filter').select2({
+            placeholder: "Select option...",
+            allowClear: false,
+            width: 'resolve'
+        });
+    });
+
+    // DEFAULT FILTER (card_game)
+    const defaultFilterField = 'card_game';
+
+    const defaultSelect = $(`.filter-select[data-field="${defaultFilterField}"]`);
+
+    if (defaultSelect.length) {
+        const firstOption = defaultSelect.find('option[value!=""]').first().val();
+        defaultSelect.val(firstOption).trigger('change');
+
+        renderActiveFilters();
+    }
+
+    // FILTERS
+    $('#apply_filters').click(function(){
+        renderActiveFilters();
+
+        table.ajax.reload();
+    });
+
+    $('#active-filters-list').on('click', '.default-filter', function () {
+
+    const field = $(this).data('field');
+    const select = $(`.filter-select[data-field="${field}"]`);
+
+    if (select.length) {
+
+        $('html, body').animate({
+            scrollTop: select.offset().top - 150
+        }, 300);
+
+        setTimeout(function(){
+            select.select2('open');
+        }, 350);
+    }
+});
+
+    // active filters
+    function renderActiveFilters() {
+    const container = $('#active-filters-list');
+    container.find('.active-filter-tag').remove();
+
+    let totalActive = 0;
+    let nonDefaultActive = 0;
+
+    $('.filter-input, .filter-select').each(function () {
+        const field = $(this).data('field');
+        const value = $(this).val();
+        const label = $(this).closest('.filter-group').find('label').text();
+
+        if (value) {
+            totalActive++;
+
+            let displayValue = value;
+
+            if ($(this).is('select')) {
+                displayValue = $(this).find('option:selected').text();
+            }
+
+            if (field === defaultFilterField) {
+                container.append(`
+                    <span class="active-filter-tag default-filter"
+                        data-field="${field}"
+                        title="Click to change filter">
+                        ${label}: ${displayValue}
+                    </span>
+                `);
+            } else {
+                nonDefaultActive++;
+
+                container.append(`
+                    <span class="active-filter-tag" data-field="${field}">
+                        ${label}: ${displayValue}
+                        <span class="remove-filter">×</span>
+                    </span>
+                `);
+            }
+        }
+    });
+
+    if (totalActive > 0) {
+        $('#active-filters-bar').show();
+    } else {
+        $('#active-filters-bar').hide();
+    }
+
+    // 🔥 LOGIC CLEAR ALL
+    if (nonDefaultActive > 0) {
+        $('#clear-all-filters').show();
+    } else {
+        $('#clear-all-filters').hide();
+    }
+}
+
+    // Clear all filters
+    $('#clear-all-filters').click(function () {
+
+    $('.filter-input').each(function(){
+        if ($(this).data('field') !== defaultFilterField) {
+            $(this).val('');
+        }
+    });
+
+    $('.filter-select').each(function(){
+        if ($(this).data('field') !== defaultFilterField) {
+            $(this).val('').trigger('change');
+        }
+    });
+
+    renderActiveFilters();
+    table.ajax.reload();
+});
+
+    $('#active-filters-list').on('click', '.remove-filter', function () {
+    const tag = $(this).closest('.active-filter-tag');
+    const field = tag.data('field');
+
+    if (field === defaultFilterField) {
+        return; // 🔥 block default filter
+    }
+
+    const input = $(`.filter-input[data-field="${field}"], 
+                     .filter-select[data-field="${field}"]`);
+
+    input.val('').trigger('change');
+
+    renderActiveFilters();
+    table.ajax.reload();
+});
+
+    const baseUrl = "<?= $block->getUrl('catalog/products_grid/productsData') ?>";
+    const editBaseUrl = "<?= $block->getUrl('catalog/product/edit') ?>";
+    const duplicateBaseUrl = "<?= $block->getUrl('catalog/product/duplicate') ?>";
+
+    let currentTab = '<?= $tabs && count($tabs) ? $tabs[0]['tab_value'] : '' ?>';
+
+    $(document).on('click', '.switch-tab', function(){
+
+        $('.switch-tab').removeClass('active');
+
+        $(this).addClass('active');
+
+        currentTab = $(this).data('code');
+
+        table.ajax.reload();
+
+    });
+
+    // INIT DATATABLES
+    const table = $('#seller-table').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 10,
+        lengthMenu: [10, 25, 50, 100],
+        autoWidth: false,
+        info: true,
+        scrollX: true,
+        order: [],
+        ajax: {
+            url: baseUrl,
+            type: 'GET',
+            data: function (d) {
+                d.tab = {};
+                
+                d.tab['attribute_code'] = 'card_product_type';
+                d.tab['active_tab'] = currentTab;
+
+                d.filters = {};
+
+    $('.filter-input, .filter-select').each(function () {
+        const field = $(this).data('field');
+        const value = $(this).val();
+
+        if (value) {
+            d.filters[field] = {
+                value: value,
+                type: 'select'
+            };
+        }
+    });
+
+    // 🔥 paksa default filter selalu ada
+    const defaultValue = defaultSelect.val();
+    if (defaultValue) {
+        d.filters[defaultFilterField] = {
+            value: defaultValue,
+            type: 'select'
+        };
+    }
+
+                d.category = '<?= $block->getRequestParam('category') ?>';
+            }
+        },
+        dom: "<'dt-top'<'dt-left'l pc><'dt-right'f i>>" + "t" + "<'dt-bottom'<'dt-pagination'p>>",
+        language: {
+            lengthMenu: "_MENU_ per page",
+            search: "",
+            searchPlaceholder: "Search by keyword...",
+            info: "Showing _START_ to _END_ of _TOTAL_ items",
+            infoEmpty: "No data found.",
+            emptyTable: "No products available.",
+            zeroRecords: "No matching products found.",
+            infoFiltered: "(filtered from _MAX_ total items)",
+            paginate: {
+                previous: "<",
+                next: ">"
+            },  
+        },
+        columns: [
+            {
+                data: 'entity_id',
+                orderable: false,
+                className: 'dt-checkbox-col no-sort',
+                width: '40px',
+                render: function (data) {
+                    return `
+                        <label class="custom-check">
+                            <input type="checkbox" class="row-checkbox" value="${data}">
+                            <span class="checkmark"></span>
+                        </label>
+                    `;
+                }
+            },
+            {
+                data: 'thumbnail',
+                orderable: false,
+                render: function (data) {
+                    return `<img src="${data}" style="width:60px;height:60px;object-fit:contain;">`;
+                }
+            },
+            <?php if ($productListingColumnAttributes) : ?>
+                <?php foreach ($productListingColumnAttributes as $column) : ?>
+                    <?php $attrCode = $column['attribute_code'] ?? null; ?>
+                    { data: '<?= $attrCode ?>' },
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            // Default Columns like name, sku, etc
+            <?php if ($defaultColumns) : ?>
+                <?php foreach ($defaultColumns as $column) : ?>
+                    { data: '<?= $column['attr_code'] ?>',<?= $column['is_wrap_col'] ? "className: 'wrap-col'" : "" ?> },
+                <?php endforeach; ?>
+            <?php endif; ?>
+            {
+                data: 'entity_id',
+                orderable: false,
+                className: 'dt-button-col no-sort',
+                render: function (data) {
+                    return `
+                        <a href="${editBaseUrl}id/${data}/"
+                        title="Edit Product"
+                        class="listing-button button-primary">
+                            <span>
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    `;
+                }
+            },
+            {
+                data: 'entity_id',
+                orderable: false,
+                className: 'dt-button-col no-sort',
+                render: function (data) {
+                    return `
+                        <a href="${duplicateBaseUrl}id/${data}/"
+                        title="Edit Product"
+                        class="listing-button button-primary">
+                            <span>
+                                <i class="fa fa-files-o" aria-hidden="true" title="Duplicate Product"></i>
+                            </span>
+                        </a>
+                    `;
+                }
+            },
+            {
+                data: null,
+                orderable: false,
+                className: 'dt-button-col no-sort',
+                render: function (row) {
+
+                    const websiteIds = JSON.stringify(row.website_ids);
+
+                    return `
+                        <button 
+                            class="publish-button listing-button button-primary open-publish-modal"
+                            data-id="${row.entity_id}"
+                            data-websites='${websiteIds}'
+                        >
+                            Publish
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    /* ========== EXPORT TO CSV ========== */
+    $('#export-csv').on('click', function () {
+        const params = new URLSearchParams();
+
+        params.append('status', $('#status-filter').val());
+        params.append('category', $('#category-filter').val());
+
+        const searchValue = $('#seller-table_filter input').val();
+        if (searchValue) {
+            params.append('search', searchValue);
+        }
+        
+        window.location.href = "<?= $block->getUrl('catalog/products_grid/exportCsv') ?>?" + params.toString();
+    });
+
+    /* ========== MASS ACTION DELETE ========== */
+    $('#mass-delete').on('click', function () {
+        if (selectAllGlobal) {
+            $.post(deleteUrl, {
+                select_all: 1,
+                status: $('#status-filter').val(),
+                category: $('#category-filter').val()
+            }, function () {
+                table.ajax.reload();
+            });
+
+        } else {
+            $.post(deleteUrl, {
+                ids: Array.from(selectedIds)
+            }, function () {
+                table.ajax.reload();
+            });
+        }
+    });
+
+    /* ========== CHECKBOX ========== */
+    let selectedIds = new Set();
+    let selectAllGlobal = false;
+    
+    const dropdown = document.getElementById("bulkDropdown");
+    const menu = dropdown.querySelector(".dropdown-menu");
+    const checkbox = document.getElementById("select-page");
+
+    // Update selected count
+    function updateSelectedCount() {
+        // alert('pl');
+        if (selectAllGlobal) {
+            const total = table.page.info().recordsDisplay;
+            $('#selected-count-container').show();
+            $('#selected-count').text(total + ' selected');
+        } else {
+            $('#selected-count-container').show();
+            $('#selected-count').text(selectedIds.size + ' selected');
+        }
+
+        if (!selectedIds.size) {
+            $('#selected-count-container').hide();
+        }
+    }
+
+    // Update select all / deselect all label
+    function updateBulkLabel() {
+        const item = $('#bulkDropdown .dropdown-item');
+
+        const totalRows   = $('.row-checkbox').length;
+        const checkedRows = $('.row-checkbox:checked').length;
+
+        const allChecked = totalRows > 0 && totalRows === checkedRows;
+
+        if (selectAllGlobal) {
+            item.text('Deselect all');
+            item.attr('data-value', 'none');
+        } else {
+            item.text('Select all');
+            item.attr('data-value', 'all');
+        }
+    }
+
+    // handle single check on checkbox
+    $(document).on('change', '.row-checkbox', function () {
+        const id = $(this).val();
+
+        if ($(this).is(':checked')) {
+            selectedIds.add(id);
+        } else {
+            selectedIds.delete(id);
+            selectAllGlobal = false;
+        }
+
+        updateSelectedCount();
+    });
+    
+    // Toggle menu
+    dropdown.addEventListener("click", function(e) {
+        e.stopPropagation();
+        menu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", function() {
+        menu.classList.remove("show");
+    });
+
+    // Klik item
+    $('#bulkDropdown').on('click', '.dropdown-item', function (e) {
+        e.stopPropagation();
+
+        const value = $(this).attr('data-value');
+        if (value === 'all') {
+            selectAllGlobal = true;
+            selectedIds.clear();
+            
+            $('#select-page').prop('checked', true).change();
+        }
+
+        if (value === 'none') {
+            selectAllGlobal = false;
+            selectedIds.clear();
+            
+            $('#select-page').prop('checked', false).change();
+        }
+
+        updateSelectedCount();
+        updateBulkLabel();
+
+        $('.dropdown-menu').hide();
+    });
+
+    // ketika select-all diklik
+    $('#select-all').on('change', function () {
+        $('.row-checkbox').prop('checked', this.checked);
+        updateSelectedCount();
+        updateBulkLabel();
+    });
+
+    // reload saat dropdown berubah
+    $('#status-filter, #category-filter').on('change', function () {
+        table.ajax.reload();
+    });
+
+    // Append Element For Selected Items Count
+    table.on('init', function () {
+        $('.dt-info').append(' <span id="selected-count-container" style="display:none">(<span id="selected-count">0 items selected</span>)</span>');
+    });
+
+    table.on('draw', function () {
+        if (selectAllGlobal) {
+            $('.row-checkbox').prop('checked', true);
+            $('#select-page').prop('checked', true);
+        } else {
+            $('.row-checkbox').each(function () {
+                const id = $(this).val();
+                $(this).prop('checked', selectedIds.has(id));
+            });
+            const allChecked = $('.row-checkbox').length > 0 && $('.row-checkbox:checked').length === $('.row-checkbox').length;
+            $('#select-page').prop('checked', allChecked);
+        }
+        updateSelectedCount();
+        updateBulkLabel();
+    });
+
+    // Handle click on checkbox
+    $('#select-page').on('click', function () {
+        selectAllGlobal = false;
+    });
+    $('#select-page').on('change', function () {
+        const checked = this.checked;
+        if (checked) {
+            $('.row-checkbox').each(function () {
+                const id = $(this).val();
+                selectedIds.add(id);
+            });
+            $('.row-checkbox').prop('checked', true);
+        } else {
+            selectedIds.clear();
+            $('.row-checkbox').prop('checked', false);
+        }
+        updateSelectedCount();
+        updateBulkLabel();
+    });
+});
+</script>

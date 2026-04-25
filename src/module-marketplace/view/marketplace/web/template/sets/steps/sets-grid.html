@@ -1,0 +1,55 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="fieldset-wrapper admin__collapsible-block-wrapper opened" data-bind="mageInit: {'collapsible':{'active':true,'openedState':'opened'}}">
+    <div class="fieldset-wrapper-content in collapse" data-role="content" data-collapsed="true" data-bind="attr: {id: id}">
+        <!-- ko template: {
+            name: "ui/grid/filters/filters", data: filters
+            } -->
+        <!-- /ko -->
+        <br />
+        <!-- ko template: {
+            name: "ui/grid/paging/paging", data: paging
+            } -->
+        <!-- /ko -->
+        <br />
+        <br />
+        <br />
+        <table class="data-grid data-grid-configurable">
+            <thead>
+            <tr>
+                <th class="data-grid-th"></th>
+                <th repeat="foreach: grid.columns, item: '$column'" class="data-grid-th" data-bind="text: $column"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr repeat="foreach: grid, item: '$product'">
+                <!-- ko foreach: { data: $product(), as: 'property' } -->
+                <td if="property.is_checkbox" data-bind="click: handleSelectRow($product()), template: getBody()" class="data-grid-checkbox-cell">
+                    <label class="data-grid-checkbox-cell-inner">
+                        <input class="admin__control-checkbox" type="checkbox" data-action="select-row" data-bind="
+                                attr: {
+                                    value: property.entity_id
+                                }">
+                        <label></label>
+                    </label>
+                </td>
+                <td if="property.preview" class="data-grid-thumbnail-cell">
+                    <div class="images-uploaded">
+                        <img data-bind="attr: {src: property.preview}"/>
+                    </div>
+                </td>
+                <td ifnot="property.preview || property.is_checkbox">
+                    <span data-bind='text: property'></span>
+                </td>
+                <!-- /ko -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

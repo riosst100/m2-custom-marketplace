@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="custom_marketplace" translate="label" class="custom_marketplace" sortOrder="100">
+            <label>TCG Collective</label>
+        </tab>
+        <section id="marketplace_categories" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Menu/Top Filters Configuration</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="subcategories_configuration" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Menu/Top Filters Attributes</label>
+                <field id="subcategories" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menu/Top Filters</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\SubCategoriesConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>You need to select a category and enter the attribute code to display the attribute options for that category in the Megamenu and Top Filters.</comment>
+                </field>
+            </group>
+        </section>
+        <section id="marketplace_catalog" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Catalog Configuration</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="side_filters" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Side Filters</label>
+                <field id="sequence" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Side Filters Attributes Sequence</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\SideFiltersSequence</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="product_details" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Product/Card Details</label>
+                <field id="sequence" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product/Card Details Attributes Sequence</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\ProductDetailsSequence</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="product_information" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Product Information</label>
+                <field id="sequence" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Information Attributes Sequence</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\ProductDetailsSequence</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="prefix_configurations" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Games Prefix</label>
+                <field id="prefix" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brands Prefix Mapping</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\PrefixMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>You can drag &amp; drop to change row position</comment>
+                </field>
+            </group>
+            <group id="brands_prefix_configurations" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Brands Prefix</label>
+                <field id="prefix" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brands Prefix Mapping</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\PrefixMapping</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>You can drag &amp; drop to change row position</comment>
+                </field>
+            </group>
+        </section>
+        <section id="marketplace_age_verification" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Age Verification</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="age_verification" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Age Verification Configurations</label>
+                <field id="enable_by_attribute_option" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Age Verification by Attribute Option</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\AgeVerificationAttributeOptionConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>You can input attribute code, attribute option and status of Age Verification</comment>
+                </field>
+                <!-- <field id="subcategories" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Seller to Enable Age Verification on Product Level</label>
+                    <frontend_model>TCGCollective\MarketPlace\Block\Adminhtml\Form\Field\SubCategoriesConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>You need to select a category and enter the attribute code to display the attribute options for that category in the Megamenu and Top Filters.</comment>
+                </field> -->
+            </group>
+        </section>
+        <section id="marketplace_platform_fee" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Platform Fee</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="platform_fee_config" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Platform Fee Configuration</label>
+                <field id="unit" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Unit</label>
+                    <source_model>TCGCollective\MarketplacePaymentXendit\Model\Config\Source\PlatformFeeUnit</source_model>
+                </field>
+                <field id="currency" translate="label" type="text" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Currency</label>                    
+                </field>
+                <field id="amount" translate="label" type="text" sortOrder="75" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Amount (%)</label>                    
+                </field>
+            </group>
+        </section>
+        <section id="subscription" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Subscription Configuration</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="expiry" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Subscription Expiry</label>
+                <field id="product_listing_display_until" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Listing Display Until (days)</label>
+                </field>
+                <field id="features_available_until" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Features Available Until (days)</label>
+                </field>
+                <field id="reactivate_until" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Can Reactivate Until (days)</label>
+                </field>
+            </group>
+        </section>
+        <section id="categories" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Categories Configuration</label>
+            <tab>landofcoder</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="debug" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Debug</label>
+                <field id="is_debug" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Debug Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="actiontoys" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Action Toys</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ActionToys</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ActionToysBlindboxes</source_model>
+                </field>
+            </group>
+            <group id="anime" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Anime Toys</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\AnimeToys</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\AnimeToys</source_model>
+                </field>
+            </group>
+            <group id="actiontoysmodelkits" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Action Toys Model Kits</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ActionToysModelKits</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ActionToysModelKits</source_model>
+                </field>
+            </group>
+            <group id="animemodelkits" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Anime Model Kits</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\AnimeModelKits</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\AnimeModelKits</source_model>
+                </field>
+            </group>
+            <group id="fungoods" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Fun Goods</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\FunGoods</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\FunGoods</source_model>
+                </field>
+            </group>
+            <group id="fashiondolls" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Fashion Dolls</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Dolls</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Dolls</source_model>
+                </field>
+            </group>
+            <group id="dollsaccessories" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Doll Accessories</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+            </group>
+            <group id="cardgame" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Collectible Card Games</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\CardGames</source_model>
+                </field>
+                <field id="sealedproducts_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sealed Products Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\CardGames</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\CardGames</source_model>
+                </field>
+            </group>
+            <group id="livingcardgame" translate="label" type="text" sortOrder="23" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Living Card Games</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\LivingCardGames</source_model>
+                </field>
+                <field id="sealedproducts_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sealed Products Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\LivingCardGames</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\LivingCardGames</source_model>
+                </field>
+            </group>
+            <group id="sportcards" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Sport Cards</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\SportCards</source_model>
+                </field>
+                <field id="sealedproducts_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sealed Products Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\SportCards</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\SportCards</source_model>
+                </field>
+            </group>
+            <group id="nonsportcards" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Non Sport Cards</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\NonSportCards</source_model>
+                </field>
+                <field id="sealedproducts_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sealed Products Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\SportCards</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\NonSportCards</source_model>
+                </field>
+            </group>
+            <group id="miniaturegame" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Miniature Games</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\MiniatureGame</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\MiniatureGame</source_model>
+                </field>
+            </group>
+            <group id="gamesworkshop" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Games Workshop</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\GamesWorkshop</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\GamesWorkshop</source_model>
+                </field>
+            </group>
+            <group id="bricks" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Bricks</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\ProductTypeOrCategories\Bricks</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\ProductTypeOrCategories\Bricks</source_model>
+                </field>
+            </group>
+            <group id="trains" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Trains</label>
+                <field id="category_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Railway</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Railway</source_model>
+                </field>
+            </group>
+            <group id="railwayaccessories" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Trains Accessories</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+            </group>
+            <group id="modelkitsvehicles" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Model Kits Vehicles</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+            </group>
+            <group id="modelkitsaircrafts" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Model Kits Aircrafts</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+            </group>
+            <group id="modelkitsmilitary" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Model Kits Military</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\ModelKits</source_model>
+                </field>
+            </group>
+            <group id="diecastvehicles" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Diecast Vehicles</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+            </group>
+            <group id="diecastaircrafts" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Diecast Aircrafts</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+            </group>
+            <group id="diecastmilitary" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Diecast Military</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+                <field id="sets_database" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sets/Release Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+                <field id="singles_database" translate="label" type="multiselect" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Singles Database</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\SinglesDatabase\Diecast</source_model>
+                </field>
+            </group>
+            <group id="diecastaccessories" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Diecast Accessories</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+            </group>
+            <group id="hobbysupplies" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Hobby Supplies</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+            </group>
+            <group id="hobbysuppliescardsgames" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Hobby Supplies Cards &amp; Games</label>
+                <field id="category_id" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\Categories</source_model>
+                </field>
+            </group>
+        </section>
+        <section id="pwa" translate="label" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>PWA URL Configuration</label>
+            <tab>general</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="pwa_settings" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PWA Settings</label>
+
+                <field id="pwa_base_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>PWA Store Base URL</label>
+                    <comment>Example: https://preprod.tcgcollective.co</comment>
+                </field>
+            </group>
+        </section>
+        <!-- <section id="plp_configuration" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Products Listing Configuration</label>
+            <tab>custom_marketplace</tab>
+            <resource>Magento_Catalog::config_catalog</resource>
+            <group id="filters" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Filters Configuration</label>
+                <field id="virtual_category" translate="label comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set Filter As Category</label>
+                    <source_model>TCGCollective\MarketPlace\Model\Config\Source\ProductAttributes</source_model>
+                </field>
+            </group>
+		</section> -->
+	</system>
+</config>

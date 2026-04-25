@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="seller_visitor" resource="default" engine="innodb" comment="Visitor Table">
+        <column xsi:type="bigint" name="visitor_id" unsigned="true" nullable="false" identity="true"
+                comment="Visitor ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="false" nullable="true" identity="false"
+                comment="Customer ID"/>
+        <column xsi:type="int" name="seller_id" unsigned="false" nullable="true" identity="false"
+                comment="Seller ID"/>
+        <column xsi:type="varchar" name="session_id" nullable="true" length="1"
+                comment="Deprecated: Session ID value no longer used"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="last_visit_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Last Visit Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="visitor_id"/>
+        </constraint>
+        <index referenceId="SELLER_VISITOR_SELLER_ID" indexType="btree">
+            <column name="seller_id"/>
+        </index>
+        <index referenceId="SELLER_VISITOR_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>
+        <index referenceId="SELLER_VISITOR_LAST_VISIT_AT" indexType="btree">
+            <column name="last_visit_at"/>
+        </index>
+    </table>
+    <!-- <table name="customer_log" resource="default" engine="innodb" comment="Customer Log Table">
+        <column xsi:type="int" name="log_id" unsigned="false" nullable="false" identity="true"
+                comment="Log ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="false" nullable="false" identity="false"
+                comment="Customer ID"/>
+        <column xsi:type="timestamp" name="last_login_at" on_update="false" nullable="true" comment="Last Login Time"/>
+        <column xsi:type="timestamp" name="last_logout_at" on_update="false" nullable="true"
+                comment="Last Logout Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="log_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="CUSTOMER_LOG_CUSTOMER_ID">
+            <column name="customer_id"/>
+        </constraint>
+    </table> -->
+    <!-- ============================= -->
+    <!-- 1. marketplace_product_listing_category_config -->
+    <!-- ============================= -->
+    <table name="marketplace_product_listing_category_config" engine="innodb" comment="Marketplace Category Config">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary ID"/>
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" comment="Magento Category ID"/>
+        <column xsi:type="varchar" name="tab_attribute_code" nullable="false" length="64" comment="Tab Attribute Code"/>
+        <column xsi:type="smallint" name="is_active" nullable="false" default="1" comment="Is Active"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <!-- category_id harus unique -->
+        <constraint xsi:type="unique" referenceId="UNQ_MARKETPLACE_CAT_CONFIG_CATEGORY_ID">
+            <column name="category_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_MARKETPLACE_CAT_CONFIG_CATEGORY"
+                    table="marketplace_product_listing_category_config" column="category_id"
+                    referenceTable="catalog_category_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="marketplace_product_listing_category_column" engine="innodb" comment="Marketplace Category Default Columns">
+
+    <column xsi:type="int" name="entity_id" padding="10" unsigned="true"
+            nullable="false" identity="true" comment="Primary ID"/>
+
+    <column xsi:type="int" name="category_config_id" unsigned="true"
+            nullable="false" comment="Category Config ID"/>
+
+    <column xsi:type="varchar" name="attribute_code"
+            nullable="false" length="64" comment="Product Attribute Code"/>
+
+    <column xsi:type="int" name="sort_order"
+            nullable="false" default="0" comment="Sort Order"/>
+
+    <column xsi:type="smallint" name="is_sortable"
+            nullable="false" default="0" comment="Is Sortable"/>
+
+    <column xsi:type="smallint" name="is_filterable"
+            nullable="false" default="0" comment="Is Filterable"/>
+
+    <column xsi:type="smallint" name="is_visible"
+            nullable="false" default="1" comment="Is Visible"/>
+
+    <!-- PRIMARY KEY -->
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+        <column name="entity_id"/>
+    </constraint>
+
+    <!-- UNIQUE PER CATEGORY -->
+    <constraint xsi:type="unique"
+        referenceId="UNQ_MARKETPLACE_CATEGORY_COLUMN_PER_CATEGORY">
+        <column name="category_config_id"/>
+        <column name="attribute_code"/>
+    </constraint>
+
+    <!-- FOREIGN KEY -->
+    <constraint xsi:type="foreign"
+        referenceId="FK_MARKETPLACE_CATEGORY_COLUMN_CONFIG"
+        table="marketplace_product_listing_category_column"
+        column="category_config_id"
+        referenceTable="marketplace_product_listing_category_config"
+        referenceColumn="entity_id"
+        onDelete="CASCADE"/>
+</table>
+    <!-- ============================= -->
+    <!-- 2. marketplace_product_listing_category_tab -->
+    <!-- ============================= -->
+    <table name="marketplace_product_listing_category_tab" engine="innodb" comment="Marketplace Category Tabs">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary ID"/>
+        <column xsi:type="int" name="category_config_id" unsigned="true" nullable="false" comment="Category Config ID"/>
+        <column xsi:type="varchar" name="tab_value" nullable="false" length="64" comment="Tab Attribute Value"/>
+        <column xsi:type="varchar" name="label" nullable="false" length="128" comment="Tab Label"/>
+        <column xsi:type="int" name="sort_order" nullable="false" default="0" comment="Sort Order"/>
+        <column xsi:type="smallint" name="is_active" nullable="false" default="1" comment="Is Active"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <!-- tab_value unique per category_config_id -->
+        <constraint xsi:type="unique" referenceId="UNQ_MARKETPLACE_TAB_VALUE_PER_CATEGORY">
+            <column name="category_config_id"/>
+            <column name="tab_value"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_MARKETPLACE_TAB_CATEGORY_CONFIG"
+                    table="marketplace_product_listing_category_tab" column="category_config_id"
+                    referenceTable="marketplace_product_listing_category_config" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <!-- ====================================== -->
+    <!-- 3. marketplace_product_listing_category_tab_column -->
+    <!-- ====================================== -->
+    <table name="marketplace_product_listing_category_tab_column" engine="innodb" comment="Marketplace Category Tab Columns">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary ID"/>
+        <column xsi:type="int" name="tab_id" unsigned="true" nullable="false" comment="Tab ID"/>
+        <column xsi:type="varchar" name="attribute_code" nullable="false" length="64" comment="Product Attribute Code"/>
+        <column xsi:type="int" name="sort_order" nullable="false" default="0" comment="Sort Order"/>
+        <column xsi:type="smallint" name="is_sortable" nullable="false" default="0" comment="Is Sortable"/>
+        <column xsi:type="smallint" name="is_filterable" nullable="false" default="0" comment="Is Filterable"/>
+        <column xsi:type="smallint" name="is_visible" nullable="false" default="1" comment="Is Visible"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <!-- attribute_code unique per tab_id -->
+        <constraint xsi:type="unique" referenceId="UNQ_MARKETPLACE_TAB_COLUMN_PER_TAB">
+            <column name="tab_id"/>
+            <column name="attribute_code"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_MARKETPLACE_TAB_COLUMN_TAB"
+                    table="marketplace_product_listing_category_tab_column" column="tab_id"
+                    referenceTable="marketplace_product_listing_category_tab" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <!-- <table name="marketplace_import_fields_information" resource="default" engine="innodb" comment="Import Fields Information">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="attribute_code" nullable="false" comment=""/>
+        <column xsi:type="varchar" name="category_id" nullable="false" comment=""/>
+        <column xsi:type="varchar" name="description" nullable="false" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CR_MP_IMPORT_FELDS_INFORMATION_ATTR_CODE"
+            table="marketplace_import_fields_information" column="attribute_code" referenceTable="eav_attribute"
+            referenceColumn="attribute_code" onDelete="CASCADE" />
+    </table> -->
+    <table name="marketplace_seller_notifications" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="seller_id" nullable="true" comment=""/>
+        <column xsi:type="int" name="is_read" default="0" unsigned="true" identity="false" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="title" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="message" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="url_path" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="marketplace_rabbitmq_queue" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="seller_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="queue_type" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="status" nullable="true" comment=""/>
+        <column xsi:type="text" name="payload" nullable="true" comment=""/>
+        <column xsi:type="int" name="category_id" unsigned="true" identity="false" nullable="true" comment=""/>
+        <column xsi:type="int" name="total_products" unsigned="true" identity="false" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="marketplace_product_variations" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="category_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="attribute_code" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="attribute_option" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="variation_attribute_code" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="description" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="marketplace_seller_payment_accounts" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="seller_id" unsigned="true" nullable="true" identity="false" comment=""/>
+        <column xsi:type="varchar" name="payment_method" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="email" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="business_name" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="account_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="platform_fee_rule_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="status" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="country" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="created_date" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="test_payment_status" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="invoice_webhook_url" nullable="true" comment=""/>
+        <column xsi:type="text" name="create_account_response" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="marketplace_seller_payment_transactions" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="seller_id" unsigned="true" nullable="true" identity="false" comment=""/>
+        <column xsi:type="varchar" name="payment_method" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="status" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="transaction_id" nullable="true" comment=""/>
+        <column xsi:type="text" name="response" nullable="true" comment=""/>
+        <column xsi:type="text" name="redirect_url" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="marketplace_platform_fee" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="seller_id" unsigned="true" nullable="true" identity="false" comment=""/>
+        <column xsi:type="varchar" name="payment_method" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="rule_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="name" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="description" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="currency" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="destination_account_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="reference_id" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="amount" nullable="true" comment=""/>
+        <column xsi:type="varchar" name="unit" nullable="true" comment=""/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>

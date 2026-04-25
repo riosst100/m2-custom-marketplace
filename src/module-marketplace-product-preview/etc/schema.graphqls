@@ -1,0 +1,20 @@
+type Query {
+    route(
+        url: String! @doc(description: "A `url_key` appended by the `url_suffix, if one exists."), 
+        product_preview_token: String
+    ): RoutableInterface 
+    @resolver(class: "Magento\\UrlRewriteGraphQl\\Model\\Resolver\\Route") 
+    @doc(description: "Return the full details for a specified product, category, or CMS page.") 
+    @cache(cacheIdentity: "Magento\\UrlRewriteGraphQl\\Model\\Resolver\\UrlRewrite\\UrlResolverIdentity")
+    products(
+        product_preview_token: String,
+        search: String @doc(description: "One or more keywords to use in a full-text search."),
+        filter: ProductAttributeFilterInput @doc(description: "The product attributes to search for and return."),
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default value is 20."),
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default value is 1."),
+        sort: ProductAttributeSortInput @doc(description: "Specifies which attributes to sort on, and whether to return the results in ascending or descending order.")
+    ): Products
+    @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Products") 
+    @doc(description: "Search for products that match the criteria specified in the `search` and `filter` attributes.") 
+    @cache(cacheIdentity: "Magento\\CatalogGraphQl\\Model\\Resolver\\Product\\Identity")
+}

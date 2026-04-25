@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\MiniatureGameMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/miniaturegame-wizard-ajax.phtml" as="miniaturegame.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">miniaturegame.setsModal</item>
+                    <item name="nameStepWizard" xsi:type="string">select-miniaturegame-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormMiniatureGameSets</item>
+                </argument>
+            </arguments>
+            <block class="TCGCollective\MarketPlace\Block\Component\MiniatureGameStepsWizard" name="select-miniaturegame-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">miniaturegame.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormMiniatureGameSets</item>
+                    </argument>
+                </arguments>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\MiniatureGameSelectSets" name="step1" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_miniaturegame_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">miniaturegame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">miniaturegame_sets_listing.miniaturegame_sets_listing.miniaturegame_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">miniaturegame_sets_listing.miniaturegame_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormMiniatureGameSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="miniaturegame_sets_listing"/>
+                </block>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\MiniatureGameSelectSingles" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_miniaturegame_singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">miniaturegame.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">miniaturegame_singles_listing.miniaturegame_singles_listing.miniaturegame_singles_columns.ids</item>
+                            <item name="providerName" xsi:type="string">miniaturegame_singles_listing.miniaturegame_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormMiniatureGameSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="miniaturegame_singles_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

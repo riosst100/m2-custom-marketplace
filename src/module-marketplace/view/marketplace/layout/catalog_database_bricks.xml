@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Edit\Tab\Sets\Config\LegoMatrix" template="TCGCollective_MarketPlace::catalog/product/edit/super/lego-wizard-ajax.phtml" as="legosets.wizard">
+            <arguments>
+                <argument name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true" />
+                    <item name="sortOrder" xsi:type="string">3333</item>
+                    <item name="canShow" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">fieldset</item>
+                    <item name="form" xsi:type="string">product_form.product_form</item>
+                    <item name="modal" xsi:type="string">legosets.setsModal</item>
+                    <item name="nameStepWizard" xsi:type="string">select-legosets-sets-steps-wizard</item>
+                    <item name="dataScope" xsi:type="string">productFormLegoSets</item>
+                </argument>
+            </arguments>
+            <block class="TCGCollective\MarketPlace\Block\Component\LegoStepsWizard" name="select-legosets-sets-steps-wizard">
+                <arguments>
+                    <argument name="config" xsi:type="array">
+                        <item name="form" xsi:type="string">product_form.product_form</item>
+                        <item name="modal" xsi:type="string">legosets.setsModal</item>
+                        <item name="dataScope" xsi:type="string">productFormLegoSets</item>
+                    </argument>
+                </arguments>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\LegoSelectSets" name="step1" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_lego_sets.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">legosets.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">lego_sets_listing.lego_sets_listing.lego_sets_columns.ids</item>
+                            <item name="providerName" xsi:type="string">lego_sets_listing.lego_sets_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormLegoSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="lego_sets_listing"/>
+                </block>
+                <block class="TCGCollective\MarketPlace\Block\Adminhtml\Product\Steps\LegoSelectSingles" name="step2" template="TCGCollective_MarketPlace::catalog/product/edit/sets/steps/select_lego_singles.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="form" xsi:type="string">product_form.product_form</item>
+                            <item name="modal" xsi:type="string">legosets.setsModal</item>
+                            <item name="multiselectName" xsi:type="string">lego_singles_listing.lego_singles_listing.lego_singles_columns.ids</item>
+                            <item name="providerName" xsi:type="string">lego_singles_listing.lego_singles_listing_data_source</item>
+                            <item name="dataScope" xsi:type="string">productFormLegoSets</item>
+                        </argument>
+                    </arguments>
+                    <uiComponent name="lego_singles_listing"/>
+                </block>
+            </block>
+        </block>
+    </container>
+</layout>

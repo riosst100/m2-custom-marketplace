@@ -1,0 +1,131 @@
+<?php
+/**
+ * Landofcoder
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Landofcoder.com license that is
+ * available through the world-wide-web at this URL:
+ * https://landofcoder.com/terms
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category   Landofcoder
+ * @package    Lofmp_SellerMembership
+ * @copyright  Copyright (c) 2021 Landofcoder (https://www.landofcoder.com/)
+ * @license    https://landofcoder.com/terms
+ */
+$seller = $this->getSeller();
+$status = $seller->getStatus();
+$group = $this->getGroup()->getData();
+$option = [];
+$styles = '';
+if ($status != 1 || !$group || $group && $group['can_add_product'] == 0) {
+    $styles .=  'li.item-simple-product,li.item-virtual-product,li.item-configurable-product { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_cancel_order'] == 0) {
+    $styles .=  'button.lof_cancel_order { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_create_invoice'] == 0) {
+    $styles .=  'button.lof_invoice { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_create_shipment'] == 0) {
+     $styles .=  'button.lof_ship { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['hide_payment_info'] == 1) {
+     $styles .=  '.row.payment-info { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['hide_customer_email'] == 1) {
+    $styles .=  '.invoice-col.customer-info { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_shipping'] == 0) {
+    $styles .=  '#menu-lof-marketplace-shipping a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_submit_order_comments'] == 0) {
+     $option[] = __('Can submit order comments');
+}
+if ($status != 1 || !$group || $group && $group['can_use_message'] == 0) {
+    $styles .=  '#menu-lof-marketplace-message a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_review'] == 0) {
+    $styles .=  '#menu-lof-marketplace-review a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_rating'] == 0) {
+    $styles .=  '#menu-lof-marketplace-rating a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_import_export'] == 0) {
+    $styles .=  '#menu-lof-marketplace-upload a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_vacation'] == 0) {
+    $styles .=  '#menu-lof-marketplace-vacation a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && $group['can_use_report'] == 0) {
+    $styles .=  '#menu-lof-marketplace-report a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && isset($group['can_use_auction']) && $group['can_use_auction'] == 0) {
+    $styles .=  '#menu-lofmp-auction-auction a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && isset($group['can_use_preorder']) && $group['can_use_preorder'] == 0) {
+    $styles .=  '#menu-lofmp-preorder-mppreorder-management a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && isset($group['can_use_permissions']) && $group['can_use_permissions'] == 0) {
+    $styles .=  '#menu-lof-marketpermissions-permissions a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group || $group && isset($group['can_use_price_comparison']) && $group['can_use_price_comparison'] == 0) {
+    $styles .=  '#menu-lofmp-pricecomparison-price a { color:#5e6872 !important; }';
+}
+if ($status != 1 || !$group) {
+    $styles .=  '#menu-lofmp-chatsystem-chatsystem a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-deliveryslot-deliveryslot a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-rma-rma a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-featuredproducts-featured-products a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-favoriteseller-favorite-seller a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-slider-slider a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-quickrfq-quickrfq a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-faq-faq a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-couponcode-coupon a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lof-marketplace-catalog a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lof-marketplace-sales a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lof-marketplace-profile a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lof-marketplace-dashboard a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-sales a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-catalog-products a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-productattributeslink-sets-database a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-catalog-add-products a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-my-configurable-products a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-chat-messages a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplacesellercustomers-customers a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-rating-review a { color:#5e6872 !important; }';
+    $styles .=  '#menu-lofmp-storelocator-seller-locator a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-configurations a { color:#5e6872 !important; }';
+    $styles .=  '#DDDDDDDDDDDDDDDDDDDDDD a { color:#5e6872 !important; }';
+    $styles .=  '#DDDDDDDDDDDDDDDDDDDDDD a { color:#5e6872 !important; }';
+    $styles .=  '#menu-coremarketplace-marketplace-profile a { color:#5e6872 !important; }';
+}
+if ($status != 1 && $seller->getRegistrationStep() != "membership") {
+    $styles .=  '#menu-coremarketplace-sellermembership-membership a { color:#5e6872 !important; }';
+}
+if ($status != 1 && $seller->getNextStep() != "payment" && $seller->getRegistrationStep() != "payment" && $seller->getRegistrationStep() != "membership") {
+    $styles .=  '#menu-coremarketplace-marketplace-payment a { color:#5e6872 !important; }';
+}
+if ($seller->getNextStep() == "payment" || $seller->getRegistrationStep() == "payment" || $seller->getRegistrationStep() == "membership" || $seller->getRegistrationStep() == "shipment") {    
+    $styles .=  '#menu-coremarketplace-marketplace-payment li.item-payment-methods-configurations a {color: white !important;}';
+    $styles .=  '#menu-coremarketplace-marketplace-payment .submenu a {color: #5e6872 !important;}';
+}
+if ($seller->getRegistrationStep() != "finish") {
+    $styles .=  '.item-listingcountry-membership .submenu .child_menu .item-my-listingcountry-membership span  { color: #5e6872 !important; }';
+    $styles .=  '.item-listingcountry-membership .submenu .child_menu .item-listingcountry-membership-history span  { color: #5e6872 !important; }';
+}
+if ($seller->getRegistrationStep() != "verification" 
+    && $seller->getRegistrationStep() != "verification_address" 
+    && $seller->getRegistrationStep() != "verification_membership"
+) {
+    // $styles .=  '#menu-coremarketplace-selleridentificationapproval-verification { display:none !important; }';
+}
+?>
+<style>
+    <?= $styles; ?>
+</style>

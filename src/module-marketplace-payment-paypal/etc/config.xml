@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <lofmp_payment>
+            <payment>
+                <methods>
+                    <paypal>
+                        <model>TCGCollective\MarketplacePaymentPaypal\Model\Config\Payment\Methods\Paypal</model>
+                        <config_path>carriers/paypal/active</config_path>
+                    </paypal>
+                </methods>
+            </payment>
+        </lofmp_payment>
+        <carriers>
+            <paypal>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>TCGCollective\MarketplacePaymentPaypal\Model\Carrier</model>
+                <name>MarketPlace Paypal Payment</name>
+                <title>MarketPlace Paypal</title>
+                <specificerrmsg>This shipping method is currently unavailable. If
+                  you would like to ship using this shipping method, please contact
+                  us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </paypal>
+        </carriers>
+    </default>
+</config>

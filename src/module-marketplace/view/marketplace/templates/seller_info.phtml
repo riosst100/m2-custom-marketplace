@@ -1,0 +1,9 @@
+<div class="page messages">
+    <div class="messages">
+        <div class="alert alert-info notice alert-dismissable">
+            <span style="font-size:14px" class="custom-message-info">
+                <span style="margin-right:10px"><i class="far fa-lightbulb"></i></span><?= $this->getInstruction() ?> <a href="<?= str_replace("marketplace/", "", $block->getUrl('documentation/' . $this->getDocsUrlPath())) ?>" style="font-weight:500;text-decoration:underline;"><?= $this->getDocsLabel() ?></a>
+            </span>
+        </div>
+    </div>
+</div>

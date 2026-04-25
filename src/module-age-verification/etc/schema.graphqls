@@ -1,0 +1,69 @@
+"""Age verification config returned to frontend"""
+type AgeVerificationConfig {
+  enabled: Boolean
+  verifyType: String
+  verifyAge: String
+  popupTitle: String
+  popupDescription: String
+  buttonCancelText: String
+  buttonConfirmText: String
+  buttonRedirectUrl: String
+  popupIcon: String
+  textColor: String
+  backgroundColor: String
+  overlayColor: String
+  buttonCancelTextColor: String
+  buttonCancelBackgroundColor: String
+  buttonConfirmTextColor: String
+  buttonConfirmBackgroundColor: String
+  cookieLifetime: Int
+  isRequiredLogin: Boolean
+  appliedCategoryIds: [Int]
+  cmsPageIdentifiers: [String]
+  appliedStoreIds: [Int]
+  addToCartSelector: String
+  productItemSelector: String
+  purchaseNotice: String
+  purchaseMessage: String
+  loginNotice: String
+  preventNotice: String
+  mediaBaseUrl: String
+}
+
+type AgeVerificationProductResult {
+  useSpecific: Boolean
+  preventView: Boolean
+  preventPurchase: Boolean
+  verifyAge: String
+  isRequiredLoginAndValidAge: Boolean
+}
+
+type SaveDobResult {
+  success: Boolean
+  message: String
+}
+
+type SetCookieResult {
+  success: Boolean
+  message: String
+}
+
+extend type Query {
+  """Get age verification module config for a store"""
+  lofAgeVerificationConfig(storeId: Int): AgeVerificationConfig
+    @resolver(class: "TCGCollective\\AgeVerification\\Model\\Resolver\\Config")
+
+  """Check age verification status for a product by SKU"""
+  lofAgeVerificationProductCheck(sku: String!, storeId: Int): AgeVerificationProductResult
+    @resolver(class: "TCGCollective\\AgeVerification\\Model\\Resolver\\ProductCheck")
+}
+
+extend type Mutation {
+  """Save customer date of birth (must be logged in) - input format YYYY-MM-DD"""
+  lofAgeVerificationSaveDob(dob: String!): SaveDobResult
+    @resolver(class: "TCGCollective\\AgeVerification\\Model\\Resolver\\SaveDob")
+
+  """Set age cookie (for anonymous visitor); PWA can also set cookie client-side"""
+  lofAgeVerificationSetAgeCookie(age: Int!, lifetime: Int): SetCookieResult
+    @resolver(class: "TCGCollective\\AgeVerification\\Model\\Resolver\\SetAgeCookie")
+}

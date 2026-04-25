@@ -35,7 +35,6 @@
         "src/module-seller-membership/registration.php",
         "src/module-seller-identification-approval/registration.php",
         "src/module-platform-database/registration.php",
-        "src/theme-frontend-tcg/registration.php",
         "src/module-marketplace-gdpr/registration.php",
         "src/module-marketplace-others-fee/registration.php",
         "src/module-preorder/registration.php",
@@ -53,7 +52,9 @@
         "src/module-marketplace-seller-chat/registration.php",
         "src/module-marketplace-payment-paypal/registration.php",
         "src/module-marketplace-payment-airwallex/registration.php",
-        "src/module-marketplace-theme/registration.php"
+        "src/module-age-verification/registration.php",
+        "src/module-marketplace-theme/registration.php",
+        "src/theme-frontend-tcg/registration.php"
       ],
       "psr-4": {
         "TCGCollective\\MarketPlace\\": "src/module-marketplace",
@@ -79,6 +80,7 @@
         "TCGCollective\\MarketplacePaymentPaypal\\": "src/module-marketplace-payment-paypal",
         "TCGCollective\\MarketplacePaymentAirwallex\\": "src/module-marketplace-payment-airwallex",
         "TCGCollective\\MarketTheme\\": "src/module-marketplace-theme",
+        "TCGCollective\\AgeVerification\\": "src/module-age-verification",
         "TCGCollective\\AdminTheme\\": "src/module-admin-theme"
       }
     }
